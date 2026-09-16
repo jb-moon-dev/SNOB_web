@@ -1,0 +1,56 @@
+name: snob
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+5
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_preferences: ^2.5.5
+  image_picker: ^1.1.2
+
+  cupertino_icons: ^1.0.8
+  http: ^1.6.0
+  flutter_local_notifications: ^22.3.0
+  timezone: ^0.11.1
+
+  # Kakao Login
+  kakao_flutter_sdk_user: ^2.0.0+1
+
+  # Kakao Map
+  kakao_map_plugin: 0.3.7
+
+  # Secure Token Storage
+  flutter_secure_storage: ^9.2.2
+
+  # Map
+  flutter_map: ^8.3.1
+  latlong2: ^0.10.1
+
+  # Excel
+  excel: ^4.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/map/sigungu_congestion.geojson
+    - congestion_final.csv
+    - assets/region_codes.xlsx
+    - assets/data/region_vectors.json
+    - assets/data/tourism_spots_protected.csv
+    - assets/data/snob_substitutability_data.json
+    - assets/data/snob_concentration.json
+    - assets/data/region_vectors_canonical.json

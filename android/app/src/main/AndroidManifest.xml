@@ -1,0 +1,114 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ==========================================================
+         인터넷 권한
+         ========================================================== -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+    <application
+        android:name="${applicationName}"
+        android:label="snob"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        android:largeHeap="true">
+
+        <!-- ======================================================
+             Kakao SDK Native App Key
+             ====================================================== -->
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="f5c2a76b9629d32baa7816b9320e1453" />
+
+
+        <!-- ======================================================
+             Kakao Login
+             Flutter SDK 2.x
+             
+             Redirect URI:
+             kakaof5c2a76b9629d32baa7816b9320e1453://oauth
+             ====================================================== -->
+
+        <activity
+            android:name="com.kakao.sdk.flutter.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+
+            <intent-filter android:label="flutter_web_auth">
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+
+                <category
+                    android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="kakaof5c2a76b9629d32baa7816b9320e1453"
+                    android:host="oauth" />
+
+            </intent-filter>
+
+        </activity>
+
+
+        <!-- ======================================================
+             Main Flutter Activity
+             ====================================================== -->
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <!-- Flutter Normal Theme -->
+
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+
+
+            <!-- 앱 실행 -->
+
+            <intent-filter>
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+
+        </activity>
+
+
+        <!-- ======================================================
+             Flutter embedding
+             ====================================================== -->
+
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
+    </application>
+
+
+    <!-- ==========================================================
+         KakaoTalk 설치 여부 확인
+         ========================================================== -->
+
+    <queries>
+
+        <package android:name="com.kakao.talk" />
+
+    </queries>
+
+</manifest>
