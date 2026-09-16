@@ -13,10 +13,10 @@ class RecordScreen extends StatefulWidget {
   const RecordScreen({super.key});
 
   @override
-  State<RecordScreen> createState() => _RecordScreenState();
+  State<RecordScreen> createState() => RecordScreenState();
 }
 
-class _RecordScreenState extends State<RecordScreen> {
+class RecordScreenState extends State<RecordScreen> {
   // 실제 저장된 여행 기록
   List<TripRecord> _records = [];
 
@@ -30,14 +30,14 @@ class _RecordScreenState extends State<RecordScreen> {
   void initState() {
     super.initState();
 
-    _loadRecords();
+    loadRecords();
   }
 
   // ==============================================================
   // 여행 기록 불러오기
   // ==============================================================
 
-  Future<void> _loadRecords() async {
+  Future<void> loadRecords() async {
     final records = await TripRecordStorage.loadRecords();
 
     if (!mounted) return;
@@ -107,7 +107,7 @@ class _RecordScreenState extends State<RecordScreen> {
       index,
     );
 
-    await _loadRecords();
+    await loadRecords();
 
     if (!mounted) return;
 
@@ -140,7 +140,7 @@ class _RecordScreenState extends State<RecordScreen> {
     );
 
     // 상세 화면에서 수정된 내용을 다시 불러오기
-    await _loadRecords();
+    await loadRecords();
   }
 
   // ==============================================================
@@ -169,7 +169,7 @@ class _RecordScreenState extends State<RecordScreen> {
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-              onRefresh: _loadRecords,
+              onRefresh: loadRecords,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(20),

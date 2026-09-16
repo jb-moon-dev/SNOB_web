@@ -19,9 +19,12 @@ class _BottomNavigationState
     extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
+  final GlobalKey<RecordScreenState> _recordScreenKey =
+      GlobalKey<RecordScreenState>();
+
+  late final List<Widget> _pages = [
     const HomeScreen(),
-    const RecordScreen(),
+    RecordScreen(key: _recordScreenKey),
     const MapScreen(),
     const MyPageScreen(),
   ];
@@ -30,6 +33,11 @@ class _BottomNavigationState
     setState(() {
       _selectedIndex = index;
     });
+
+    // 기록 탭을 열 때마다 최신 기록을 다시 불러오기
+    if (index == 1) {
+      _recordScreenKey.currentState?.loadRecords();
+    }
   }
 
   @override
@@ -39,30 +47,25 @@ class _BottomNavigationState
         index: _selectedIndex,
         children: _pages,
       ),
-
       bottomNavigationBar:
           BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         type:
             BottomNavigationBarType.fixed,
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '홈',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
             label: '기록',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: '지도',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: '마이',
