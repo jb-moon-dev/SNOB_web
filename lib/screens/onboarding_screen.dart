@@ -560,7 +560,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           Text(
             "나에게 맞는 여행지를 발견하고\n"
-            "덜 붐비는 여행을 시작해보세요.",
+            "여유로운 여행을 시작해보세요.",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,

@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,6 +47,54 @@ class RecordScreenState extends State<RecordScreen> {
       _isLoading = false;
     });
   }
+
+  // =============================================================
+// 기록 목록에서 사진 추가
+// =============================================================
+
+Future<void> _addPhotoToRecord(int index) async {
+  final picker = ImagePicker();
+
+  final XFile? image = await picker.pickImage(
+    source: ImageSource.gallery,
+    imageQuality: 85,
+  );
+
+  if (image == null) {
+    return;
+  }
+
+  final bytes = await image.readAsBytes();
+
+  final base64Image = base64Encode(bytes);
+
+  final record = _records[index];
+
+  final updatedRecord = TripRecord(
+    regionName: record.regionName,
+    startDate: record.startDate,
+    endDate: record.endDate,
+    createdAt: record.createdAt,
+    diary: record.diary,
+    photoPaths: [
+      ...record.photoPaths,
+      base64Image,
+    ],
+    personalityType: record.personalityType,
+    recommendedRegion: record.recommendedRegion,
+    visitedPlaces: List<String>.from(
+      record.visitedPlaces,
+    ),
+  );
+
+  await TripRecordStorage.updateRecord(
+    index,
+    updatedRecord,
+  );
+
+  await loadRecords();
+}
+  
 
   // ==============================================================
   // 날짜 표시
@@ -383,46 +431,73 @@ class RecordScreenState extends State<RecordScreen> {
                                   // --------------------------------
 
                                   Container(
-                                    height: 150,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius:
-                                          BorderRadius.circular(15),
-                                    ),
-                                    child: record.photoPaths.isNotEmpty
-                                        ? ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: Image.file(
-                                              File(
-                                                record.photoPaths.first,
-                                              ),
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (
-                                                context,
-                                                error,
-                                                stackTrace,
-                                              ) {
-                                                return const Center(
-                                                  child: Text(
-                                                    '📸 사진을 불러올 수 없어요',
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          )
-                                        : const Center(
-                                            child: Text(
-                                              '📸 여행 사진',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                  ),
+  height: 150,
+  width: double.infinity,
+  decoration: BoxDecoration(
+    color: Colors.grey.shade200,
+    borderRadius: BorderRadius.circular(15),
+  ),
+  child: Stack(
+    children: [
+      // --------------------------------
+      // 대표 사진
+      // --------------------------------
+
+      Positioned.fill(
+        child: record.photoPaths.isNotEmpty
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.memory(
+                  base64Decode(
+                    record.photoPaths.first,
+                  ),
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (
+                    context,
+                    error,
+                    stackTrace,
+                  ) {
+                    return const Center(
+                      child: Text(
+                        '📸 사진을 불러올 수 없어요',
+                      ),
+                    );
+                  },
+                ),
+              )
+            : const Center(
+                child: Text(
+                  '📸 여행 사진',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+      ),
+
+      // --------------------------------
+      // 사진 추가 버튼
+      // --------------------------------
+
+      Positioned(
+        right: 10,
+        bottom: 10,
+        child: ElevatedButton.icon(
+          onPressed: () => _addPhotoToRecord(index),
+          icon: const Icon(
+            Icons.add_a_photo,
+            size: 18,
+          ),
+          label: const Text(
+            '사진 추가',
+          ),
+        ),
+      ),
+    ],
+  ),
+),
 
                                   const SizedBox(
                                     height: 15,
@@ -577,11 +652,14 @@ class _TravelRecordDetailScreenState
       return;
     }
 
-    setState(() {
-      widget.record.photoPaths.add(
-        image.path,
-      );
-    });
+    final bytes = await image.readAsBytes();
+final base64Image = base64Encode(bytes);
+
+setState(() {
+  widget.record.photoPaths.add(
+    base64Image,
+  );
+});
 
     // 사진을 추가한 즉시 저장
     await _saveRecord(
@@ -725,10 +803,10 @@ class _TravelRecordDetailScreenState
                     Positioned.fill(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.file(
-                          File(
-                            record.photoPaths.first,
-                          ),
+                        child: Image.memory(
+  base64Decode(
+    record.photoPaths.first,
+  ),
                           fit: BoxFit.cover,
                           errorBuilder: (
                             context,
