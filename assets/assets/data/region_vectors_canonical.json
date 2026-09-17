@@ -1,0 +1,1451 @@
+[
+  {
+    "regionName": "강원특별자치도 강릉시",
+    "nature": 73.6241610738255,
+    "hidden": 61.14093959731544,
+    "healing": 71.2751677852349,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 고성군",
+    "nature": 83.79746835443038,
+    "hidden": 58.860759493670884,
+    "healing": 82.53164556962025,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 동해시",
+    "nature": 78.8,
+    "hidden": 59.0,
+    "healing": 72.4,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 삼척시",
+    "nature": 79.375,
+    "hidden": 60.3125,
+    "healing": 78.125,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 속초시",
+    "nature": 76.89189189189189,
+    "hidden": 58.37837837837838,
+    "healing": 67.56756756756756,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 양구군",
+    "nature": 78.2051282051282,
+    "hidden": 60.0,
+    "healing": 73.58974358974359,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 양양군",
+    "nature": 82.8,
+    "hidden": 61.6,
+    "healing": 85.6,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 영월군",
+    "nature": 75.97560975609755,
+    "hidden": 66.58536585365853,
+    "healing": 80.73170731707317,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 원주시",
+    "nature": 70.54945054945055,
+    "hidden": 68.57142857142857,
+    "healing": 74.72527472527473,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 인제군",
+    "nature": 81.1864406779661,
+    "hidden": 63.728813559322035,
+    "healing": 81.86440677966101,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 정선군",
+    "nature": 78.42105263157895,
+    "hidden": 65.6140350877193,
+    "healing": 81.05263157894737,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 철원군",
+    "nature": 74.10714285714286,
+    "hidden": 67.14285714285714,
+    "healing": 78.21428571428571,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 춘천시",
+    "nature": 68.24074074074075,
+    "hidden": 63.7037037037037,
+    "healing": 66.01851851851852,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 태백시",
+    "nature": 71.73913043478261,
+    "hidden": 67.6086956521739,
+    "healing": 75.8695652173913,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 평창군",
+    "nature": 67.35537190082644,
+    "hidden": 63.14049586776859,
+    "healing": 66.19834710743801,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 홍천군",
+    "nature": 76.25,
+    "hidden": 60.0,
+    "healing": 70.35714285714286,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 화천군",
+    "nature": 76.15384615384616,
+    "hidden": 59.80769230769231,
+    "healing": 68.65384615384616,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "강원특별자치도 횡성군",
+    "nature": 73.14285714285714,
+    "hidden": 62.285714285714285,
+    "healing": 70.85714285714286,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 가평군",
+    "nature": 77.05882352941177,
+    "hidden": 62.0,
+    "healing": 75.41176470588235,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 고양시 덕양구",
+    "nature": 62.926829268292686,
+    "hidden": 70.73170731707317,
+    "healing": 66.09756097560975,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 고양시 일산동구",
+    "nature": 71.66666666666667,
+    "hidden": 58.75,
+    "healing": 55.833333333333336,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 고양시 일산서구",
+    "nature": 79.0,
+    "hidden": 53.0,
+    "healing": 54.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 과천시",
+    "nature": 73.52941176470588,
+    "hidden": 65.88235294117646,
+    "healing": 67.6470588235294,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 광명시",
+    "nature": 80.0,
+    "hidden": 56.0,
+    "healing": 61.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 광주시",
+    "nature": 73.39622641509433,
+    "hidden": 66.60377358490567,
+    "healing": 72.45283018867924,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 구리시",
+    "nature": 70.625,
+    "hidden": 55.625,
+    "healing": 50.625,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 군포시",
+    "nature": 82.85714285714286,
+    "hidden": 57.857142857142854,
+    "healing": 67.14285714285714,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 김포시",
+    "nature": 70.0,
+    "hidden": 64.04255319148936,
+    "healing": 66.17021276595744,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 남양주시",
+    "nature": 74.12698412698413,
+    "hidden": 64.44444444444444,
+    "healing": 71.26984126984127,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 동두천시",
+    "nature": 76.0,
+    "hidden": 63.0,
+    "healing": 70.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 부천시 소사구",
+    "nature": 82.5,
+    "hidden": 52.5,
+    "healing": 55.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 부천시 오정구",
+    "nature": 66.25,
+    "hidden": 60.0,
+    "healing": 60.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 부천시 원미구",
+    "nature": 80.5,
+    "hidden": 53.5,
+    "healing": 53.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 성남시 분당구",
+    "nature": 74.54545454545455,
+    "hidden": 59.09090909090909,
+    "healing": 53.63636363636363,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 성남시 수정구",
+    "nature": 76.66666666666667,
+    "hidden": 62.5,
+    "healing": 69.16666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 성남시 중원구",
+    "nature": 73.75,
+    "hidden": 62.5,
+    "healing": 62.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 수원시 권선구",
+    "nature": 79.23076923076923,
+    "hidden": 56.92307692307692,
+    "healing": 55.38461538461539,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 수원시 영통구",
+    "nature": 76.47058823529412,
+    "hidden": 55.88235294117647,
+    "healing": 52.35294117647059,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 수원시 장안구",
+    "nature": 76.66666666666667,
+    "hidden": 62.666666666666664,
+    "healing": 66.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 수원시 팔달구",
+    "nature": 62.30769230769231,
+    "hidden": 72.3076923076923,
+    "healing": 65.12820512820512,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 시흥시",
+    "nature": 78.93617021276596,
+    "hidden": 56.38297872340426,
+    "healing": 63.61702127659574,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 안산시 단원구",
+    "nature": 73.14814814814815,
+    "hidden": 58.51851851851852,
+    "healing": 64.25925925925925,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 안산시 상록구",
+    "nature": 81.25,
+    "hidden": 57.5,
+    "healing": 63.125,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 안성시",
+    "nature": 66.62337662337663,
+    "hidden": 71.55844155844156,
+    "healing": 77.14285714285714,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 안양시 동안구",
+    "nature": 75.71428571428571,
+    "hidden": 50.0,
+    "healing": 40.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 안양시 만안구",
+    "nature": 77.36842105263158,
+    "hidden": 63.1578947368421,
+    "healing": 71.57894736842105,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 양주시",
+    "nature": 72.22222222222223,
+    "hidden": 64.0,
+    "healing": 64.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 양평군",
+    "nature": 74.09638554216868,
+    "hidden": 62.65060240963855,
+    "healing": 71.92771084337349,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 여주시",
+    "nature": 66.12244897959184,
+    "hidden": 65.91836734693878,
+    "healing": 65.51020408163265,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 연천군",
+    "nature": 68.70370370370371,
+    "hidden": 65.37037037037037,
+    "healing": 71.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 오산시",
+    "nature": 69.04761904761905,
+    "hidden": 64.28571428571429,
+    "healing": 62.38095238095238,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 용인시 기흥구",
+    "nature": 77.0,
+    "hidden": 60.5,
+    "healing": 61.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 용인시 수지구",
+    "nature": 78.75,
+    "hidden": 61.25,
+    "healing": 65.625,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 용인시 처인구",
+    "nature": 69.63636363636364,
+    "hidden": 65.27272727272727,
+    "healing": 69.63636363636364,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 의왕시",
+    "nature": 77.6470588235294,
+    "hidden": 63.529411764705884,
+    "healing": 69.41176470588235,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 의정부시",
+    "nature": 75.86206896551724,
+    "hidden": 61.724137931034484,
+    "healing": 59.310344827586206,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 이천시",
+    "nature": 67.8048780487805,
+    "hidden": 62.926829268292686,
+    "healing": 67.3170731707317,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 파주시",
+    "nature": 64.80392156862744,
+    "hidden": 67.05882352941177,
+    "healing": 67.15686274509804,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 평택시",
+    "nature": 72.91666666666667,
+    "hidden": 60.208333333333336,
+    "healing": 62.291666666666664,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 포천시",
+    "nature": 74.93150684931507,
+    "hidden": 63.97260273972603,
+    "healing": 73.83561643835617,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 하남시",
+    "nature": 73.0,
+    "hidden": 67.5,
+    "healing": 68.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경기도 화성시",
+    "nature": 74.79591836734694,
+    "hidden": 59.59183673469388,
+    "healing": 68.16326530612245,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 거제시",
+    "nature": 80.78014184397163,
+    "hidden": 58.226950354609926,
+    "healing": 76.09929078014184,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 거창군",
+    "nature": 64.04761904761905,
+    "hidden": 75.35714285714286,
+    "healing": 79.52380952380952,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 고성군",
+    "nature": 70.6896551724138,
+    "hidden": 70.34482758620689,
+    "healing": 77.58620689655173,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 김해시",
+    "nature": 67.12328767123287,
+    "hidden": 70.54794520547945,
+    "healing": 71.0958904109589,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 남해군",
+    "nature": 75.18072289156626,
+    "hidden": 61.08433734939759,
+    "healing": 76.02409638554217,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 밀양시",
+    "nature": 68.22222222222223,
+    "hidden": 71.22222222222223,
+    "healing": 73.33333333333333,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 사천시",
+    "nature": 74.03225806451613,
+    "hidden": 62.096774193548384,
+    "healing": 71.7741935483871,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 산청군",
+    "nature": 67.9746835443038,
+    "hidden": 76.83544303797468,
+    "healing": 83.79746835443038,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 양산시",
+    "nature": 74.18604651162791,
+    "hidden": 72.09302325581395,
+    "healing": 80.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 의령군",
+    "nature": 69.6969696969697,
+    "hidden": 74.84848484848484,
+    "healing": 81.81818181818181,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 진주시",
+    "nature": 68.42105263157895,
+    "hidden": 69.29824561403508,
+    "healing": 69.82456140350877,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 창녕군",
+    "nature": 62.608695652173914,
+    "hidden": 76.52173913043478,
+    "healing": 75.65217391304348,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 창원시 마산합포구",
+    "nature": 75.4,
+    "hidden": 58.8,
+    "healing": 64.4,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 창원시 마산회원구",
+    "nature": 67.14285714285714,
+    "hidden": 74.28571428571429,
+    "healing": 77.85714285714286,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 창원시 성산구",
+    "nature": 74.0909090909091,
+    "hidden": 60.45454545454545,
+    "healing": 59.54545454545455,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 창원시 의창구",
+    "nature": 73.84615384615384,
+    "hidden": 67.6923076923077,
+    "healing": 78.07692307692308,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 창원시 진해구",
+    "nature": 77.17391304347827,
+    "hidden": 62.391304347826086,
+    "healing": 73.26086956521739,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 통영시",
+    "nature": 77.5,
+    "hidden": 61.810344827586206,
+    "healing": 73.53448275862068,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 하동군",
+    "nature": 67.63440860215054,
+    "hidden": 66.7741935483871,
+    "healing": 71.50537634408602,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 함안군",
+    "nature": 62.857142857142854,
+    "hidden": 79.52380952380952,
+    "healing": 81.19047619047619,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 함양군",
+    "nature": 70.0,
+    "hidden": 73.81818181818181,
+    "healing": 83.0909090909091,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상남도 합천군",
+    "nature": 69.84375,
+    "hidden": 73.90625,
+    "healing": 81.875,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 경산시",
+    "nature": 71.51515151515152,
+    "hidden": 75.15151515151516,
+    "healing": 81.81818181818181,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 경주시",
+    "nature": 65.22388059701493,
+    "hidden": 72.7363184079602,
+    "healing": 74.87562189054727,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 고령군",
+    "nature": 64.70588235294117,
+    "hidden": 71.47058823529412,
+    "healing": 72.05882352941177,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 구미시",
+    "nature": 76.11111111111111,
+    "hidden": 67.5925925925926,
+    "healing": 77.4074074074074,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 김천시",
+    "nature": 73.24324324324324,
+    "hidden": 71.89189189189189,
+    "healing": 80.54054054054055,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 문경시",
+    "nature": 71.42857142857143,
+    "hidden": 68.80952380952381,
+    "healing": 76.19047619047619,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 봉화군",
+    "nature": 74.8780487804878,
+    "hidden": 72.6829268292683,
+    "healing": 85.1219512195122,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 상주시",
+    "nature": 65.3030303030303,
+    "hidden": 80.3030303030303,
+    "healing": 83.63636363636364,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 성주군",
+    "nature": 66.30434782608695,
+    "hidden": 79.1304347826087,
+    "healing": 81.08695652173913,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 안동시",
+    "nature": 59.81308411214953,
+    "hidden": 79.34579439252336,
+    "healing": 76.35514018691589,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 영덕군",
+    "nature": 80.37037037037037,
+    "hidden": 62.407407407407405,
+    "healing": 79.62962962962963,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 영양군",
+    "nature": 77.77777777777777,
+    "hidden": 64.44444444444444,
+    "healing": 77.22222222222223,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 영주시",
+    "nature": 64.16666666666667,
+    "hidden": 77.0,
+    "healing": 77.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 영천시",
+    "nature": 65.53571428571429,
+    "hidden": 75.71428571428571,
+    "healing": 76.25,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 예천군",
+    "nature": 64.31818181818181,
+    "hidden": 77.95454545454545,
+    "healing": 80.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 울릉군",
+    "nature": 83.33333333333333,
+    "hidden": 53.958333333333336,
+    "healing": 72.08333333333333,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 울진군",
+    "nature": 79.45454545454545,
+    "hidden": 61.45454545454545,
+    "healing": 76.72727272727273,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 의성군",
+    "nature": 66.58536585365853,
+    "hidden": 75.85365853658537,
+    "healing": 80.48780487804878,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 청도군",
+    "nature": 66.78571428571429,
+    "hidden": 74.10714285714286,
+    "healing": 76.07142857142857,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 청송군",
+    "nature": 76.60714285714286,
+    "hidden": 68.21428571428571,
+    "healing": 83.57142857142857,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 칠곡군",
+    "nature": 69.31818181818181,
+    "hidden": 71.13636363636364,
+    "healing": 75.9090909090909,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 포항시 남구",
+    "nature": 74.09836065573771,
+    "hidden": 65.73770491803279,
+    "healing": 75.08196721311475,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "경상북도 포항시 북구",
+    "nature": 75.84905660377359,
+    "hidden": 64.90566037735849,
+    "healing": 78.86792452830188,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 군위군",
+    "nature": 63.90243902439025,
+    "hidden": 79.02439024390245,
+    "healing": 78.29268292682927,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 남구",
+    "nature": 73.15789473684211,
+    "hidden": 62.10526315789474,
+    "healing": 64.21052631578948,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 달서구",
+    "nature": 72.1875,
+    "hidden": 64.375,
+    "healing": 65.625,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 달성군",
+    "nature": 65.97402597402598,
+    "hidden": 75.71428571428571,
+    "healing": 77.66233766233766,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 동구",
+    "nature": 69.63636363636364,
+    "hidden": 68.54545454545455,
+    "healing": 70.54545454545455,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 북구",
+    "nature": 67.5,
+    "hidden": 70.0,
+    "healing": 68.92857142857143,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 서구",
+    "nature": 71.81818181818181,
+    "hidden": 50.90909090909091,
+    "healing": 41.81818181818182,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 수성구",
+    "nature": 60.74074074074074,
+    "hidden": 73.70370370370371,
+    "healing": 71.11111111111111,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대구광역시 중구",
+    "nature": 65.33333333333333,
+    "hidden": 66.66666666666667,
+    "healing": 60.333333333333336,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대전광역시 대덕구",
+    "nature": 69.0909090909091,
+    "hidden": 69.0909090909091,
+    "healing": 71.81818181818181,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대전광역시 동구",
+    "nature": 78.0,
+    "hidden": 62.333333333333336,
+    "healing": 72.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대전광역시 서구",
+    "nature": 76.8,
+    "hidden": 59.2,
+    "healing": 60.8,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대전광역시 유성구",
+    "nature": 66.85714285714286,
+    "hidden": 64.57142857142857,
+    "healing": 61.714285714285715,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "대전광역시 중구",
+    "nature": 67.82608695652173,
+    "hidden": 68.26086956521739,
+    "healing": 65.21739130434783,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 강서구",
+    "nature": 72.8125,
+    "hidden": 60.0,
+    "healing": 62.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 금정구",
+    "nature": 72.77777777777777,
+    "hidden": 70.55555555555556,
+    "healing": 76.11111111111111,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 기장군",
+    "nature": 75.23809523809524,
+    "hidden": 65.47619047619048,
+    "healing": 75.23809523809524,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 남구",
+    "nature": 80.0,
+    "hidden": 57.27272727272727,
+    "healing": 65.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 동구",
+    "nature": 64.64285714285714,
+    "hidden": 71.78571428571429,
+    "healing": 67.14285714285714,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 동래구",
+    "nature": 56.92307692307692,
+    "hidden": 76.92307692307692,
+    "healing": 72.3076923076923,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 부산진구",
+    "nature": 75.0,
+    "hidden": 58.333333333333336,
+    "healing": 60.416666666666664,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 북구",
+    "nature": 76.66666666666667,
+    "hidden": 58.888888888888886,
+    "healing": 65.55555555555556,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 사상구",
+    "nature": 84.0,
+    "hidden": 70.0,
+    "healing": 86.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 사하구",
+    "nature": 77.2,
+    "hidden": 58.8,
+    "healing": 68.8,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 서구",
+    "nature": 73.75,
+    "hidden": 56.25,
+    "healing": 55.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 수영구",
+    "nature": 67.89473684210526,
+    "hidden": 63.68421052631579,
+    "healing": 62.10526315789474,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 연제구",
+    "nature": 68.57142857142857,
+    "hidden": 78.57142857142857,
+    "healing": 80.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 영도구",
+    "nature": 71.875,
+    "hidden": 56.875,
+    "healing": 57.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 중구",
+    "nature": 64.73684210526316,
+    "hidden": 60.526315789473685,
+    "healing": 55.26315789473684,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "부산광역시 해운대구",
+    "nature": 72.92682926829268,
+    "hidden": 55.609756097560975,
+    "healing": 57.073170731707314,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 강남구",
+    "nature": 69.25,
+    "hidden": 63.75,
+    "healing": 58.75,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 강동구",
+    "nature": 70.58823529411765,
+    "hidden": 61.76470588235294,
+    "healing": 59.411764705882355,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 강북구",
+    "nature": 75.0,
+    "hidden": 69.5,
+    "healing": 76.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 강서구",
+    "nature": 70.76923076923077,
+    "hidden": 62.30769230769231,
+    "healing": 56.92307692307692,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 관악구",
+    "nature": 73.80952380952381,
+    "hidden": 69.52380952380952,
+    "healing": 79.04761904761905,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 광진구",
+    "nature": 69.66666666666667,
+    "hidden": 59.0,
+    "healing": 56.666666666666664,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 구로구",
+    "nature": 75.83333333333333,
+    "hidden": 57.916666666666664,
+    "healing": 59.166666666666664,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 금천구",
+    "nature": 72.0,
+    "hidden": 61.0,
+    "healing": 60.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 노원구",
+    "nature": 77.91666666666667,
+    "hidden": 67.08333333333333,
+    "healing": 73.75,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 도봉구",
+    "nature": 76.66666666666667,
+    "hidden": 70.83333333333333,
+    "healing": 80.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 동대문구",
+    "nature": 72.5,
+    "hidden": 65.0,
+    "healing": 66.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 동작구",
+    "nature": 68.57142857142857,
+    "hidden": 62.142857142857146,
+    "healing": 55.714285714285715,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 마포구",
+    "nature": 65.85365853658537,
+    "hidden": 60.97560975609756,
+    "healing": 50.24390243902439,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 서대문구",
+    "nature": 64.28571428571429,
+    "hidden": 70.35714285714286,
+    "healing": 68.21428571428571,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 서초구",
+    "nature": 76.06060606060606,
+    "hidden": 58.484848484848484,
+    "healing": 62.121212121212125,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 성동구",
+    "nature": 68.07692307692308,
+    "hidden": 58.84615384615385,
+    "healing": 55.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 성북구",
+    "nature": 66.20689655172414,
+    "hidden": 76.55172413793103,
+    "healing": 77.93103448275862,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 송파구",
+    "nature": 68.96551724137932,
+    "hidden": 60.3448275862069,
+    "healing": 53.10344827586207,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 양천구",
+    "nature": 73.6,
+    "hidden": 58.0,
+    "healing": 50.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 영등포구",
+    "nature": 70.96774193548387,
+    "hidden": 57.41935483870968,
+    "healing": 51.935483870967744,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 용산구",
+    "nature": 69.47368421052632,
+    "hidden": 62.36842105263158,
+    "healing": 58.1578947368421,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 은평구",
+    "nature": 73.125,
+    "hidden": 65.0,
+    "healing": 67.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 종로구",
+    "nature": 63.04635761589404,
+    "hidden": 70.66225165562913,
+    "healing": 65.69536423841059,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 중구",
+    "nature": 63.088235294117645,
+    "hidden": 69.55882352941177,
+    "healing": 61.3235294117647,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "서울특별시 중랑구",
+    "nature": 78.0,
+    "hidden": 62.666666666666664,
+    "healing": 66.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "울산광역시 남구",
+    "nature": 68.06451612903226,
+    "hidden": 62.903225806451616,
+    "healing": 59.354838709677416,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "울산광역시 동구",
+    "nature": 75.0,
+    "hidden": 59.61538461538461,
+    "healing": 65.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "울산광역시 북구",
+    "nature": 72.96296296296296,
+    "hidden": 62.592592592592595,
+    "healing": 67.4074074074074,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "울산광역시 울주군",
+    "nature": 77.56410256410257,
+    "hidden": 63.717948717948715,
+    "healing": 77.3076923076923,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "울산광역시 중구",
+    "nature": 66.0,
+    "hidden": 72.0,
+    "healing": 70.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 강화군",
+    "nature": 69.52,
+    "hidden": 71.2,
+    "healing": 78.96,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 계양구",
+    "nature": 73.75,
+    "hidden": 60.833333333333336,
+    "healing": 60.416666666666664,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 남동구",
+    "nature": 76.52173913043478,
+    "hidden": 57.391304347826086,
+    "healing": 57.391304347826086,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 미추홀구",
+    "nature": 68.57142857142857,
+    "hidden": 67.85714285714286,
+    "healing": 63.57142857142857,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 부평구",
+    "nature": 77.33333333333333,
+    "hidden": 58.666666666666664,
+    "healing": 56.666666666666664,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 연수구",
+    "nature": 70.85714285714286,
+    "hidden": 59.142857142857146,
+    "healing": 52.857142857142854,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "인천광역시 옹진군",
+    "nature": 93.42105263157895,
+    "hidden": 52.63157894736842,
+    "healing": 86.97368421052632,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "전라남도 무안군",
+    "nature": 73.05555555555556,
+    "hidden": 63.611111111111114,
+    "healing": 71.94444444444444,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "제주특별자치도 서귀포시",
+    "nature": 81.10236220472441,
+    "hidden": 59.09448818897638,
+    "healing": 77.04724409448819,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "제주특별자치도 제주시",
+    "nature": 79.80582524271844,
+    "hidden": 60.25889967637541,
+    "healing": 77.76699029126213,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 계룡시",
+    "nature": 66.66666666666667,
+    "hidden": 78.88888888888889,
+    "healing": 83.33333333333333,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 공주시",
+    "nature": 68.84615384615384,
+    "hidden": 73.07692307692308,
+    "healing": 78.33333333333333,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 금산군",
+    "nature": 66.66666666666667,
+    "hidden": 73.72549019607843,
+    "healing": 81.76470588235294,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 논산시",
+    "nature": 60.32786885245902,
+    "hidden": 80.0,
+    "healing": 77.8688524590164,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 당진시",
+    "nature": 78.4,
+    "hidden": 60.8,
+    "healing": 75.6,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 보령시",
+    "nature": 78.06451612903226,
+    "hidden": 61.72043010752688,
+    "healing": 76.12903225806451,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 부여군",
+    "nature": 60.77922077922078,
+    "hidden": 79.74025974025975,
+    "healing": 77.66233766233766,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 서산시",
+    "nature": 72.4,
+    "hidden": 68.4,
+    "healing": 78.93333333333334,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 서천군",
+    "nature": 73.39285714285714,
+    "hidden": 62.67857142857143,
+    "healing": 76.42857142857143,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 아산시",
+    "nature": 67.84615384615384,
+    "hidden": 67.6923076923077,
+    "healing": 74.3076923076923,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 예산군",
+    "nature": 65.53191489361703,
+    "hidden": 72.55319148936171,
+    "healing": 76.17021276595744,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 천안시 동남구",
+    "nature": 68.9795918367347,
+    "hidden": 70.0,
+    "healing": 71.22448979591837,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 천안시 서북구",
+    "nature": 72.5,
+    "hidden": 65.83333333333333,
+    "healing": 66.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 청양군",
+    "nature": 66.5625,
+    "hidden": 71.25,
+    "healing": 74.6875,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 태안군",
+    "nature": 85.9349593495935,
+    "hidden": 55.6910569105691,
+    "healing": 83.00813008130082,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청남도 홍성군",
+    "nature": 66.71641791044776,
+    "hidden": 70.29850746268657,
+    "healing": 74.02985074626865,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 괴산군",
+    "nature": 66.85714285714286,
+    "hidden": 72.95238095238095,
+    "healing": 78.19047619047619,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 단양군",
+    "nature": 75.85714285714286,
+    "hidden": 62.42857142857143,
+    "healing": 73.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 보은군",
+    "nature": 69.5,
+    "hidden": 71.5,
+    "healing": 78.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 영동군",
+    "nature": 63.13725490196079,
+    "hidden": 76.47058823529412,
+    "healing": 79.2156862745098,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 옥천군",
+    "nature": 64.2,
+    "hidden": 70.4,
+    "healing": 71.0,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 음성군",
+    "nature": 68.22222222222223,
+    "hidden": 71.11111111111111,
+    "healing": 72.66666666666667,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 제천시",
+    "nature": 65.41666666666667,
+    "hidden": 71.875,
+    "healing": 74.58333333333333,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 증평군",
+    "nature": 71.5,
+    "hidden": 63.5,
+    "healing": 68.5,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 진천군",
+    "nature": 70.0,
+    "hidden": 72.76595744680851,
+    "healing": 80.2127659574468,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 청주시 상당구",
+    "nature": 66.54545454545455,
+    "hidden": 73.81818181818181,
+    "healing": 72.36363636363636,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 청주시 서원구",
+    "nature": 65.71428571428571,
+    "hidden": 81.42857142857143,
+    "healing": 84.28571428571429,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 청주시 청원구",
+    "nature": 69.54545454545455,
+    "hidden": 68.63636363636364,
+    "healing": 70.45454545454545,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 청주시 흥덕구",
+    "nature": 64.375,
+    "hidden": 72.5,
+    "healing": 70.625,
+    "congestion": 0.0
+  },
+  {
+    "regionName": "충청북도 충주시",
+    "nature": 63.15384615384615,
+    "hidden": 72.0,
+    "healing": 75.84615384615384,
+    "congestion": 0.0
+  }
+]
