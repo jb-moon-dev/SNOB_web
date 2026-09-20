@@ -276,10 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 48 : 22,
+        horizontal:
+            isDesktop ? 48 : 22,
         vertical: 20,
       ),
-      decoration: const BoxDecoration(
+      decoration:
+          const BoxDecoration(
         color: Colors.white,
       ),
       child: Center(
@@ -303,80 +305,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const Spacer(),
 
-              if (isDesktop) ...[
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    foregroundColor:
-                        primaryText,
+              FilledButton(
+                onPressed:
+                    _startPersonalityTest,
+                style:
+                    FilledButton.styleFrom(
+                  backgroundColor:
+                      snobGreen,
+                  foregroundColor:
+                      Colors.white,
+                  elevation: 0,
+                  padding:
+                      const EdgeInsets
+                          .symmetric(
+                    horizontal: 20,
+                    vertical: 12,
                   ),
-                  child: const Text(
-                    '홈',
-                    style: TextStyle(
-                      fontWeight:
-                          FontWeight.w700,
+                  shape:
+                      RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(
+                      999,
                     ),
                   ),
                 ),
-
-                const SizedBox(width: 8),
-
-                TextButton(
-                  onPressed:
-                      _openRecordScreen,
-                  style: TextButton.styleFrom(
-                    foregroundColor:
-                        secondaryText,
-                  ),
-                  child: const Text(
-                    '여행 기록',
+                child: const Text(
+                  '새 여행 시작',
+                  style: TextStyle(
+                    fontWeight:
+                        FontWeight.w700,
                   ),
                 ),
-
-                const SizedBox(width: 16),
-
-                FilledButton(
-                  onPressed:
-                      _startPersonalityTest,
-                  style:
-                      FilledButton.styleFrom(
-                    backgroundColor:
-                        snobGreen,
-                    foregroundColor:
-                        Colors.white,
-                    elevation: 0,
-                    padding:
-                        const EdgeInsets
-                            .symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    shape:
-                        RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius
-                              .circular(999),
-                    ),
-                  ),
-                  child: const Text(
-                    '새 여행 시작',
-                    style: TextStyle(
-                      fontWeight:
-                          FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ] else ...[
-                IconButton(
-                  onPressed:
-                      _openRecordScreen,
-                  icon: const Icon(
-                    Icons.bookmark_border,
-                  ),
-                  color: snobGreen,
-                  tooltip: '여행 기록',
-                ),
-              ],
+              ),
             ],
           ),
         ),
@@ -390,21 +350,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHero(
     bool isDesktop,
+    bool isTablet,
   ) {
+    final double heroHeight =
+        isDesktop
+            ? 430
+            : isTablet
+                ? 390
+                : 420;
+
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 48 : 16,
-        vertical: isDesktop ? 28 : 16,
+        horizontal:
+            isDesktop ? 48 : 16,
+        vertical:
+            isDesktop ? 28 : 16,
       ),
       constraints:
           const BoxConstraints(
         maxWidth: 1280,
       ),
-      height: isDesktop ? 430 : 470,
-      decoration: BoxDecoration(
+      height: heroHeight,
+      decoration:
+          BoxDecoration(
         borderRadius:
-            BorderRadius.circular(32),
+            BorderRadius.circular(
+          32,
+        ),
         gradient:
             const LinearGradient(
           begin: Alignment.topLeft,
@@ -419,34 +392,49 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(
         children: [
           Positioned(
-            right: isDesktop ? 60 : -70,
+            right:
+                isDesktop ? 60 : -70,
             bottom: -50,
             child: Icon(
-              Icons.landscape_outlined,
+              Icons
+                  .landscape_outlined,
               size:
-                  isDesktop ? 420 : 300,
+                  isDesktop
+                      ? 420
+                      : 300,
               color: Colors.white
-                  .withValues(alpha: 0.10),
+                  .withValues(
+                alpha: 0.10,
+              ),
             ),
           ),
 
           Positioned(
-            right: isDesktop ? 170 : 20,
+            right:
+                isDesktop ? 170 : 20,
             top: 40,
             child: Icon(
-              Icons.wb_sunny_outlined,
+              Icons
+                  .wb_sunny_outlined,
               size: 70,
               color: Colors.white
-                  .withValues(alpha: 0.25),
+                  .withValues(
+                alpha: 0.25,
+              ),
             ),
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(
+            padding:
+                EdgeInsets.symmetric(
               horizontal:
-                  isDesktop ? 72 : 28,
+                  isDesktop
+                      ? 72
+                      : 28,
               vertical:
-                  isDesktop ? 60 : 42,
+                  isDesktop
+                      ? 60
+                      : 42,
             ),
             child: Align(
               alignment: isDesktop
@@ -461,7 +449,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize:
                       MainAxisSize.min,
                   crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                      CrossAxisAlignment
+                          .start,
                   children: [
                     Container(
                       padding:
@@ -477,44 +466,61 @@ class _HomeScreenState extends State<HomeScreen> {
                           alpha: 0.15,
                         ),
                         borderRadius:
-                            BorderRadius.circular(
+                            BorderRadius
+                                .circular(
                           999,
                         ),
                       ),
-                      child: const Text(
+                      child:
+                          const Text(
                         'PERSONALIZED TRAVEL',
-                        style: TextStyle(
-                          color: Colors.white,
+                        style:
+                            TextStyle(
+                          color:
+                              Colors.white,
                           fontSize: 11,
                           fontWeight:
-                              FontWeight.w800,
-                          letterSpacing: 1.1,
+                              FontWeight
+                                  .w800,
+                          letterSpacing:
+                              1.1,
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(
+                      height: 24,
+                    ),
 
                     Text(
                       '나에게 꼭 맞는\n'
                       '여행지를 찾아보세요.',
-                      style: TextStyle(
-                        color: Colors.white,
+                      style:
+                          TextStyle(
+                        color:
+                            Colors.white,
                         fontSize:
-                            isDesktop ? 48 : 36,
+                            isDesktop
+                                ? 48
+                                : 36,
                         fontWeight:
-                            FontWeight.w900,
+                            FontWeight
+                                .w900,
                         height: 1.15,
-                        letterSpacing: -1.8,
+                        letterSpacing:
+                            -1.8,
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(
+                      height: 20,
+                    ),
 
                     Text(
                       '나의 여행 성향과 관광지 혼잡도 데이터를 바탕으로\n'
                       '사람이 몰리는 곳을 넘어, 나에게 맞는 여행을 추천해드려요.',
-                      style: TextStyle(
+                      style:
+                          TextStyle(
                         color: Colors.white
                             .withValues(
                           alpha: 0.86,
@@ -524,13 +530,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    const SizedBox(
+                      height: 30,
+                    ),
 
                     FilledButton(
                       onPressed:
                           _startPersonalityTest,
                       style:
-                          FilledButton.styleFrom(
+                          FilledButton
+                              .styleFrom(
                         backgroundColor:
                             Colors.white,
                         foregroundColor:
@@ -551,19 +560,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      child: const Row(
+                      child:
+                          const Row(
                         mainAxisSize:
-                            MainAxisSize.min,
+                            MainAxisSize
+                                .min,
                         children: [
                           Text(
                             '맞춤 여행지 추천받기',
-                            style: TextStyle(
-                              fontSize: 14,
+                            style:
+                                TextStyle(
+                              fontSize:
+                                  14,
                               fontWeight:
-                                  FontWeight.w800,
+                                  FontWeight
+                                      .w800,
                             ),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(
+                            width: 8,
+                          ),
                           Icon(
                             Icons
                                 .arrow_forward,
@@ -598,30 +614,39 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: Column(
             crossAxisAlignment:
-                CrossAxisAlignment.start,
+                CrossAxisAlignment
+                    .start,
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style:
+                    const TextStyle(
                   fontSize: 25,
                   fontWeight:
                       FontWeight.w900,
-                  color: primaryText,
-                  letterSpacing: -0.8,
+                  color:
+                      primaryText,
+                  letterSpacing:
+                      -0.8,
                 ),
               ),
-              const SizedBox(height: 7),
+              const SizedBox(
+                height: 7,
+              ),
               Text(
                 description,
-                style: const TextStyle(
+                style:
+                    const TextStyle(
                   fontSize: 13,
-                  color: secondaryText,
+                  color:
+                      secondaryText,
                 ),
               ),
             ],
           ),
         ),
-        if (action != null) action,
+        if (action != null)
+          action,
       ],
     );
   }
@@ -632,11 +657,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildRecommendationSection(
     bool isDesktop,
+    bool isTablet,
   ) {
+    final bool useVerticalCard =
+        !isDesktop;
+
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 48 : 22,
+      padding:
+          EdgeInsets.symmetric(
+        horizontal:
+            isDesktop ? 48 : 22,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -647,114 +678,272 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               _buildSectionTitle(
-                title: 'SNOB 추천 여행지',
+                title:
+                    'SNOB 추천 여행지',
                 description:
                     '나의 여행 성향에 맞는 여행지를 발견해보세요.',
               ),
 
-              const SizedBox(height: 22),
+              const SizedBox(
+                height: 22,
+              ),
 
               Container(
                 width: double.infinity,
                 padding:
-                    const EdgeInsets.all(28),
-                decoration: BoxDecoration(
+                    EdgeInsets.all(
+                  useVerticalCard
+                      ? 22
+                      : 28,
+                ),
+                decoration:
+                    BoxDecoration(
                   color: Colors.white,
                   borderRadius:
-                      BorderRadius.circular(24),
+                      BorderRadius
+                          .circular(
+                    24,
+                  ),
                   border: Border.all(
                     color: cardBorder,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 62,
-                      height: 62,
-                      decoration:
-                          BoxDecoration(
-                        color: snobLightGreen,
-                        borderRadius:
-                            BorderRadius.circular(
-                          18,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.explore_outlined,
-                        color: snobGreen,
-                        size: 30,
-                      ),
-                    ),
+                child:
+                    useVerticalCard
+                        ? Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment
+                                    .start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width:
+                                        54,
+                                    height:
+                                        54,
+                                    decoration:
+                                        BoxDecoration(
+                                      color:
+                                          snobLightGreen,
+                                      borderRadius:
+                                          BorderRadius
+                                              .circular(
+                                        16,
+                                      ),
+                                    ),
+                                    child:
+                                        const Icon(
+                                      Icons
+                                          .explore_outlined,
+                                      color:
+                                          snobGreen,
+                                      size:
+                                          27,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width:
+                                        14,
+                                  ),
+                                  const Expanded(
+                                    child:
+                                        Text(
+                                      '나에게 맞는 여행지를 추천받아보세요',
+                                      style:
+                                          TextStyle(
+                                        fontSize:
+                                            16,
+                                        fontWeight:
+                                            FontWeight
+                                                .w800,
+                                        color:
+                                            primaryText,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
 
-                    const SizedBox(width: 18),
+                              const SizedBox(
+                                height: 14,
+                              ),
 
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
-                        children: [
-                          Text(
-                            '나에게 맞는 여행지를 추천받아보세요',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight:
-                                  FontWeight.w800,
-                              color:
-                                  primaryText,
-                            ),
+                              const Text(
+                                '간단한 여행 성향 테스트를 완료하면 '
+                                'SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
+                                style:
+                                    TextStyle(
+                                  fontSize:
+                                      13,
+                                  color:
+                                      secondaryText,
+                                  height:
+                                      1.5,
+                                ),
+                              ),
+
+                              const SizedBox(
+                                height: 18,
+                              ),
+
+                              SizedBox(
+                                width:
+                                    double.infinity,
+                                height:
+                                    46,
+                                child:
+                                    FilledButton(
+                                  onPressed:
+                                      _startPersonalityTest,
+                                  style:
+                                      FilledButton
+                                          .styleFrom(
+                                    backgroundColor:
+                                        snobGreen,
+                                    foregroundColor:
+                                        Colors.white,
+                                    elevation:
+                                        0,
+                                    shape:
+                                        RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius
+                                              .circular(
+                                        999,
+                                      ),
+                                    ),
+                                  ),
+                                  child:
+                                      const Text(
+                                    '추천받기',
+                                    style:
+                                        TextStyle(
+                                      fontWeight:
+                                          FontWeight
+                                              .w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Container(
+                                width: 62,
+                                height: 62,
+                                decoration:
+                                    BoxDecoration(
+                                  color:
+                                      snobLightGreen,
+                                  borderRadius:
+                                      BorderRadius
+                                          .circular(
+                                    18,
+                                  ),
+                                ),
+                                child:
+                                    const Icon(
+                                  Icons
+                                      .explore_outlined,
+                                  color:
+                                      snobGreen,
+                                  size: 30,
+                                ),
+                              ),
+
+                              const SizedBox(
+                                width: 18,
+                              ),
+
+                              const Expanded(
+                                child:
+                                    Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .start,
+                                  children: [
+                                    Text(
+                                      '나에게 맞는 여행지를 추천받아보세요',
+                                      style:
+                                          TextStyle(
+                                        fontSize:
+                                            17,
+                                        fontWeight:
+                                            FontWeight
+                                                .w800,
+                                        color:
+                                            primaryText,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          7,
+                                    ),
+                                    Text(
+                                      '간단한 여행 성향 테스트를 완료하면 '
+                                      'SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
+                                      style:
+                                          TextStyle(
+                                        fontSize:
+                                            13,
+                                        color:
+                                            secondaryText,
+                                        height:
+                                            1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              const SizedBox(
+                                width: 20,
+                              ),
+
+                              FilledButton(
+                                onPressed:
+                                    _startPersonalityTest,
+                                style:
+                                    FilledButton
+                                        .styleFrom(
+                                  backgroundColor:
+                                      snobGreen,
+                                  foregroundColor:
+                                      Colors.white,
+                                  elevation:
+                                      0,
+                                  padding:
+                                      const EdgeInsets
+                                          .symmetric(
+                                    horizontal:
+                                        20,
+                                    vertical:
+                                        13,
+                                  ),
+                                  shape:
+                                      RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius
+                                            .circular(
+                                      999,
+                                    ),
+                                  ),
+                                ),
+                                child:
+                                    const Text(
+                                  '추천받기',
+                                  style:
+                                      TextStyle(
+                                    fontWeight:
+                                        FontWeight
+                                            .w700,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 7),
-                          Text(
-                            '간단한 여행 성향 테스트를 완료하면 '
-                            'SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color:
-                                  secondaryText,
-                              height: 1.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(width: 20),
-
-                    FilledButton(
-                      onPressed:
-                          _startPersonalityTest,
-                      style:
-                          FilledButton.styleFrom(
-                        backgroundColor:
-                            snobGreen,
-                        foregroundColor:
-                            Colors.white,
-                        elevation: 0,
-                        padding:
-                            const EdgeInsets
-                                .symmetric(
-                          horizontal: 20,
-                          vertical: 13,
-                        ),
-                        shape:
-                            RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(
-                            999,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        '추천받기',
-                        style: TextStyle(
-                          fontWeight:
-                              FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),
@@ -787,8 +976,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 48 : 22,
+      padding:
+          EdgeInsets.symmetric(
+        horizontal:
+            isDesktop ? 48 : 22,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -798,7 +989,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(
+                height: 60,
+              ),
 
               _buildSectionTitle(
                 title: '나의 여행',
@@ -807,60 +1000,82 @@ class _HomeScreenState extends State<HomeScreen> {
                 action: TextButton(
                   onPressed:
                       _openItinerary,
-                  child: const Text(
+                  child:
+                      const Text(
                     '전체 일정 보기 →',
-                    style: TextStyle(
-                      color: snobGreen,
+                    style:
+                        TextStyle(
+                      color:
+                          snobGreen,
                       fontWeight:
-                          FontWeight.w700,
+                          FontWeight
+                              .w700,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(
+                height: 20,
+              ),
 
               Container(
                 width: double.infinity,
                 padding:
-                    const EdgeInsets.all(28),
-                decoration: BoxDecoration(
-                  color: const Color(
+                    const EdgeInsets.all(
+                  28,
+                ),
+                decoration:
+                    BoxDecoration(
+                  color:
+                      const Color(
                     0xFFDCE8D8,
                   ),
                   borderRadius:
-                      BorderRadius.circular(28),
+                      BorderRadius.circular(
+                    28,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                      CrossAxisAlignment
+                          .start,
                   children: [
                     Row(
                       children: [
                         Expanded(
-                          child: Column(
+                          child:
+                              Column(
                             crossAxisAlignment:
                                 CrossAxisAlignment
                                     .start,
                             children: [
                               const Text(
                                 '진행 중인 여행',
-                                style: TextStyle(
-                                  fontSize: 13,
+                                style:
+                                    TextStyle(
+                                  fontSize:
+                                      13,
                                   color:
                                       secondaryText,
                                 ),
                               ),
                               const SizedBox(
-                                height: 7,
+                                height:
+                                    7,
                               ),
                               Text(
                                 '${plan.regionName} 여행',
+                                overflow:
+                                    TextOverflow
+                                        .ellipsis,
                                 style:
                                     const TextStyle(
-                                  fontSize: 28,
+                                  fontSize:
+                                      28,
                                   fontWeight:
-                                      FontWeight.w900,
+                                      FontWeight
+                                          .w900,
                                   color:
                                       primaryText,
                                 ),
@@ -884,7 +1099,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             PopupMenuItem(
                               value:
                                   'delete',
-                              child: Text(
+                              child:
+                                  Text(
                                 '여행 일정 삭제',
                               ),
                             ),
@@ -893,7 +1109,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(
+                      height: 24,
+                    ),
 
                     Wrap(
                       spacing: 24,
@@ -914,17 +1132,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
 
-                    if (todaySpots.isNotEmpty) ...[
+                    if (todaySpots
+                        .isNotEmpty) ...[
                       const SizedBox(
                         height: 28,
                       ),
 
                       const Text(
                         '오늘의 일정',
-                        style: TextStyle(
+                        style:
+                            TextStyle(
                           fontSize: 14,
                           fontWeight:
-                              FontWeight.w800,
+                              FontWeight
+                                  .w800,
                           color:
                               primaryText,
                         ),
@@ -951,11 +1172,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 entry.value;
 
                             return Container(
+                              constraints:
+                                  const BoxConstraints(
+                                maxWidth:
+                                    300,
+                              ),
                               padding:
                                   const EdgeInsets
                                       .symmetric(
-                                horizontal: 14,
-                                vertical: 11,
+                                horizontal:
+                                    14,
+                                vertical:
+                                    11,
                               ),
                               decoration:
                                   BoxDecoration(
@@ -967,14 +1195,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   999,
                                 ),
                               ),
-                              child: Row(
+                              child:
+                                  Row(
                                 mainAxisSize:
                                     MainAxisSize
                                         .min,
                                 children: [
                                   Container(
-                                    width: 23,
-                                    height: 23,
+                                    width:
+                                        23,
+                                    height:
+                                        23,
                                     alignment:
                                         Alignment
                                             .center,
@@ -986,7 +1217,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color:
                                           snobLightGreen,
                                     ),
-                                    child: Text(
+                                    child:
+                                        Text(
                                       '${index + 1}',
                                       style:
                                           const TextStyle(
@@ -1001,19 +1233,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    width:
+                                        8,
                                   ),
-                                  Text(
-                                    spot.name,
-                                    style:
-                                        const TextStyle(
-                                      fontSize:
-                                          13,
-                                      fontWeight:
-                                          FontWeight
-                                              .w600,
-                                      color:
-                                          primaryText,
+                                  Flexible(
+                                    child:
+                                        Text(
+                                      spot.name,
+                                      maxLines:
+                                          1,
+                                      overflow:
+                                          TextOverflow
+                                              .ellipsis,
+                                      style:
+                                          const TextStyle(
+                                        fontSize:
+                                            13,
+                                        fontWeight:
+                                            FontWeight
+                                                .w600,
+                                        color:
+                                            primaryText,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -1024,7 +1265,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
 
-                    const SizedBox(height: 28),
+                    const SizedBox(
+                      height: 28,
+                    ),
 
                     Wrap(
                       spacing: 10,
@@ -1034,7 +1277,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPressed:
                               _openItinerary,
                           style:
-                              FilledButton.styleFrom(
+                              FilledButton
+                                  .styleFrom(
                             backgroundColor:
                                 snobGreen,
                             foregroundColor:
@@ -1043,8 +1287,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:
                                 const EdgeInsets
                                     .symmetric(
-                              horizontal: 22,
-                              vertical: 14,
+                              horizontal:
+                                  22,
+                              vertical:
+                                  14,
                             ),
                             shape:
                                 RoundedRectangleBorder(
@@ -1055,13 +1301,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                          child: const Row(
+                          child:
+                              const Row(
                             mainAxisSize:
-                                MainAxisSize.min,
+                                MainAxisSize
+                                    .min,
                             children: [
                               Text(
                                 '일정 계속하기',
-                                style: TextStyle(
+                                style:
+                                    TextStyle(
                                   fontWeight:
                                       FontWeight
                                           .w700,
@@ -1079,19 +1328,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
 
-                        OutlinedButton.icon(
+                        OutlinedButton
+                            .icon(
                           onPressed:
                               _completeTravel,
-                          icon: const Icon(
+                          icon:
+                              const Icon(
                             Icons
                                 .check_circle_outline,
                             size: 18,
                           ),
-                          label: const Text(
+                          label:
+                              const Text(
                             '여행 완료',
                           ),
                           style:
-                              OutlinedButton.styleFrom(
+                              OutlinedButton
+                                  .styleFrom(
                             foregroundColor:
                                 primaryText,
                             side:
@@ -1104,8 +1357,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:
                                 const EdgeInsets
                                     .symmetric(
-                              horizontal: 20,
-                              vertical: 14,
+                              horizontal:
+                                  20,
+                              vertical:
+                                  14,
                             ),
                             shape:
                                 RoundedRectangleBorder(
@@ -1138,7 +1393,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
+      padding:
+          EdgeInsets.fromLTRB(
         isDesktop ? 48 : 22,
         60,
         isDesktop ? 48 : 22,
@@ -1246,13 +1502,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     return Container(
       padding:
-          const EdgeInsets.all(26),
-      decoration: BoxDecoration(
+          const EdgeInsets.all(
+        26,
+      ),
+      decoration:
+          BoxDecoration(
         color: filled
             ? snobGreen
             : Colors.white,
         borderRadius:
-            BorderRadius.circular(26),
+            BorderRadius.circular(
+          26,
+        ),
         border: filled
             ? null
             : Border.all(
@@ -1264,7 +1525,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             width: 58,
             height: 58,
-            decoration: BoxDecoration(
+            decoration:
+                BoxDecoration(
               color: filled
                   ? Colors.white
                       .withValues(
@@ -1272,7 +1534,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   : snobLightGreen,
               borderRadius:
-                  BorderRadius.circular(18),
+                  BorderRadius.circular(
+                18,
+              ),
             ),
             child: Icon(
               icon,
@@ -1283,16 +1547,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          const SizedBox(width: 18),
+          const SizedBox(
+            width: 18,
+          ),
 
           Expanded(
             child: Column(
               crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  CrossAxisAlignment
+                      .start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style:
+                      TextStyle(
                     fontSize: 18,
                     fontWeight:
                         FontWeight.w800,
@@ -1301,10 +1569,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         : primaryText,
                   ),
                 ),
-                const SizedBox(height: 7),
+                const SizedBox(
+                  height: 7,
+                ),
                 Text(
                   description,
-                  style: TextStyle(
+                  style:
+                      TextStyle(
                     fontSize: 12,
                     height: 1.5,
                     color: filled
@@ -1315,13 +1586,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         : secondaryText,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(
+                  height: 15,
+                ),
                 TextButton(
-                  onPressed: onPressed,
-                  style: TextButton.styleFrom(
-                    foregroundColor: filled
-                        ? Colors.white
-                        : snobGreen,
+                  onPressed:
+                      onPressed,
+                  style:
+                      TextButton.styleFrom(
+                    foregroundColor:
+                        filled
+                            ? Colors.white
+                            : snobGreen,
                     padding:
                         const EdgeInsets
                             .symmetric(
@@ -1329,16 +1605,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       vertical: 4,
                     ),
                   ),
-                  child: Row(
+                  child:
+                      Row(
                     mainAxisSize:
-                        MainAxisSize.min,
+                        MainAxisSize
+                            .min,
                     children: [
-                      Text(
-                        buttonText,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight:
-                              FontWeight.w800,
+                      Flexible(
+                        child: Text(
+                          buttonText,
+                          overflow:
+                              TextOverflow
+                                  .ellipsis,
+                          style:
+                              const TextStyle(
+                            fontSize: 13,
+                            fontWeight:
+                                FontWeight
+                                    .w800,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -1364,7 +1649,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // ============================================================
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       backgroundColor:
           pageBackground,
@@ -1384,11 +1671,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     constraints.maxWidth >=
                         900;
 
+                final bool isTablet =
+                    constraints.maxWidth >=
+                            600 &&
+                        constraints.maxWidth <
+                            900;
+
                 return RefreshIndicator(
                   color: snobGreen,
                   onRefresh:
                       _loadTravelPlan,
-                  child: CustomScrollView(
+                  child:
+                      CustomScrollView(
                     physics:
                         const AlwaysScrollableScrollPhysics(),
                     slivers: [
@@ -1403,6 +1697,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child:
                             _buildHero(
                           isDesktop,
+                          isTablet,
                         ),
                       ),
 
@@ -1410,6 +1705,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child:
                             _buildRecommendationSection(
                           isDesktop,
+                          isTablet,
                         ),
                       ),
 
@@ -1439,7 +1735,8 @@ class _HomeScreenState extends State<HomeScreen> {
 // 여행 정보
 // ============================================================
 
-class _TripInfo extends StatelessWidget {
+class _TripInfo
+    extends StatelessWidget {
   final IconData icon;
   final String text;
 
@@ -1459,10 +1756,13 @@ class _TripInfo extends StatelessWidget {
         Icon(
           icon,
           size: 17,
-          color: _HomeScreenState
-              .snobGreen,
+          color:
+              _HomeScreenState
+                  .snobGreen,
         ),
-        const SizedBox(width: 6),
+        const SizedBox(
+          width: 6,
+        ),
         Text(
           text,
           style:

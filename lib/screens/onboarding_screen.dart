@@ -19,7 +19,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   int currentPage = 0;
 
-  // 총 온보딩 페이지 수
   final int totalPages = 5;
 
   static const Color snobGreen =
@@ -32,7 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       Color(0xFFE8F2EC);
 
   static const Color pageBackground =
-      Color(0xFFFAF9F4);
+      Color(0xFFF7F8F4);
 
   static const Color primaryText =
       Color(0xFF183A2E);
@@ -51,6 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   // ============================================================
   // 카카오 로그인
+  // 기존 로그인 로직 그대로 유지
   // ============================================================
 
   Future<void> kakaoLogin() async {
@@ -128,140 +128,241 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       backgroundColor: pageBackground,
       body: SafeArea(
+        child: LayoutBuilder(
+          builder: (
+            context,
+            constraints,
+          ) {
+            final double screenWidth =
+                constraints.maxWidth;
+
+            final double screenHeight =
+                constraints.maxHeight;
+
+            final bool isMobile =
+                screenWidth < 600;
+
+            final bool isTablet =
+                screenWidth >= 600 &&
+                screenWidth < 1000;
+
+            final bool isDesktop =
+                screenWidth >= 1000;
+
+            return Column(
+              children: [
+                // ==================================================
+                // 상단 영역
+                // ==================================================
+
+                _buildTopBar(
+                  isMobile: isMobile,
+                  isTablet: isTablet,
+                  isDesktop: isDesktop,
+                ),
+
+                // ==================================================
+                // 페이지
+                // ==================================================
+
+                Expanded(
+                  child: PageView(
+                    controller:
+                        _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        currentPage = index;
+                      });
+                    },
+                    children: [
+                      _buildSnobIntroPage(
+                        screenHeight:
+                            screenHeight,
+                        isMobile: isMobile,
+                        isTablet: isTablet,
+                        isDesktop: isDesktop,
+                      ),
+                      _buildSnobIndexPage(
+                        screenHeight:
+                            screenHeight,
+                        isMobile: isMobile,
+                        isTablet: isTablet,
+                        isDesktop: isDesktop,
+                      ),
+                      _buildPersonalityPage(
+                        screenHeight:
+                            screenHeight,
+                        isMobile: isMobile,
+                        isTablet: isTablet,
+                        isDesktop: isDesktop,
+                      ),
+                      _buildHowToUsePage(
+                        screenHeight:
+                            screenHeight,
+                        isMobile: isMobile,
+                        isTablet: isTablet,
+                        isDesktop: isDesktop,
+                      ),
+                      _buildLoginPage(
+                        screenHeight:
+                            screenHeight,
+                        isMobile: isMobile,
+                        isTablet: isTablet,
+                        isDesktop: isDesktop,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ==================================================
+                // 하단 영역
+                // ==================================================
+
+                if (currentPage <
+                    totalPages - 1)
+                  _buildBottomBar(
+                    isMobile: isMobile,
+                    isTablet: isTablet,
+                    isDesktop: isDesktop,
+                  ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // 상단 영역
+  // ============================================================
+
+  Widget _buildTopBar({
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    return SizedBox(
+      height: isMobile ? 58 : 68,
+      child: Center(
+        child: ConstrainedBox(
+          constraints:
+              const BoxConstraints(
+            maxWidth: 1180,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal:
+                  isMobile ? 18 : 28,
+            ),
+            child: Row(
+              children: [
+                Text(
+                  'SNOB',
+                  style: TextStyle(
+                    fontSize:
+                        isMobile ? 21 : 24,
+                    fontWeight:
+                        FontWeight.w800,
+                    color: snobGreen,
+                    letterSpacing: -1.2,
+                  ),
+                ),
+                const Spacer(),
+                if (currentPage <
+                    totalPages - 1)
+                  TextButton(
+                    onPressed:
+                        skipOnboarding,
+                    style:
+                        TextButton.styleFrom(
+                      foregroundColor:
+                          secondaryText,
+                      padding:
+                          const EdgeInsets
+                              .symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                    ),
+                    child: const Text(
+                      '건너뛰기',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight:
+                            FontWeight.w500,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // 하단 영역
+  // ============================================================
+
+  Widget _buildBottomBar({
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    if (isMobile) {
+      return Padding(
+        padding:
+            const EdgeInsets.fromLTRB(
+          18,
+          8,
+          18,
+          18,
+        ),
         child: Column(
           children: [
-            // ====================================================
-            // 상단 영역
-            // ====================================================
+            _buildPageIndicator(),
+
+            const SizedBox(height: 14),
 
             SizedBox(
-              height: 64,
-              child: Center(
-                child: ConstrainedBox(
-                  constraints:
-                      const BoxConstraints(
-                    maxWidth: 1180,
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(
-                      horizontal: 28,
-                    ),
-                    child: Row(
-                      children: [
-                        // SNOB 로고
-                        const Text(
-                          'SNOB',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight:
-                                FontWeight.w800,
-                            color: snobGreen,
-                            letterSpacing: -1.2,
-                          ),
-                        ),
-
-                        const Spacer(),
-
-                        if (currentPage <
-                            totalPages - 1)
-                          TextButton(
-                            onPressed:
-                                skipOnboarding,
-                            style:
-                                TextButton.styleFrom(
-                              foregroundColor:
-                                  secondaryText,
-                              padding:
-                                  const EdgeInsets
-                                      .symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                            ),
-                            child:
-                                const Text(
-                              '건너뛰기',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight:
-                                    FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              width: double.infinity,
+              height: 48,
+              child: _buildNextButton(),
             ),
+          ],
+        ),
+      );
+    }
 
-            // ====================================================
-            // 페이지
-            // ====================================================
-
+    return ConstrainedBox(
+      constraints:
+          const BoxConstraints(
+        maxWidth: 1180,
+      ),
+      child: Padding(
+        padding:
+            EdgeInsets.fromLTRB(
+          isTablet ? 24 : 28,
+          8,
+          isTablet ? 24 : 28,
+          isTablet ? 20 : 24,
+        ),
+        child: Row(
+          children: [
             Expanded(
-              child: PageView(
-                controller:
-                    _pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    currentPage = index;
-                  });
-                },
-                children: [
-                  _buildSnobIntroPage(),
-                  _buildSnobIndexPage(),
-                  _buildPersonalityPage(),
-                  _buildHowToUsePage(),
-                  _buildLoginPage(),
-                ],
-              ),
+              child: _buildPageIndicator(),
             ),
 
-            // ====================================================
-            // 하단 영역
-            // ====================================================
+            SizedBox(
+              width: isTablet ? 18 : 24,
+            ),
 
-            ConstrainedBox(
-              constraints:
-                  const BoxConstraints(
-                maxWidth: 1180,
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.fromLTRB(
-                  28,
-                  0,
-                  28,
-                  28,
-                ),
-                child: Row(
-                  children: [
-                    // 페이지 인디케이터
-                    Expanded(
-                      child:
-                          _buildPageIndicator(),
-                    ),
-
-                    if (currentPage <
-                        totalPages - 1)
-                      const SizedBox(
-                        width: 24,
-                      ),
-
-                    // 다음 버튼
-                    if (currentPage <
-                        totalPages - 1)
-                      SizedBox(
-                        width: 190,
-                        height: 50,
-                        child:
-                            _buildNextButton(),
-                      ),
-                  ],
-                ),
-              ),
+            SizedBox(
+              width: isTablet ? 170 : 190,
+              height: 48,
+              child: _buildNextButton(),
             ),
           ],
         ),
@@ -285,20 +386,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           return AnimatedContainer(
             duration:
-                const Duration(milliseconds: 250),
+                const Duration(
+              milliseconds: 250,
+            ),
             curve: Curves.easeOut,
             margin:
                 const EdgeInsets.symmetric(
               horizontal: 4,
             ),
-            width: isSelected ? 24 : 7,
+            width:
+                isSelected ? 24 : 7,
             height: 7,
-            decoration: BoxDecoration(
+            decoration:
+                BoxDecoration(
               color: isSelected
                   ? snobGreen
-                  : const Color(0xFFD7DED9),
+                  : const Color(
+                      0xFFD7DED9,
+                    ),
               borderRadius:
-                  BorderRadius.circular(10),
+                  BorderRadius.circular(
+                10,
+              ),
             ),
           );
         },
@@ -319,13 +428,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         elevation: 0,
         padding:
             const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 14,
+          horizontal: 20,
+          vertical: 12,
         ),
         shape:
             RoundedRectangleBorder(
           borderRadius:
-              BorderRadius.circular(999),
+              BorderRadius.circular(
+            999,
+          ),
         ),
       ),
       child: Text(
@@ -334,7 +445,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             : '다음',
         style: const TextStyle(
           fontSize: 15,
-          fontWeight: FontWeight.w700,
+          fontWeight:
+              FontWeight.w700,
         ),
       ),
     );
@@ -342,45 +454,90 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   // ============================================================
   // 공통 페이지 컨테이너
+  //
+  // PC:
+  // - 화면 높이를 기준으로 콘텐츠를 축소
+  // - 가능하면 한 화면에 모두 표시
+  //
+  // 모바일:
+  // - 콘텐츠가 길어지면 세로 스크롤 허용
   // ============================================================
 
   Widget _buildPageContainer({
     required Widget child,
+    required double screenHeight,
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
   }) {
-    return LayoutBuilder(
-      builder: (
-        context,
-        constraints,
-      ) {
-        final bool isDesktop =
-            constraints.maxWidth >= 900;
+    final double availableHeight =
+        screenHeight -
+            (isMobile ? 58 : 68) -
+            (isMobile ? 125 : 80);
 
-        return SingleChildScrollView(
-          child: Center(
-            child: ConstrainedBox(
-              constraints:
-                  const BoxConstraints(
-                maxWidth: 760,
-              ),
-              child: Padding(
-                padding:
-                    EdgeInsets.symmetric(
-                  horizontal:
-                      isDesktop ? 40 : 24,
-                  vertical:
-                      isDesktop ? 32 : 20,
-                ),
-                child: child,
-              ),
-            ),
+    double verticalPadding;
+
+    if (isDesktop) {
+      if (availableHeight < 650) {
+        verticalPadding = 8;
+      } else if (availableHeight < 760) {
+        verticalPadding = 14;
+      } else {
+        verticalPadding = 24;
+      }
+    } else if (isTablet) {
+      verticalPadding = 14;
+    } else {
+      verticalPadding = 20;
+    }
+
+    final Widget content =
+        Center(
+      child: ConstrainedBox(
+        constraints:
+            const BoxConstraints(
+          maxWidth: 760,
+        ),
+        child: Padding(
+          padding:
+              EdgeInsets.symmetric(
+            horizontal:
+                isDesktop
+                    ? 40
+                    : isTablet
+                        ? 30
+                        : 20,
+            vertical:
+                verticalPadding,
           ),
-        );
-      },
+          child: child,
+        ),
+      ),
+    );
+
+    // 모바일은 콘텐츠가 길어질 수 있으므로
+    // 기존처럼 세로 스크롤을 허용한다.
+    if (isMobile) {
+      return SingleChildScrollView(
+        physics:
+            const BouncingScrollPhysics(),
+        child: content,
+      );
+    }
+
+    // 태블릿/PC는 화면 안에 콘텐츠를 최대한
+    // 맞춰 배치한다.
+    return Center(
+      child: SingleChildScrollView(
+        physics:
+            const ClampingScrollPhysics(),
+        child: content,
+      ),
     );
   }
 
   // ============================================================
-  // 공통 상단 비주얼 영역
+  // 공통 상단 비주얼
   // ============================================================
 
   Widget _buildNatureVisual({
@@ -391,20 +548,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Container(
       width: double.infinity,
       height: height,
-      decoration: BoxDecoration(
+      decoration:
+          BoxDecoration(
         gradient:
             const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin:
+              Alignment.topLeft,
+          end:
+              Alignment.bottomRight,
           colors: [
             Color(0xFFEAF5EE),
             Color(0xFFD5EADF),
           ],
         ),
         borderRadius:
-            BorderRadius.circular(28),
+            BorderRadius.circular(
+          28,
+        ),
         border: Border.all(
-          color: const Color(0xFFD3E4D9),
+          color:
+              const Color(0xFFD3E4D9),
         ),
       ),
       child: Stack(
@@ -413,40 +576,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             top: 20,
             right: 28,
             child: Icon(
-              Icons.wb_sunny_outlined,
+              Icons
+                  .wb_sunny_outlined,
               size: 34,
               color:
-                  const Color(0xFF78A88B),
+                  const Color(
+                0xFF78A88B,
+              ),
             ),
           ),
+
           Positioned(
             bottom: -20,
             left: -10,
             child: Icon(
-              Icons.landscape_outlined,
+              Icons
+                  .landscape_outlined,
               size: 170,
               color:
-                  const Color(0xFFB7D4C1),
+                  const Color(
+                0xFFB7D4C1,
+              ),
             ),
           ),
+
           Positioned(
             bottom: -15,
             right: 30,
             child: Icon(
-              Icons.forest_outlined,
+              Icons
+                  .forest_outlined,
               size: 125,
               color:
-                  const Color(0xFF8EB99D),
+                  const Color(
+                0xFF8EB99D,
+              ),
             ),
           ),
+
           Center(
             child: Container(
               width: 82,
               height: 82,
-              decoration: BoxDecoration(
+              decoration:
+                  BoxDecoration(
                 color: Colors.white
                     .withOpacity(0.9),
-                shape: BoxShape.circle,
+                shape:
+                    BoxShape.circle,
               ),
               child: Icon(
                 icon,
@@ -455,16 +632,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
+
           Positioned(
             left: 28,
             bottom: 22,
             child: Container(
               padding:
-                  const EdgeInsets.symmetric(
+                  const EdgeInsets
+                      .symmetric(
                 horizontal: 12,
                 vertical: 7,
               ),
-              decoration: BoxDecoration(
+              decoration:
+                  BoxDecoration(
                 color: Colors.white
                     .withOpacity(0.9),
                 borderRadius:
@@ -493,25 +673,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // 1. SNOB 소개
   // ============================================================
 
-  Widget _buildSnobIntroPage() {
+  Widget _buildSnobIntroPage({
+    required double screenHeight,
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    final double visualHeight =
+        isDesktop
+            ? screenHeight < 760
+                ? 165
+                : 200
+            : isTablet
+                ? 185
+                : 220;
+
     return _buildPageContainer(
+      screenHeight: screenHeight,
+      isMobile: isMobile,
+      isTablet: isTablet,
+      isDesktop: isDesktop,
       child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisSize:
+            MainAxisSize.min,
         children: [
           _buildNatureVisual(
-            icon: Icons.travel_explore_outlined,
-            label: '나만의 여행을 찾아보세요',
-            height: 220,
+            icon:
+                Icons.travel_explore_outlined,
+            label:
+                '나만의 여행을 찾아보세요',
+            height: visualHeight,
           ),
 
-          const SizedBox(height: 42),
+          SizedBox(
+            height:
+                isDesktop ? 28 : 34,
+          ),
 
-          const Text(
+          Text(
             '모두의 여행에서,\n오직 나만의 여행으로',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 34,
+              fontSize:
+                  isDesktop
+                      ? 32
+                      : isTablet
+                          ? 31
+                          : 30,
               fontWeight:
                   FontWeight.w800,
               color: primaryText,
@@ -520,12 +729,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
 
           const Text(
             '사람들이 몰리는 유명 관광지만이 아닌\n'
             '나에게 맞는 새로운 여행지를 찾아보세요.',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
               fontSize: 15,
               color: secondaryText,
@@ -541,25 +751,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // 2. SNOB 지수
   // ============================================================
 
-  Widget _buildSnobIndexPage() {
+  Widget _buildSnobIndexPage({
+    required double screenHeight,
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    final double visualHeight =
+        isDesktop
+            ? screenHeight < 760
+                ? 125
+                : 145
+            : isTablet
+                ? 150
+                : 170;
+
+    final double titleSize =
+        isDesktop ? 28 : 30;
+
+    final double cardVerticalPadding =
+        isDesktop ? 12 : 16;
+
     return _buildPageContainer(
+      screenHeight: screenHeight,
+      isMobile: isMobile,
+      isTablet: isTablet,
+      isDesktop: isDesktop,
       child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisSize:
+            MainAxisSize.min,
         children: [
           _buildNatureVisual(
             icon: Icons.eco_outlined,
-            label: '덜 붐빌수록 높은 SNOB',
-            height: 170,
+            label:
+                '덜 붐빌수록 높은 SNOB',
+            height: visualHeight,
           ),
 
-          const SizedBox(height: 34),
+          SizedBox(
+            height:
+                isDesktop ? 16 : 26,
+          ),
 
-          const Text(
+          Text(
             'SNOB 지수',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 32,
+              fontSize: titleSize,
               fontWeight:
                   FontWeight.w800,
               color: primaryText,
@@ -567,59 +806,76 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           const Text(
             '덜 붐비는 여행지일수록\n'
             '더 높은 SNOB 지수를 받아요.',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 15,
               color: secondaryText,
-              height: 1.6,
+              height: 1.5,
             ),
           ),
 
-          const SizedBox(height: 30),
+          SizedBox(
+            height:
+                isDesktop ? 16 : 24,
+          ),
 
           _buildIndexCard(
             title: 'SNOB 92',
             description:
                 '여유롭게 여행하기 좋은 곳',
-            icon: Icons.eco_outlined,
+            icon:
+                Icons.eco_outlined,
             isHigh: true,
+            verticalPadding:
+                cardVerticalPadding,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           _buildIndexCard(
             title: 'SNOB 76',
             description:
                 '비교적 여유로운 관광지',
-            icon: Icons.park_outlined,
+            icon:
+                Icons.park_outlined,
             isHigh: false,
+            verticalPadding:
+                cardVerticalPadding,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           _buildIndexCard(
             title: 'SNOB 43',
             description:
                 '많은 사람들이 방문하는 곳',
-            icon: Icons.groups_outlined,
+            icon:
+                Icons.groups_outlined,
             isHigh: false,
+            verticalPadding:
+                cardVerticalPadding,
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(
+            height:
+                isDesktop ? 12 : 18,
+          ),
 
           const Text(
             '관광지 혼잡도 데이터를 바탕으로\n'
             '여행지의 여유로운 정도를 확인할 수 있어요.',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
               fontSize: 12,
               color: mutedText,
-              height: 1.6,
+              height: 1.5,
             ),
           ),
         ],
@@ -632,46 +888,59 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required String description,
     required IconData icon,
     required bool isHigh,
+    required double verticalPadding,
   }) {
     return Container(
       width: double.infinity,
       padding:
-          const EdgeInsets.symmetric(
+          EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: 16,
+        vertical: verticalPadding,
       ),
-      decoration: BoxDecoration(
+      decoration:
+          BoxDecoration(
         color: isHigh
             ? snobLightGreen
             : Colors.white,
         borderRadius:
-            BorderRadius.circular(18),
+            BorderRadius.circular(
+          18,
+        ),
         border: Border.all(
           color: isHigh
-              ? const Color(0xFFCDE2D4)
-              : const Color(0xFFE3EAE5),
+              ? const Color(
+                  0xFFCDE2D4,
+                )
+              : const Color(
+                  0xFFE3EAE5,
+                ),
         ),
       ),
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
+            width: 44,
+            height: 44,
+            decoration:
+                BoxDecoration(
               color: isHigh
                   ? Colors.white
-                  : const Color(0xFFF1F5F2),
+                  : const Color(
+                      0xFFF1F5F2,
+                    ),
               borderRadius:
-                  BorderRadius.circular(14),
+                  BorderRadius.circular(
+                14,
+              ),
             ),
             child: Icon(
               icon,
               color: snobGreen,
-              size: 24,
+              size: 23,
             ),
           ),
 
-          const SizedBox(width: 15),
+          const SizedBox(width: 14),
 
           Expanded(
             child: Column(
@@ -682,14 +951,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   title,
                   style:
                       const TextStyle(
-                    fontSize: 18,
+                    fontSize: 17,
                     fontWeight:
                         FontWeight.w800,
                     color: primaryText,
                   ),
                 ),
 
-                const SizedBox(height: 4),
+                const SizedBox(height: 3),
 
                 Text(
                   description,
@@ -705,7 +974,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           if (isHigh)
             const Icon(
-              Icons.check_circle_outline,
+              Icons
+                  .check_circle_outline,
               color: snobGreen,
               size: 21,
             ),
@@ -718,25 +988,50 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // 3. 심리테스트 / 여행 성향
   // ============================================================
 
-  Widget _buildPersonalityPage() {
+  Widget _buildPersonalityPage({
+    required double screenHeight,
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    final double visualHeight =
+        isDesktop
+            ? screenHeight < 760
+                ? 120
+                : 140
+            : isTablet
+                ? 145
+                : 160;
+
     return _buildPageContainer(
+      screenHeight: screenHeight,
+      isMobile: isMobile,
+      isTablet: isTablet,
+      isDesktop: isDesktop,
       child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisSize:
+            MainAxisSize.min,
         children: [
           _buildNatureVisual(
-            icon: Icons.explore_outlined,
-            label: '나만의 여행 성향',
-            height: 160,
+            icon:
+                Icons.explore_outlined,
+            label:
+                '나만의 여행 성향',
+            height: visualHeight,
           ),
 
-          const SizedBox(height: 32),
+          SizedBox(
+            height:
+                isDesktop ? 18 : 28,
+          ),
 
-          const Text(
+          Text(
             '나의 여행 성향을 찾아보세요',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 30,
+              fontSize:
+                  isDesktop ? 27 : 30,
               fontWeight:
                   FontWeight.w800,
               color: primaryText,
@@ -744,54 +1039,69 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
 
           const Text(
             '간단한 심리테스트를 통해\n'
             '나만의 여행 유형을 알아볼 수 있어요.',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               color: secondaryText,
-              height: 1.6,
+              height: 1.5,
             ),
           ),
 
-          const SizedBox(height: 30),
+          SizedBox(
+            height:
+                isDesktop ? 16 : 24,
+          ),
 
           _buildAxisCard(
-            icon: Icons.location_city_outlined,
+            icon:
+                Icons.location_city_outlined,
             title: '도시 ↔ 자연',
             description:
                 '도시의 활기찬 분위기부터\n자연 속의 여유까지',
+            compact: isDesktop,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           _buildAxisCard(
-            icon: Icons.explore_outlined,
+            icon:
+                Icons.explore_outlined,
             title: '유명 ↔ 숨은',
             description:
                 '많이 알려진 명소부터\n나만 알고 싶은 장소까지',
+            compact: isDesktop,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           _buildAxisCard(
-            icon: Icons.directions_walk_outlined,
+            icon:
+                Icons
+                    .directions_walk_outlined,
             title: '활동 ↔ 힐링',
             description:
                 '새로운 경험과 활동부터\n느긋한 휴식까지',
+            compact: isDesktop,
           ),
 
-          const SizedBox(height: 22),
+          SizedBox(
+            height:
+                isDesktop ? 12 : 18,
+          ),
 
           const Text(
             '3가지 여행 성향을 조합해\n'
             '27가지 여행 유형으로 나뉘어요.',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 12,
               fontWeight:
                   FontWeight.w600,
               color: primaryText,
@@ -807,37 +1117,49 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required IconData icon,
     required String title,
     required String description,
+    required bool compact,
   }) {
     return Container(
       width: double.infinity,
       padding:
-          const EdgeInsets.all(17),
-      decoration: BoxDecoration(
+          EdgeInsets.symmetric(
+        horizontal: 17,
+        vertical:
+            compact ? 11 : 14,
+      ),
+      decoration:
+          BoxDecoration(
         color: Colors.white,
         borderRadius:
-            BorderRadius.circular(18),
+            BorderRadius.circular(
+          18,
+        ),
         border: Border.all(
-          color: const Color(0xFFE3EAE5),
+          color:
+              const Color(0xFFE3EAE5),
         ),
       ),
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
+            width: 44,
+            height: 44,
+            decoration:
+                BoxDecoration(
               color: snobLightGreen,
               borderRadius:
-                  BorderRadius.circular(14),
+                  BorderRadius.circular(
+                14,
+              ),
             ),
             child: Icon(
               icon,
-              size: 25,
+              size: 24,
               color: snobGreen,
             ),
           ),
 
-          const SizedBox(width: 15),
+          const SizedBox(width: 14),
 
           Expanded(
             child: Column(
@@ -848,14 +1170,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   title,
                   style:
                       const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight:
                         FontWeight.w700,
                     color: primaryText,
                   ),
                 ),
 
-                const SizedBox(height: 4),
+                const SizedBox(height: 3),
 
                 Text(
                   description,
@@ -863,7 +1185,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       const TextStyle(
                     fontSize: 12,
                     color: secondaryText,
-                    height: 1.4,
+                    height: 1.35,
                   ),
                 ),
               ],
@@ -878,25 +1200,50 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // 4. SNOB 사용 방법
   // ============================================================
 
-  Widget _buildHowToUsePage() {
+  Widget _buildHowToUsePage({
+    required double screenHeight,
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    final double visualHeight =
+        isDesktop
+            ? screenHeight < 760
+                ? 115
+                : 135
+            : isTablet
+                ? 145
+                : 160;
+
     return _buildPageContainer(
+      screenHeight: screenHeight,
+      isMobile: isMobile,
+      isTablet: isTablet,
+      isDesktop: isDesktop,
       child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisSize:
+            MainAxisSize.min,
         children: [
           _buildNatureVisual(
-            icon: Icons.route_outlined,
-            label: '나만의 여행을 만들어보세요',
-            height: 160,
+            icon:
+                Icons.route_outlined,
+            label:
+                '나만의 여행을 만들어보세요',
+            height: visualHeight,
           ),
 
-          const SizedBox(height: 32),
+          SizedBox(
+            height:
+                isDesktop ? 16 : 28,
+          ),
 
-          const Text(
+          Text(
             'SNOB은 이렇게 사용해요',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 30,
+              fontSize:
+                  isDesktop ? 27 : 30,
               fontWeight:
                   FontWeight.w800,
               color: primaryText,
@@ -904,26 +1251,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
 
           const Text(
             '나에게 맞는 여행지를 발견하고\n'
             '여유로운 여행을 시작해보세요.',
-            textAlign: TextAlign.center,
+            textAlign:
+                TextAlign.center,
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               color: secondaryText,
-              height: 1.6,
+              height: 1.5,
             ),
           ),
 
-          const SizedBox(height: 30),
+          SizedBox(
+            height:
+                isDesktop ? 18 : 26,
+          ),
 
           _buildStep(
             number: '01',
             title: '여행 성향 테스트',
             description:
                 '간단한 질문으로 나의 여행 성향을 알아봐요.',
+            compact: isDesktop,
           ),
 
           _buildStep(
@@ -931,6 +1283,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             title: '여행 유형 확인',
             description:
                 '27가지 유형 중 나에게 맞는 유형을 찾아요.',
+            compact: isDesktop,
           ),
 
           _buildStep(
@@ -938,6 +1291,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             title: '여행지 추천',
             description:
                 '나의 성향과 SNOB 지수를 고려해 여행지를 추천받아요.',
+            compact: isDesktop,
           ),
 
           _buildStep(
@@ -945,6 +1299,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             title: '나만의 여행 기록',
             description:
                 '다녀온 여행을 기록하고 나만의 여행을 만들어가요.',
+            compact: isDesktop,
           ),
         ],
       ),
@@ -955,25 +1310,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required String number,
     required String title,
     required String description,
+    required bool compact,
   }) {
     return Padding(
       padding:
           const EdgeInsets.only(
-        bottom: 14,
+        bottom: 8,
       ),
       child: Container(
         width: double.infinity,
         padding:
-            const EdgeInsets.symmetric(
+            EdgeInsets.symmetric(
           horizontal: 16,
-          vertical: 14,
+          vertical:
+              compact ? 9 : 12,
         ),
-        decoration: BoxDecoration(
+        decoration:
+            BoxDecoration(
           color: Colors.white,
           borderRadius:
-              BorderRadius.circular(18),
+              BorderRadius.circular(
+            18,
+          ),
           border: Border.all(
-            color: const Color(0xFFE3EAE5),
+            color:
+                const Color(0xFFE3EAE5),
           ),
         ),
         child: Row(
@@ -981,12 +1342,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               CrossAxisAlignment.center,
           children: [
             Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
+              width: 40,
+              height: 40,
+              decoration:
+                  BoxDecoration(
                 color: snobGreen,
                 borderRadius:
-                    BorderRadius.circular(13),
+                    BorderRadius.circular(
+                  13,
+                ),
               ),
               child: Center(
                 child: Text(
@@ -1002,7 +1366,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
 
-            const SizedBox(width: 15),
+            const SizedBox(width: 14),
 
             Expanded(
               child: Column(
@@ -1013,14 +1377,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     title,
                     style:
                         const TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight:
                           FontWeight.w700,
                       color: primaryText,
                     ),
                   ),
 
-                  const SizedBox(height: 3),
+                  const SizedBox(height: 2),
 
                   Text(
                     description,
@@ -1028,7 +1392,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const TextStyle(
                       fontSize: 12,
                       color: secondaryText,
-                      height: 1.4,
+                      height: 1.35,
                     ),
                   ),
                 ],
@@ -1044,162 +1408,455 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // 5. 로그인 화면
   // ============================================================
 
-  Widget _buildLoginPage() {
-    return _buildPageContainer(
-      child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
-        children: [
-          _buildNatureVisual(
-            icon: Icons.flight_takeoff_outlined,
-            label: 'SNOB과 함께 여행을 시작해요',
-            height: 210,
+  Widget _buildLoginPage({
+    required double screenHeight,
+    required bool isMobile,
+    required bool isTablet,
+    required bool isDesktop,
+  }) {
+    final double cardHorizontalPadding =
+        isDesktop
+            ? 48
+            : isTablet
+                ? 38
+                : 24;
+
+    final double cardVerticalPadding =
+        isDesktop
+            ? 34
+            : isTablet
+                ? 30
+                : 26;
+
+    final double visualHeight =
+        isDesktop
+            ? screenHeight < 760
+                ? 150
+                : 175
+            : isTablet
+                ? 170
+                : 155;
+
+    return SingleChildScrollView(
+      physics:
+          const ClampingScrollPhysics(),
+      child: Center(
+        child: Padding(
+          padding:
+              EdgeInsets.symmetric(
+            horizontal:
+                isMobile
+                    ? 16
+                    : isTablet
+                        ? 30
+                        : 40,
+            vertical:
+                isDesktop
+                    ? 18
+                    : 20,
           ),
-
-          const SizedBox(height: 40),
-
-          const Text(
-            '나만의 여행을\n시작해볼까요?',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 34,
-              fontWeight:
-                  FontWeight.w800,
-              color: primaryText,
-              letterSpacing: -1.1,
-              height: 1.25,
+          child: ConstrainedBox(
+            constraints:
+                const BoxConstraints(
+              maxWidth: 520,
             ),
-          ),
-
-          const SizedBox(height: 15),
-
-          const Text(
-            '나의 여행 성향에 맞는 여행지를 발견하고\n'
-            'SNOB과 함께 특별한 여행을 시작해보세요.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: secondaryText,
-              height: 1.6,
-            ),
-          ),
-
-          const SizedBox(height: 34),
-
-          // ======================================================
-          // 카카오 로그인
-          // ======================================================
-
-          SizedBox(
-            width: 320,
-            height: 50,
-            child: ElevatedButton(
-              onPressed:
-                  isLoading ? null : kakaoLogin,
-              style:
-                  ElevatedButton.styleFrom(
-                backgroundColor:
-                    const Color(0xFFFEE500),
-                foregroundColor:
-                    const Color(0xFF191919),
-                disabledBackgroundColor:
-                    const Color(0xFFF2E9A0),
-                elevation: 0,
-                shape:
-                    RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    999,
+            child: Container(
+              padding:
+                  EdgeInsets.symmetric(
+                horizontal:
+                    cardHorizontalPadding,
+                vertical:
+                    cardVerticalPadding,
+              ),
+              decoration:
+                  BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                    BorderRadius.circular(
+                  30,
+                ),
+                border: Border.all(
+                  color:
+                      const Color(
+                    0xFFE1E9E3,
                   ),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black
+                        .withOpacity(0.05),
+                    blurRadius: 30,
+                    offset:
+                        const Offset(
+                      0,
+                      12,
+                    ),
+                  ),
+                ],
               ),
-              child: isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child:
-                          CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color:
-                            Color(0xFF191919),
+              child: Column(
+                mainAxisSize:
+                    MainAxisSize.min,
+                children: [
+                  // ==================================================
+                  // SNOB 로고
+                  // ==================================================
+
+                  Text(
+                    'SNOB',
+                    style: TextStyle(
+                      fontSize:
+                          isDesktop
+                              ? 30
+                              : 29,
+                      fontWeight:
+                          FontWeight.w900,
+                      color: snobGreen,
+                      letterSpacing: -1.8,
+                    ),
+                  ),
+
+                  SizedBox(
+                    height:
+                        isDesktop ? 16 : 20,
+                  ),
+
+                  // ==================================================
+                  // 자연 / 여행 이미지 영역
+                  // ==================================================
+
+                  Container(
+                    width: double.infinity,
+                    height: visualHeight,
+                    decoration:
+                        BoxDecoration(
+                      gradient:
+                          const LinearGradient(
+                        begin:
+                            Alignment.topLeft,
+                        end:
+                            Alignment
+                                .bottomRight,
+                        colors: [
+                          Color(
+                            0xFFEAF5EE,
+                          ),
+                          Color(
+                            0xFFCFE5D7,
+                          ),
+                        ],
                       ),
-                    )
-                  : const Text(
-                      '카카오로 시작하기',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight:
-                            FontWeight.w700,
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        22,
                       ),
                     ),
-            ),
-          ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 18,
+                          right: 22,
+                          child: Icon(
+                            Icons
+                                .wb_sunny_outlined,
+                            size: 30,
+                            color:
+                                const Color(
+                              0xFF79A88B,
+                            ),
+                          ),
+                        ),
 
-          const SizedBox(height: 12),
+                        Positioned(
+                          bottom: -25,
+                          left: -5,
+                          child: Icon(
+                            Icons
+                                .landscape_outlined,
+                            size: 150,
+                            color:
+                                const Color(
+                              0xFFAFCDBA,
+                            ),
+                          ),
+                        ),
 
-          // ======================================================
-          // Apple 로그인
-          // ======================================================
+                        Positioned(
+                          bottom: -12,
+                          right: 25,
+                          child: Icon(
+                            Icons
+                                .forest_outlined,
+                            size: 105,
+                            color:
+                                const Color(
+                              0xFF7FAE91,
+                            ),
+                          ),
+                        ),
 
-          SizedBox(
-            width: 320,
-            height: 50,
-            child: OutlinedButton(
-              onPressed: () {
-                print(
-                  "Apple 로그인 준비",
-                );
+                        Center(
+                          child: Container(
+                            width: 72,
+                            height: 72,
+                            decoration:
+                                BoxDecoration(
+                              color: Colors.white
+                                  .withOpacity(
+                                0.92,
+                              ),
+                              shape:
+                                  BoxShape
+                                      .circle,
+                            ),
+                            child:
+                                const Icon(
+                              Icons
+                                  .travel_explore_outlined,
+                              size: 36,
+                              color:
+                                  snobGreen,
+                            ),
+                          ),
+                        ),
 
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        const BottomNavigation(),
+                        Positioned(
+                          left: 18,
+                          bottom: 16,
+                          child: Container(
+                            padding:
+                                const EdgeInsets
+                                    .symmetric(
+                              horizontal: 11,
+                              vertical: 6,
+                            ),
+                            decoration:
+                                BoxDecoration(
+                              color: Colors.white
+                                  .withOpacity(
+                                0.9,
+                              ),
+                              borderRadius:
+                                  BorderRadius
+                                      .circular(
+                                999,
+                              ),
+                            ),
+                            child:
+                                const Text(
+                              '나만의 여행을 찾아보세요',
+                              style:
+                                  TextStyle(
+                                fontSize: 11,
+                                fontWeight:
+                                    FontWeight
+                                        .w700,
+                                color:
+                                    snobGreen,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                );
-              },
-              style:
-                  OutlinedButton.styleFrom(
-                backgroundColor:
-                    Colors.white,
-                foregroundColor:
-                    primaryText,
-                elevation: 0,
-                side:
-                    const BorderSide(
-                  color:
-                      Color(0xFFD7E0DA),
-                ),
-                shape:
-                    RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    999,
+
+                  SizedBox(
+                    height:
+                        isDesktop ? 22 : 26,
                   ),
-                ),
-              ),
-              child: const Text(
-                'Apple로 시작하기',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight:
-                      FontWeight.w700,
-                ),
+
+                  // ==================================================
+                  // 소개 문구
+                  // ==================================================
+
+                  Text(
+                    '모두의 여행에서,\n'
+                    '오직 나만의 여행으로',
+                    textAlign:
+                        TextAlign.center,
+                    style: TextStyle(
+                      fontSize:
+                          isDesktop
+                              ? 27
+                              : 28,
+                      fontWeight:
+                          FontWeight.w800,
+                      color: primaryText,
+                      letterSpacing: -1.1,
+                      height: 1.3,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  const Text(
+                    '나의 여행 성향에 맞는 여행지를 발견하고\n'
+                    'SNOB과 함께 특별한 여행을 시작해보세요.',
+                    textAlign:
+                        TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color:
+                          secondaryText,
+                      height: 1.6,
+                    ),
+                  ),
+
+                  SizedBox(
+                    height:
+                        isDesktop ? 22 : 26,
+                  ),
+
+                  // ==================================================
+                  // 카카오 로그인
+                  // 기존 kakaoLogin() 그대로 호출
+                  // ==================================================
+
+                  SizedBox(
+                    width:
+                        double.infinity,
+                    height: 50,
+                    child:
+                        ElevatedButton(
+                      onPressed:
+                          isLoading
+                              ? null
+                              : kakaoLogin,
+                      style:
+                          ElevatedButton
+                              .styleFrom(
+                        backgroundColor:
+                            const Color(
+                          0xFFFEE500,
+                        ),
+                        foregroundColor:
+                            const Color(
+                          0xFF191919,
+                        ),
+                        disabledBackgroundColor:
+                            const Color(
+                          0xFFF2E9A0,
+                        ),
+                        elevation: 0,
+                        shape:
+                            RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius
+                                  .circular(
+                            14,
+                          ),
+                        ),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child:
+                                  CircularProgressIndicator(
+                                strokeWidth:
+                                    2,
+                                color:
+                                    Color(
+                                  0xFF191919,
+                                ),
+                              ),
+                            )
+                          : const Text(
+                              '카카오로 시작하기',
+                              style:
+                                  TextStyle(
+                                fontSize:
+                                    15,
+                                fontWeight:
+                                    FontWeight
+                                        .w700,
+                              ),
+                            ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // ==================================================
+                  // Apple 로그인
+                  // 기존 동작 유지
+                  // ==================================================
+
+                  SizedBox(
+                    width:
+                        double.infinity,
+                    height: 50,
+                    child:
+                        OutlinedButton(
+                      onPressed: () {
+                        print(
+                          "Apple 로그인 준비",
+                        );
+
+                        Navigator
+                            .pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                const BottomNavigation(),
+                          ),
+                        );
+                      },
+                      style:
+                          OutlinedButton
+                              .styleFrom(
+                        backgroundColor:
+                            Colors.white,
+                        foregroundColor:
+                            primaryText,
+                        elevation: 0,
+                        side:
+                            const BorderSide(
+                          color:
+                              Color(
+                            0xFFD7E0DA,
+                          ),
+                        ),
+                        shape:
+                            RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius
+                                  .circular(
+                            14,
+                          ),
+                        ),
+                      ),
+                      child:
+                          const Text(
+                        'Apple로 시작하기',
+                        style:
+                            TextStyle(
+                          fontSize: 15,
+                          fontWeight:
+                              FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  const Text(
+                    '로그인하면 나에게 맞는 여행을 시작할 수 있어요.',
+                    textAlign:
+                        TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: mutedText,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            '로그인하면 나에게 맞는 여행을 시작할 수 있어요.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 11,
-              color: mutedText,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
