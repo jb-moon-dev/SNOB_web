@@ -96,7 +96,7 @@ class _CourseResultScreenState
       final TravelPlan? savedPlan =
           await TravelPlanStorage.loadTravelPlan();
 
-      if (!mounted) {
+      if (!context.mounted) {
         return;
       }
 
@@ -672,75 +672,109 @@ class _CourseResultScreenState
       // 10. SnobSpot → Map
       // ==========================================================
 
-      final List<Map<String, dynamic>>
-          spotMaps =
-          mappedSpots.map(
-        (SnobSpot spot) {
-          final String? substitutabilitySignguCd =
-              spot.concentrationSignguCd ??
-                  substitutabilityRegionCode;
+      final List<Map<String, dynamic>> spotMaps = [];
 
-          debugPrint(
-            'Substitutability 지역 코드 적용: '
-            '${spot.title} → '
-            '$substitutabilitySignguCd',
-          );
+      for (final SnobSpot spot in mappedSpots) {
+        final String? substitutabilitySignguCd =
+            spot.concentrationSignguCd ??
+                substitutabilityRegionCode;
 
-          return {
-            'contentId':
-                spot.contentId,
-            'title':
-                spot.title,
-            'address':
-                spot.address,
-            'contentTypeId':
-                spot.contentTypeId,
-            'lDongRegnCd':
-                spot.lDongRegnCd,
-            'lDongSignguCd':
-                spot.lDongSignguCd,
-            'regionName':
-                spot.regionName,
-            'lclsSystm1':
-                spot.lclsSystm1,
-            'lclsSystm2':
-                spot.lclsSystm2,
-            'lclsSystm3':
-                spot.lclsSystm3,
-            'modifiedTime':
-                spot.modifiedTime,
-            'latitude':
-                spot.latitude,
-            'longitude':
-                spot.longitude,
-            'concentrationRate':
-                spot.concentrationRate,
-            'concentrationBaseYmd':
-                spot.concentrationBaseYmd,
-            'concentrationAreaCd':
-                spot.concentrationAreaCd,
-            'concentrationAreaNm':
-                spot.concentrationAreaNm,
-            'concentrationSignguCd':
-                spot.concentrationSignguCd,
-            'concentrationSignguNm':
-                spot.concentrationSignguNm,
-            'snobScore':
-                spot.snobScore,
-            'hubTatsNm':
-                spot.title,
-            'hubCtgryMclsNm':
-                spot.lclsSystm2,
-            'signguCd':
-                substitutabilitySignguCd,
-            'sigunguCd':
-                substitutabilitySignguCd,
-            'signguNm':
-                spot.concentrationSignguNm ??
-                    selectedSigunguName,
-          };
-        },
-      ).toList();
+        debugPrint(
+          'Substitutability 지역 코드 적용: '
+          '${spot.title} → '
+          '$substitutabilitySignguCd',
+        );
+
+        // 실제 대체관광 데이터의 사람이 읽을 수 있는
+        // 중분류명을 우선 사용합니다.
+        // 예: 문화관광, 역사관광
+        String category = '';
+
+        if (substitutabilitySignguCd != null &&
+            substitutabilitySignguCd.isNotEmpty) {
+          try {
+            category =
+                await _findSubstitutabilityCategory(
+              signguCd:
+                  substitutabilitySignguCd,
+              spotName:
+                  spot.title,
+            );
+          } catch (e) {
+            debugPrint(
+              '매핑 관광지 카테고리 조회 실패: '
+              '${spot.title} → $e',
+            );
+          }
+        }
+
+        // JSON에서 찾지 못한 경우에만 기존 값을 사용합니다.
+        // VE03 같은 내부 코드는 화면에 노출하지 않습니다.
+        if (category.isEmpty) {
+          final String fallbackCategory =
+              spot.lclsSystm2?.toString().trim() ?? '';
+
+          if (fallbackCategory.isNotEmpty &&
+              !RegExp(r'^[A-Z]{2}\d+$')
+                  .hasMatch(fallbackCategory)) {
+            category = fallbackCategory;
+          }
+        }
+
+        spotMaps.add({
+          'contentId':
+              spot.contentId,
+          'title':
+              spot.title,
+          'address':
+              spot.address,
+          'contentTypeId':
+              spot.contentTypeId,
+          'lDongRegnCd':
+              spot.lDongRegnCd,
+          'lDongSignguCd':
+              spot.lDongSignguCd,
+          'regionName':
+              spot.regionName,
+          'lclsSystm1':
+              spot.lclsSystm1,
+          'lclsSystm2':
+              spot.lclsSystm2,
+          'lclsSystm3':
+              spot.lclsSystm3,
+          'modifiedTime':
+              spot.modifiedTime,
+          'latitude':
+              spot.latitude,
+          'longitude':
+              spot.longitude,
+          'concentrationRate':
+              spot.concentrationRate,
+          'concentrationBaseYmd':
+              spot.concentrationBaseYmd,
+          'concentrationAreaCd':
+              spot.concentrationAreaCd,
+          'concentrationAreaNm':
+              spot.concentrationAreaNm,
+          'concentrationSignguCd':
+              spot.concentrationSignguCd,
+          'concentrationSignguNm':
+              spot.concentrationSignguNm,
+          'snobScore':
+              spot.snobScore,
+          'hubTatsNm':
+              spot.title,
+          'hubCtgryMclsNm':
+              category,
+          'signguCd':
+              substitutabilitySignguCd,
+          'sigunguCd':
+              substitutabilitySignguCd,
+          'signguNm':
+              spot.concentrationSignguNm ??
+                  selectedSigunguName,
+        });
+      }
 
 
       // ==========================================================
@@ -1061,7 +1095,7 @@ class _CourseResultScreenState
       // 13. 화면 업데이트
       // ==========================================================
 
-      if (!mounted) {
+      if (!context.mounted) {
         return;
       }
 
@@ -1125,7 +1159,7 @@ class _CourseResultScreenState
         '========================================',
       );
 
-      if (!mounted) {
+      if (!context.mounted) {
         return;
       }
 
@@ -1300,24 +1334,34 @@ class _CourseResultScreenState
   String _getCategory(
     Map<String, dynamic> spot,
   ) {
+    // 사람이 읽을 수 있는 중분류명을 가장 우선합니다.
     final List<dynamic> candidates = [
+      spot['hubCtgryMclsNm'],
+      spot['category'],
       spot['lclsSystm2'],
       spot['lclsSystm3'],
-      spot['category'],
-      spot['contentTypeId'],
-      spot['hubCtgryMclsNm'],
     ];
 
     for (final dynamic value in candidates) {
-      if (value != null &&
-          value
-              .toString()
-              .trim()
-              .isNotEmpty) {
-        return value
-            .toString()
-            .trim();
+      if (value == null) {
+        continue;
       }
+
+      final String category =
+          value.toString().trim();
+
+      if (category.isEmpty) {
+        continue;
+      }
+
+      // VE03, LC01 같은 내부 분류 코드는
+      // 화면에 직접 표시하지 않습니다.
+      if (RegExp(r'^[A-Z]{2}\d+$')
+          .hasMatch(category)) {
+        continue;
+      }
+
+      return category;
     }
 
     return '';
@@ -1479,12 +1523,12 @@ class _CourseResultScreenState
   // 관광지를 일정에 추가
   // ============================================================
 
-  Future<void> _addToPlan(
+  Future<bool> _addToPlan(
     CourseResultData result,
     int dayNumber,
   ) async {
     if (isSaving) {
-      return;
+      return false;
     }
 
     final TravelDay? day =
@@ -1500,7 +1544,7 @@ class _CourseResultScreenState
         ),
       );
 
-      return;
+      return false;
     }
 
     final TravelSpot spot =
@@ -1514,8 +1558,6 @@ class _CourseResultScreenState
     );
 
     if (alreadyExists) {
-      Navigator.pop(context);
-
       ScaffoldMessenger.of(context)
           .showSnackBar(
         SnackBar(
@@ -1527,7 +1569,7 @@ class _CourseResultScreenState
         ),
       );
 
-      return;
+      return false;
     }
 
     setState(() {
@@ -1544,15 +1586,13 @@ class _CourseResultScreenState
         travelPlan,
       );
 
-      if (!mounted) {
-        return;
+      if (!context.mounted) {
+        return false;
       }
 
       setState(() {
         isSaving = false;
       });
-
-      Navigator.pop(context);
 
       ScaffoldMessenger.of(context)
           .showSnackBar(
@@ -1568,11 +1608,13 @@ class _CourseResultScreenState
           ),
         ),
       );
+
+      return true;
     } catch (e) {
       day.spots.remove(spot);
 
-      if (!mounted) {
-        return;
+      if (!context.mounted) {
+        return false;
       }
 
       setState(() {
@@ -1588,6 +1630,8 @@ class _CourseResultScreenState
           ),
         ),
       );
+
+      return false;
     }
   }
 
@@ -1672,7 +1716,7 @@ class _CourseResultScreenState
       travelPlan,
     );
 
-    if (!mounted) {
+    if (!context.mounted) {
       return;
     }
 
@@ -2008,7 +2052,7 @@ class _CourseResultScreenState
                           travelPlan,
                         );
 
-                        if (!mounted) {
+                        if (!context.mounted) {
                           return;
                         }
 
@@ -2112,11 +2156,19 @@ class _CourseResultScreenState
                       onTap:
                           isSaving
                               ? null
-                              : () {
-                                  _addToPlan(
+                              : () async {
+                                  final bool added =
+                                      await _addToPlan(
                                     result,
                                     day.day,
                                   );
+
+                                  if (added &&
+                                      context.mounted) {
+                                    Navigator.pop(
+                                      context,
+                                    );
+                                  }
                                 },
                     );
                   },
@@ -2135,7 +2187,7 @@ class _CourseResultScreenState
 
                               await _addDay();
 
-                              if (!mounted) {
+                              if (!context.mounted) {
                                 return;
                               }
 
@@ -3483,8 +3535,7 @@ class _CourseResultScreenState
           Row(
         children: [
           const Icon(
-            Icons
-                .travel_explore,
+            Icons.travel_explore,
             size:
                 18,
           ),
@@ -3494,40 +3545,42 @@ class _CourseResultScreenState
                 8,
           ),
 
-          Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text(
-                'SNOB',
-                style:
-                    TextStyle(
-                  fontSize:
-                      9,
-                  color:
-                      Colors.grey.shade600,
-                  fontWeight:
-                      FontWeight.w600,
+          Expanded(
+            child:
+                Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SNOB',
+                  style:
+                      TextStyle(
+                    fontSize:
+                        9,
+                    color:
+                        Colors.grey.shade600,
+                    fontWeight:
+                        FontWeight.w600,
+                  ),
                 ),
-              ),
-
-              Text(
-                result.snobScore
-                    .toStringAsFixed(
-                  1,
+                Text(
+                  result.snobScore.toStringAsFixed(1),
+                  style:
+                      const TextStyle(
+                    fontSize:
+                        17,
+                    fontWeight:
+                        FontWeight.w800,
+                  ),
                 ),
-                style:
-                    const TextStyle(
-                  fontSize:
-                      17,
-                  fontWeight:
-                      FontWeight.w800,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
 
-          const Spacer(),
+          const SizedBox(
+            width:
+                8,
+          ),
 
           Text(
             '집중률 '

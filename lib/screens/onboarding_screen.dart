@@ -515,22 +515,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
 
-    // 모바일은 콘텐츠가 길어질 수 있으므로
-    // 기존처럼 세로 스크롤을 허용한다.
+    // 모바일만 세로 스크롤을 허용한다.
     if (isMobile) {
       return SingleChildScrollView(
-        physics:
-            const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: content,
       );
     }
 
-    // 태블릿/PC는 화면 안에 콘텐츠를 최대한
-    // 맞춰 배치한다.
+    // 태블릿/PC는 콘텐츠를 화면 높이에 맞춰 축소해서
+    // 한 페이지 안에 표시한다. 스크롤은 발생하지 않는다.
     return Center(
-      child: SingleChildScrollView(
-        physics:
-            const ClampingScrollPhysics(),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
         child: content,
       ),
     );
@@ -1437,10 +1435,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ? 170
                 : 155;
 
-    return SingleChildScrollView(
-      physics:
-          const ClampingScrollPhysics(),
-      child: Center(
+    final Widget content = Center(
         child: Padding(
           padding:
               EdgeInsets.symmetric(
@@ -1857,6 +1852,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
         ),
+    );
+
+    if (isMobile) {
+      return SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: content,
+      );
+    }
+
+    return Center(
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: content,
       ),
     );
   }

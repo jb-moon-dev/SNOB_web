@@ -607,47 +607,68 @@ class _HomeScreenState extends State<HomeScreen> {
     required String description,
     Widget? action,
   }) {
-    return Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.end,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment
-                    .start,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isNarrow = constraints.maxWidth < 600;
+
+        if (isNarrow && action != null) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style:
-                    const TextStyle(
+                style: const TextStyle(
                   fontSize: 25,
-                  fontWeight:
-                      FontWeight.w900,
-                  color:
-                      primaryText,
-                  letterSpacing:
-                      -0.8,
+                  fontWeight: FontWeight.w900,
+                  color: primaryText,
+                  letterSpacing: -0.8,
                 ),
               ),
-              const SizedBox(
-                height: 7,
-              ),
+              const SizedBox(height: 7),
               Text(
                 description,
-                style:
-                    const TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
-                  color:
-                      secondaryText,
+                  color: secondaryText,
                 ),
               ),
+              const SizedBox(height: 4),
+              action,
             ],
-          ),
-        ),
-        if (action != null)
-          action,
-      ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                      color: primaryText,
+                      letterSpacing: -0.8,
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    description,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: secondaryText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (action != null) action,
+          ],
+        );
+      },
     );
   }
 
@@ -659,170 +680,88 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isDesktop,
     bool isTablet,
   ) {
-    final bool useVerticalCard =
-        !isDesktop;
-
     return Container(
       width: double.infinity,
-      padding:
-          EdgeInsets.symmetric(
-        horizontal:
-            isDesktop ? 48 : 22,
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 48 : 22,
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(
-            maxWidth: 1280,
-          ),
+          constraints: const BoxConstraints(maxWidth: 1280),
           child: Column(
             children: [
               _buildSectionTitle(
-                title:
-                    'SNOB 추천 여행지',
-                description:
-                    '나의 여행 성향에 맞는 여행지를 발견해보세요.',
+                title: 'SNOB 추천 여행지',
+                description: '나의 여행 성향에 맞는 여행지를 발견해보세요.',
               ),
+              const SizedBox(height: 22),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final bool useVerticalCard = constraints.maxWidth < 760;
 
-              const SizedBox(
-                height: 22,
-              ),
-
-              Container(
-                width: double.infinity,
-                padding:
-                    EdgeInsets.all(
-                  useVerticalCard
-                      ? 22
-                      : 28,
-                ),
-                decoration:
-                    BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius
-                          .circular(
-                    24,
-                  ),
-                  border: Border.all(
-                    color: cardBorder,
-                  ),
-                ),
-                child:
-                    useVerticalCard
+                  return Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(useVerticalCard ? 24 : 28),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: cardBorder),
+                    ),
+                    child: useVerticalCard
                         ? Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width:
-                                        54,
-                                    height:
-                                        54,
-                                    decoration:
-                                        BoxDecoration(
-                                      color:
-                                          snobLightGreen,
-                                      borderRadius:
-                                          BorderRadius
-                                              .circular(
-                                        16,
-                                      ),
-                                    ),
-                                    child:
-                                        const Icon(
-                                      Icons
-                                          .explore_outlined,
-                                      color:
-                                          snobGreen,
-                                      size:
-                                          27,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width:
-                                        14,
-                                  ),
-                                  const Expanded(
-                                    child:
-                                        Text(
-                                      '나에게 맞는 여행지를 추천받아보세요',
-                                      style:
-                                          TextStyle(
-                                        fontSize:
-                                            16,
-                                        fontWeight:
-                                            FontWeight
-                                                .w800,
-                                        color:
-                                            primaryText,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(
-                                height: 14,
-                              ),
-
-                              const Text(
-                                '간단한 여행 성향 테스트를 완료하면 '
-                                'SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
-                                style:
-                                    TextStyle(
-                                  fontSize:
-                                      13,
-                                  color:
-                                      secondaryText,
-                                  height:
-                                      1.5,
+                              Container(
+                                width: 54,
+                                height: 54,
+                                decoration: BoxDecoration(
+                                  color: snobLightGreen,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: const Icon(
+                                  Icons.explore_outlined,
+                                  color: snobGreen,
+                                  size: 27,
                                 ),
                               ),
-
-                              const SizedBox(
-                                height: 18,
+                              const SizedBox(height: 16),
+                              const Text(
+                                '나에게 맞는 여행지를 추천받아보세요',
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: primaryText,
+                                  height: 1.35,
+                                ),
                               ),
-
+                              const SizedBox(height: 8),
+                              const Text(
+                                '간단한 여행 성향 테스트를 완료하면 SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: secondaryText,
+                                  height: 1.6,
+                                ),
+                              ),
+                              const SizedBox(height: 18),
                               SizedBox(
-                                width:
-                                    double.infinity,
-                                height:
-                                    46,
-                                child:
-                                    FilledButton(
-                                  onPressed:
-                                      _startPersonalityTest,
-                                  style:
-                                      FilledButton
-                                          .styleFrom(
-                                    backgroundColor:
-                                        snobGreen,
-                                    foregroundColor:
-                                        Colors.white,
-                                    elevation:
-                                        0,
-                                    shape:
-                                        RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius
-                                              .circular(
-                                        999,
-                                      ),
+                                width: double.infinity,
+                                height: 46,
+                                child: FilledButton(
+                                  onPressed: _startPersonalityTest,
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: snobGreen,
+                                    foregroundColor: Colors.white,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(999),
                                     ),
                                   ),
-                                  child:
-                                      const Text(
+                                  child: const Text(
                                     '추천받기',
-                                    style:
-                                        TextStyle(
-                                      fontWeight:
-                                          FontWeight
-                                              .w700,
-                                    ),
+                                    style: TextStyle(fontWeight: FontWeight.w700),
                                   ),
                                 ),
                               ),
@@ -833,117 +772,67 @@ class _HomeScreenState extends State<HomeScreen> {
                               Container(
                                 width: 62,
                                 height: 62,
-                                decoration:
-                                    BoxDecoration(
-                                  color:
-                                      snobLightGreen,
-                                  borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                    18,
-                                  ),
+                                decoration: BoxDecoration(
+                                  color: snobLightGreen,
+                                  borderRadius: BorderRadius.circular(18),
                                 ),
-                                child:
-                                    const Icon(
-                                  Icons
-                                      .explore_outlined,
-                                  color:
-                                      snobGreen,
+                                child: const Icon(
+                                  Icons.explore_outlined,
+                                  color: snobGreen,
                                   size: 30,
                                 ),
                               ),
-
-                              const SizedBox(
-                                width: 18,
-                              ),
-
+                              const SizedBox(width: 18),
                               const Expanded(
-                                child:
-                                    Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .start,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '나에게 맞는 여행지를 추천받아보세요',
-                                      style:
-                                          TextStyle(
-                                        fontSize:
-                                            17,
-                                        fontWeight:
-                                            FontWeight
-                                                .w800,
-                                        color:
-                                            primaryText,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w800,
+                                        color: primaryText,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height:
-                                          7,
-                                    ),
+                                    SizedBox(height: 7),
                                     Text(
-                                      '간단한 여행 성향 테스트를 완료하면 '
-                                      'SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
-                                      style:
-                                          TextStyle(
-                                        fontSize:
-                                            13,
-                                        color:
-                                            secondaryText,
-                                        height:
-                                            1.5,
+                                      '간단한 여행 성향 테스트를 완료하면 SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: secondaryText,
+                                        height: 1.5,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-
-                              const SizedBox(
-                                width: 20,
-                              ),
-
+                              const SizedBox(width: 20),
                               FilledButton(
-                                onPressed:
-                                    _startPersonalityTest,
-                                style:
-                                    FilledButton
-                                        .styleFrom(
-                                  backgroundColor:
-                                      snobGreen,
-                                  foregroundColor:
-                                      Colors.white,
-                                  elevation:
-                                      0,
-                                  padding:
-                                      const EdgeInsets
-                                          .symmetric(
-                                    horizontal:
-                                        20,
-                                    vertical:
-                                        13,
+                                onPressed: _startPersonalityTest,
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: snobGreen,
+                                  foregroundColor: Colors.white,
+                                  elevation: 0,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 13,
                                   ),
-                                  shape:
-                                      RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius
-                                            .circular(
-                                      999,
-                                    ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(999),
                                   ),
                                 ),
-                                child:
-                                    const Text(
+                                child: const Text(
                                   '추천받기',
-                                  style:
-                                      TextStyle(
-                                    fontWeight:
-                                        FontWeight
-                                            .w700,
-                                  ),
+                                  style: TextStyle(fontWeight: FontWeight.w700),
                                 ),
                               ),
                             ],
                           ),
+                  );
+                },
               ),
             ],
           ),
@@ -1686,13 +1575,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics:
                         const AlwaysScrollableScrollPhysics(),
                     slivers: [
-                      SliverToBoxAdapter(
-                        child:
-                            _buildHeader(
-                          isDesktop,
-                        ),
-                      ),
-
                       SliverToBoxAdapter(
                         child:
                             _buildHero(
