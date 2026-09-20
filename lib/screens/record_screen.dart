@@ -690,94 +690,122 @@ class RecordScreenState extends State<RecordScreen> {
                             crossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              // ==================================================
+                                                            // ==================================================
                               // 상단 헤더
                               // ==================================================
+                              LayoutBuilder(
+                                builder: (
+                                  context,
+                                  headerConstraints,
+                                ) {
+                                  final bool compactHeader =
+                                      headerConstraints.maxWidth < 900;
 
-                              Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Column(
+                                  final headerText = Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'TRAVEL RECORD',
+                                        style: TextStyle(
+                                          fontSize:
+                                              isMobile ? 11 : 12,
+                                          fontWeight:
+                                              FontWeight.bold,
+                                          letterSpacing: 2.2,
+                                          color:
+                                              Colors.grey.shade600,
+                                        ),
+                                      ),
+
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+
+                                      Text(
+                                        '나의 여행 기록',
+                                        softWrap: false,
+                                        style: TextStyle(
+                                          fontSize:
+                                              isMobile ? 28 : 36,
+                                          fontWeight:
+                                              FontWeight.w800,
+                                          letterSpacing: -1.2,
+                                        ),
+                                      ),
+
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+
+                                      Text(
+                                        '다녀온 여행을 사진과 함께 다시 만나보세요.',
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize:
+                                              isMobile ? 13 : 15,
+                                          color:
+                                              Colors.grey.shade600,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+
+                                  if (compactHeader) {
+                                    return Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'TRAVEL RECORD',
-                                          style: TextStyle(
-                                            fontSize:
-                                                isMobile
-                                                    ? 11
-                                                    : 12,
-                                            fontWeight:
-                                                FontWeight.bold,
-                                            letterSpacing: 2.2,
-                                            color: Colors.grey
-                                                .shade600,
-                                          ),
-                                        ),
+                                        headerText,
 
                                         const SizedBox(
-                                          height: 8,
+                                          height: 16,
                                         ),
 
-                                        Text(
-                                          '나의 여행 기록',
-                                          style: TextStyle(
-                                            fontSize:
-                                                isMobile
-                                                    ? 28
-                                                    : 36,
-                                            fontWeight:
-                                                FontWeight.w800,
-                                            letterSpacing:
-                                                -1.2,
+                                        OutlinedButton.icon(
+                                          onPressed: loadRecords,
+                                          icon: const Icon(
+                                            Icons.refresh_outlined,
+                                            size: 18,
                                           ),
-                                        ),
-
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-
-                                        Text(
-                                          '다녀온 여행을 사진과 함께 다시 만나보세요.',
-                                          style: TextStyle(
-                                            fontSize:
-                                                isMobile
-                                                    ? 13
-                                                    : 15,
-                                            color: Colors
-                                                .grey
-                                                .shade600,
+                                          label: const Text(
+                                            '새로고침',
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
+                                    );
+                                  }
 
-                                  // 데스크톱 새로고침
-                                  if (!isMobile)
-                                    OutlinedButton.icon(
-                                      onPressed:
-                                          loadRecords,
-                                      icon: const Icon(
-                                        Icons
-                                            .refresh_outlined,
-                                        size: 18,
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: headerText,
                                       ),
-                                      label:
-                                          const Text(
-                                        '새로고침',
+
+                                      const SizedBox(
+                                        width: 24,
                                       ),
-                                    ),
-                                ],
+
+                                      OutlinedButton.icon(
+                                        onPressed: loadRecords,
+                                        icon: const Icon(
+                                          Icons.refresh_outlined,
+                                          size: 18,
+                                        ),
+                                        label: const Text(
+                                          '새로고침',
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
 
                               const SizedBox(
                                 height: 28,
                               ),
-
                               // ==================================================
                               // 여행 요약
                               // ==================================================

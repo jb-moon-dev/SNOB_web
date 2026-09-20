@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'trip/personality_test/personality_test_screen.dart';
-import 'itinerary_screen.dart';
+import 'trip/course/result_screen.dart';
 
 import '../models/travel_plan.dart';
 import '../services/travel_plan_storage.dart';
@@ -78,15 +78,15 @@ class _HomeScreenState extends State<HomeScreen> {
   // 일정 화면 열기
   // ============================================================
 
-  Future<void> _openItinerary() async {
+    Future<void> _openItinerary() async {
     if (savedPlan == null) return;
 
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            ItineraryScreen(
-          travelPlan: savedPlan!,
+            CourseResultScreen(
+          regionName: savedPlan!.regionName,
         ),
       ),
     );
@@ -611,7 +611,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, constraints) {
         final bool isNarrow = constraints.maxWidth < 600;
 
-        if (isNarrow && action != null) {
+        if (isNarrow) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -632,8 +632,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: secondaryText,
                 ),
               ),
-              const SizedBox(height: 4),
-              action,
+              if (action != null) ...[
+                const SizedBox(height: 4),
+                action,
+              ],
             ],
           );
         }
@@ -697,7 +699,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 22),
               LayoutBuilder(
                 builder: (context, constraints) {
-                  final bool useVerticalCard = constraints.maxWidth < 760;
+                  final bool useVerticalCard = constraints.maxWidth < 1000;
 
                   return Container(
                     width: double.infinity,
@@ -1282,8 +1284,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ) {
     return Container(
       width: double.infinity,
-      padding:
-          EdgeInsets.fromLTRB(
+      padding: EdgeInsets.fromLTRB(
         isDesktop ? 48 : 22,
         60,
         isDesktop ? 48 : 22,
@@ -1291,87 +1292,71 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(
-            maxWidth: 1280,
-          ),
-          child: isDesktop
-              ? Row(
+          constraints: const BoxConstraints(maxWidth: 1280),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final bool useTwoColumns =
+                  constraints.maxWidth >= 1000;
+
+              if (useTwoColumns) {
+                return Row(
                   children: [
                     Expanded(
-                      child:
-                          _buildActionCard(
-                        icon: Icons
-                            .travel_explore_outlined,
-                        title:
-                            '새로운 여행을 시작해보세요',
+                      child: _buildActionCard(
+                        icon: Icons.travel_explore_outlined,
+                        title: '새로운 여행을 시작해보세요',
                         description:
                             '나의 여행 성향을 분석하고\n'
                             '나에게 맞는 여행지를 찾아보세요.',
-                        buttonText:
-                            '맞춤 여행 시작하기',
-                        onPressed:
-                            _startPersonalityTest,
+                        buttonText: '맞춤 여행 시작하기',
+                        onPressed: _startPersonalityTest,
                         filled: true,
                       ),
                     ),
-                    const SizedBox(
-                      width: 18,
-                    ),
+                    const SizedBox(width: 18),
                     Expanded(
-                      child:
-                          _buildActionCard(
-                        icon: Icons
-                            .auto_stories_outlined,
-                        title:
-                            '나의 여행 기록',
+                      child: _buildActionCard(
+                        icon: Icons.auto_stories_outlined,
+                        title: '나의 여행 기록',
                         description:
                             '다녀온 여행을 다시 확인하고\n'
                             '나만의 여행을 쌓아보세요.',
-                        buttonText:
-                            '여행 기록 보기',
-                        onPressed:
-                            _openRecordScreen,
+                        buttonText: '여행 기록 보기',
+                        onPressed: _openRecordScreen,
                         filled: false,
                       ),
                     ),
                   ],
-                )
-              : Column(
-                  children: [
-                    _buildActionCard(
-                      icon: Icons
-                          .travel_explore_outlined,
-                      title:
-                          '새로운 여행을 시작해보세요',
-                      description:
-                          '나의 여행 성향을 분석하고\n'
-                          '나에게 맞는 여행지를 찾아보세요.',
-                      buttonText:
-                          '맞춤 여행 시작하기',
-                      onPressed:
-                          _startPersonalityTest,
-                      filled: true,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    _buildActionCard(
-                      icon: Icons
-                          .auto_stories_outlined,
-                      title:
-                          '나의 여행 기록',
-                      description:
-                          '다녀온 여행을 다시 확인하고\n'
-                          '나만의 여행을 쌓아보세요.',
-                      buttonText:
-                          '여행 기록 보기',
-                      onPressed:
-                          _openRecordScreen,
-                      filled: false,
-                    ),
-                  ],
-                ),
+                );
+              }
+
+              return Column(
+                children: [
+                  _buildActionCard(
+                    icon: Icons.travel_explore_outlined,
+                    title: '새로운 여행을 시작해보세요',
+                    description:
+                        '나의 여행 성향을 분석하고\n'
+                        '나에게 맞는 여행지를 찾아보세요.',
+                    buttonText: '맞춤 여행 시작하기',
+                    onPressed: _startPersonalityTest,
+                    filled: true,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildActionCard(
+                    icon: Icons.auto_stories_outlined,
+                    title: '나의 여행 기록',
+                    description:
+                        '다녀온 여행을 다시 확인하고\n'
+                        '나만의 여행을 쌓아보세요.',
+                    buttonText: '여행 기록 보기',
+                    onPressed: _openRecordScreen,
+                    filled: false,
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -1390,145 +1375,104 @@ class _HomeScreenState extends State<HomeScreen> {
     required bool filled,
   }) {
     return Container(
-      padding:
-          const EdgeInsets.all(
-        26,
+      padding: const EdgeInsets.all(26),
+      decoration: BoxDecoration(
+        color: filled ? snobGreen : Colors.white,
+        borderRadius: BorderRadius.circular(26),
+        border: filled ? null : Border.all(color: cardBorder),
       ),
-      decoration:
-          BoxDecoration(
-        color: filled
-            ? snobGreen
-            : Colors.white,
-        borderRadius:
-            BorderRadius.circular(
-          26,
-        ),
-        border: filled
-            ? null
-            : Border.all(
-                color: cardBorder,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final bool stackContent = constraints.maxWidth < 520;
+
+          final textContent = Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: filled ? Colors.white : primaryText,
+                ),
               ),
-      ),
-      child: Row(
-        children: [
-          Container(
+              const SizedBox(height: 7),
+              Text(
+                description,
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: filled
+                      ? Colors.white.withValues(alpha: 0.78)
+                      : secondaryText,
+                ),
+              ),
+              const SizedBox(height: 15),
+              TextButton(
+                onPressed: onPressed,
+                style: TextButton.styleFrom(
+                  foregroundColor: filled ? Colors.white : snobGreen,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 4,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      buttonText,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    const Icon(Icons.arrow_forward, size: 16),
+                  ],
+                ),
+              ),
+            ],
+          );
+
+          final iconBox = Container(
             width: 58,
             height: 58,
-            decoration:
-                BoxDecoration(
+            decoration: BoxDecoration(
               color: filled
-                  ? Colors.white
-                      .withValues(
-                      alpha: 0.14,
-                    )
+                  ? Colors.white.withValues(alpha: 0.14)
                   : snobLightGreen,
-              borderRadius:
-                  BorderRadius.circular(
-                18,
-              ),
+              borderRadius: BorderRadius.circular(18),
             ),
             child: Icon(
               icon,
-              color: filled
-                  ? Colors.white
-                  : snobGreen,
+              color: filled ? Colors.white : snobGreen,
               size: 29,
             ),
-          ),
+          );
 
-          const SizedBox(
-            width: 18,
-          ),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment
-                      .start,
+          if (stackContent) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style:
-                      TextStyle(
-                    fontSize: 18,
-                    fontWeight:
-                        FontWeight.w800,
-                    color: filled
-                        ? Colors.white
-                        : primaryText,
-                  ),
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  description,
-                  style:
-                      TextStyle(
-                    fontSize: 12,
-                    height: 1.5,
-                    color: filled
-                        ? Colors.white
-                            .withValues(
-                            alpha: 0.78,
-                          )
-                        : secondaryText,
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TextButton(
-                  onPressed:
-                      onPressed,
-                  style:
-                      TextButton.styleFrom(
-                    foregroundColor:
-                        filled
-                            ? Colors.white
-                            : snobGreen,
-                    padding:
-                        const EdgeInsets
-                            .symmetric(
-                      horizontal: 0,
-                      vertical: 4,
-                    ),
-                  ),
-                  child:
-                      Row(
-                    mainAxisSize:
-                        MainAxisSize
-                            .min,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          buttonText,
-                          overflow:
-                              TextOverflow
-                                  .ellipsis,
-                          style:
-                              const TextStyle(
-                            fontSize: 13,
-                            fontWeight:
-                                FontWeight
-                                    .w800,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      const Icon(
-                        Icons.arrow_forward,
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
+                iconBox,
+                const SizedBox(height: 16),
+                textContent,
               ],
-            ),
-          ),
-        ],
+            );
+          }
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              iconBox,
+              const SizedBox(width: 18),
+              Expanded(child: textContent),
+            ],
+          );
+        },
       ),
     );
   }

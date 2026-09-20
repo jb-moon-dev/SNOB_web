@@ -16,6 +16,7 @@ import '../../../region_mapping/snob_spot.dart';
 import '../../../widgets/tourism_image.dart';
 
 import 'snob_final.dart';
+import '../../home_screen.dart';
 
 
 // ================================================================
@@ -2406,15 +2407,21 @@ class _CourseResultScreenState
             ),
             child: Row(
               children: [
-                const Text(
-                  'SNOB',
-                  style:
-                      TextStyle(
-                    fontSize: 24,
-                    fontWeight:
-                        FontWeight.w900,
-                    letterSpacing:
-                        -1,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'SNOB',
+                    style:
+                        TextStyle(
+                      fontSize: 24,
+                      fontWeight:
+                          FontWeight.w900,
+                      letterSpacing:
+                          -1,
+                      color:Color(0xFF21624B),
+                    ),
                   ),
                 ),
 
@@ -2445,13 +2452,17 @@ class _CourseResultScreenState
                       TextButton(
                         onPressed:
                             () {
-                          Navigator.pop(
+                          Navigator.pushAndRemoveUntil(
                             context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                            (route) => false,
                           );
                         },
                         child:
                             const Text(
-                          '이전 화면',
+                          '홈 화면',
                         ),
                       ),
                     ],
