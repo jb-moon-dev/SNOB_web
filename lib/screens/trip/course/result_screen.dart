@@ -16,7 +16,6 @@ import '../../../region_mapping/snob_spot.dart';
 import '../../../widgets/tourism_image.dart';
 
 import 'snob_final.dart';
-import '../../home_screen.dart';
 
 
 // ================================================================
@@ -97,7 +96,7 @@ class _CourseResultScreenState
       final TravelPlan? savedPlan =
           await TravelPlanStorage.loadTravelPlan();
 
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
 
@@ -673,109 +672,75 @@ class _CourseResultScreenState
       // 10. SnobSpot → Map
       // ==========================================================
 
-      final List<Map<String, dynamic>> spotMaps = [];
+      final List<Map<String, dynamic>>
+          spotMaps =
+          mappedSpots.map(
+        (SnobSpot spot) {
+          final String? substitutabilitySignguCd =
+              spot.concentrationSignguCd ??
+                  substitutabilityRegionCode;
 
-      for (final SnobSpot spot in mappedSpots) {
-        final String? substitutabilitySignguCd =
-            spot.concentrationSignguCd ??
-                substitutabilityRegionCode;
+          debugPrint(
+            'Substitutability 지역 코드 적용: '
+            '${spot.title} → '
+            '$substitutabilitySignguCd',
+          );
 
-        debugPrint(
-          'Substitutability 지역 코드 적용: '
-          '${spot.title} → '
-          '$substitutabilitySignguCd',
-        );
-
-        // 실제 대체관광 데이터의 사람이 읽을 수 있는
-        // 중분류명을 우선 사용합니다.
-        // 예: 문화관광, 역사관광
-        String category = '';
-
-        if (substitutabilitySignguCd != null &&
-            substitutabilitySignguCd.isNotEmpty) {
-          try {
-            category =
-                await _findSubstitutabilityCategory(
-              signguCd:
-                  substitutabilitySignguCd,
-              spotName:
-                  spot.title,
-            );
-          } catch (e) {
-            debugPrint(
-              '매핑 관광지 카테고리 조회 실패: '
-              '${spot.title} → $e',
-            );
-          }
-        }
-
-        // JSON에서 찾지 못한 경우에만 기존 값을 사용합니다.
-        // VE03 같은 내부 코드는 화면에 노출하지 않습니다.
-        if (category.isEmpty) {
-          final String fallbackCategory =
-              spot.lclsSystm2?.toString().trim() ?? '';
-
-          if (fallbackCategory.isNotEmpty &&
-              !RegExp(r'^[A-Z]{2}\d+$')
-                  .hasMatch(fallbackCategory)) {
-            category = fallbackCategory;
-          }
-        }
-
-        spotMaps.add({
-          'contentId':
-              spot.contentId,
-          'title':
-              spot.title,
-          'address':
-              spot.address,
-          'contentTypeId':
-              spot.contentTypeId,
-          'lDongRegnCd':
-              spot.lDongRegnCd,
-          'lDongSignguCd':
-              spot.lDongSignguCd,
-          'regionName':
-              spot.regionName,
-          'lclsSystm1':
-              spot.lclsSystm1,
-          'lclsSystm2':
-              spot.lclsSystm2,
-          'lclsSystm3':
-              spot.lclsSystm3,
-          'modifiedTime':
-              spot.modifiedTime,
-          'latitude':
-              spot.latitude,
-          'longitude':
-              spot.longitude,
-          'concentrationRate':
-              spot.concentrationRate,
-          'concentrationBaseYmd':
-              spot.concentrationBaseYmd,
-          'concentrationAreaCd':
-              spot.concentrationAreaCd,
-          'concentrationAreaNm':
-              spot.concentrationAreaNm,
-          'concentrationSignguCd':
-              spot.concentrationSignguCd,
-          'concentrationSignguNm':
-              spot.concentrationSignguNm,
-          'snobScore':
-              spot.snobScore,
-          'hubTatsNm':
-              spot.title,
-          'hubCtgryMclsNm':
-              category,
-          'signguCd':
-              substitutabilitySignguCd,
-          'sigunguCd':
-              substitutabilitySignguCd,
-          'signguNm':
-              spot.concentrationSignguNm ??
-                  selectedSigunguName,
-        });
-      }
+          return {
+            'contentId':
+                spot.contentId,
+            'title':
+                spot.title,
+            'address':
+                spot.address,
+            'contentTypeId':
+                spot.contentTypeId,
+            'lDongRegnCd':
+                spot.lDongRegnCd,
+            'lDongSignguCd':
+                spot.lDongSignguCd,
+            'regionName':
+                spot.regionName,
+            'lclsSystm1':
+                spot.lclsSystm1,
+            'lclsSystm2':
+                spot.lclsSystm2,
+            'lclsSystm3':
+                spot.lclsSystm3,
+            'modifiedTime':
+                spot.modifiedTime,
+            'latitude':
+                spot.latitude,
+            'longitude':
+                spot.longitude,
+            'concentrationRate':
+                spot.concentrationRate,
+            'concentrationBaseYmd':
+                spot.concentrationBaseYmd,
+            'concentrationAreaCd':
+                spot.concentrationAreaCd,
+            'concentrationAreaNm':
+                spot.concentrationAreaNm,
+            'concentrationSignguCd':
+                spot.concentrationSignguCd,
+            'concentrationSignguNm':
+                spot.concentrationSignguNm,
+            'snobScore':
+                spot.snobScore,
+            'hubTatsNm':
+                spot.title,
+            'hubCtgryMclsNm':
+                spot.lclsSystm2,
+            'signguCd':
+                substitutabilitySignguCd,
+            'sigunguCd':
+                substitutabilitySignguCd,
+            'signguNm':
+                spot.concentrationSignguNm ??
+                    selectedSigunguName,
+          };
+        },
+      ).toList();
 
 
       // ==========================================================
@@ -1039,6 +1004,39 @@ class _CourseResultScreenState
 
 
       // ==========================================================
+      // 10-2. 관광지 카테고리 표시용 보정
+      // ==========================================================
+
+      for (final Map<String, dynamic> spotMap in spotMaps) {
+        final String spotName =
+            spotMap['hubTatsNm']?.toString().trim() ?? '';
+
+        final String signguCd =
+            spotMap['signguCd']?.toString().trim() ?? '';
+
+        if (spotName.isEmpty || signguCd.isEmpty) {
+          continue;
+        }
+
+        try {
+          final String category =
+              await _findSubstitutabilityCategory(
+            signguCd: signguCd,
+            spotName: spotName,
+          );
+
+          if (category.isNotEmpty) {
+            spotMap['hubCtgryMclsNm'] = category;
+          }
+        } catch (e) {
+          debugPrint(
+            '관광지 카테고리 보정 실패: $spotName → $e',
+          );
+        }
+      }
+
+
+      // ==========================================================
       // 11. SnobFinal
       // ==========================================================
 
@@ -1096,7 +1094,7 @@ class _CourseResultScreenState
       // 13. 화면 업데이트
       // ==========================================================
 
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
 
@@ -1160,7 +1158,7 @@ class _CourseResultScreenState
         '========================================',
       );
 
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
 
@@ -1335,34 +1333,24 @@ class _CourseResultScreenState
   String _getCategory(
     Map<String, dynamic> spot,
   ) {
-    // 사람이 읽을 수 있는 중분류명을 가장 우선합니다.
     final List<dynamic> candidates = [
       spot['hubCtgryMclsNm'],
       spot['category'],
-      spot['lclsSystm2'],
       spot['lclsSystm3'],
+      spot['lclsSystm2'],
+      spot['contentTypeId'],
     ];
 
     for (final dynamic value in candidates) {
-      if (value == null) {
-        continue;
+      if (value != null &&
+          value
+              .toString()
+              .trim()
+              .isNotEmpty) {
+        return value
+            .toString()
+            .trim();
       }
-
-      final String category =
-          value.toString().trim();
-
-      if (category.isEmpty) {
-        continue;
-      }
-
-      // VE03, LC01 같은 내부 분류 코드는
-      // 화면에 직접 표시하지 않습니다.
-      if (RegExp(r'^[A-Z]{2}\d+$')
-          .hasMatch(category)) {
-        continue;
-      }
-
-      return category;
     }
 
     return '';
@@ -1524,12 +1512,12 @@ class _CourseResultScreenState
   // 관광지를 일정에 추가
   // ============================================================
 
-  Future<bool> _addToPlan(
+  Future<void> _addToPlan(
     CourseResultData result,
     int dayNumber,
   ) async {
     if (isSaving) {
-      return false;
+      return;
     }
 
     final TravelDay? day =
@@ -1545,7 +1533,7 @@ class _CourseResultScreenState
         ),
       );
 
-      return false;
+      return;
     }
 
     final TravelSpot spot =
@@ -1559,6 +1547,8 @@ class _CourseResultScreenState
     );
 
     if (alreadyExists) {
+      Navigator.pop(context);
+
       ScaffoldMessenger.of(context)
           .showSnackBar(
         SnackBar(
@@ -1570,7 +1560,7 @@ class _CourseResultScreenState
         ),
       );
 
-      return false;
+      return;
     }
 
     setState(() {
@@ -1587,13 +1577,15 @@ class _CourseResultScreenState
         travelPlan,
       );
 
-      if (!context.mounted) {
-        return false;
+      if (!mounted) {
+        return;
       }
 
       setState(() {
         isSaving = false;
       });
+
+      Navigator.pop(context);
 
       ScaffoldMessenger.of(context)
           .showSnackBar(
@@ -1609,13 +1601,11 @@ class _CourseResultScreenState
           ),
         ),
       );
-
-      return true;
     } catch (e) {
       day.spots.remove(spot);
 
-      if (!context.mounted) {
-        return false;
+      if (!mounted) {
+        return;
       }
 
       setState(() {
@@ -1631,8 +1621,6 @@ class _CourseResultScreenState
           ),
         ),
       );
-
-      return false;
     }
   }
 
@@ -1717,7 +1705,7 @@ class _CourseResultScreenState
       travelPlan,
     );
 
-    if (!context.mounted) {
+    if (!mounted) {
       return;
     }
 
@@ -2053,7 +2041,7 @@ class _CourseResultScreenState
                           travelPlan,
                         );
 
-                        if (!context.mounted) {
+                        if (!mounted) {
                           return;
                         }
 
@@ -2157,19 +2145,11 @@ class _CourseResultScreenState
                       onTap:
                           isSaving
                               ? null
-                              : () async {
-                                  final bool added =
-                                      await _addToPlan(
+                              : () {
+                                  _addToPlan(
                                     result,
                                     day.day,
                                   );
-
-                                  if (added &&
-                                      context.mounted) {
-                                    Navigator.pop(
-                                      context,
-                                    );
-                                  }
                                 },
                     );
                   },
@@ -2188,7 +2168,7 @@ class _CourseResultScreenState
 
                               await _addDay();
 
-                              if (!context.mounted) {
+                              if (!mounted) {
                                 return;
                               }
 
@@ -2232,26 +2212,6 @@ class _CourseResultScreenState
     }
 
     return results.first;
-  }
-
-
-  // ============================================================
-  // 코스 전체 일정 만들기 진입
-  // ============================================================
-  //
-  // 현재 기존 로직은 관광지별 일정 추가 방식이므로
-  // 첫 번째 추천 관광지의 기존 Day 선택 화면으로 연결한다.
-  // ============================================================
-
-  void _startCoursePlanning() {
-    final CourseResultData? first =
-        _representativeResult;
-
-    if (first == null) {
-      return;
-    }
-
-    _showDaySelector(first);
   }
 
 
@@ -2407,21 +2367,15 @@ class _CourseResultScreenState
             ),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'SNOB',
-                    style:
-                        TextStyle(
-                      fontSize: 24,
-                      fontWeight:
-                          FontWeight.w900,
-                      letterSpacing:
-                          -1,
-                      color:Color(0xFF21624B),
-                    ),
+                const Text(
+                  'SNOB',
+                  style:
+                      TextStyle(
+                    fontSize: 24,
+                    fontWeight:
+                        FontWeight.w900,
+                    letterSpacing:
+                        -1,
                   ),
                 ),
 
@@ -2452,17 +2406,13 @@ class _CourseResultScreenState
                       TextButton(
                         onPressed:
                             () {
-                          Navigator.pushAndRemoveUntil(
+                          Navigator.pop(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
-                            ),
-                            (route) => false,
                           );
                         },
                         child:
                             const Text(
-                          '홈 화면',
+                          '이전 화면',
                         ),
                       ),
                     ],
@@ -2762,65 +2712,6 @@ class _CourseResultScreenState
             height: 24,
           ),
 
-          SizedBox(
-            width:
-                double.infinity,
-            child:
-                FilledButton(
-              onPressed:
-                  _startCoursePlanning,
-              style:
-                  FilledButton.styleFrom(
-                backgroundColor:
-                    Colors.black,
-                foregroundColor:
-                    Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(
-                  vertical:
-                      17,
-                ),
-                shape:
-                    RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    14,
-                  ),
-                ),
-              ),
-              child:
-                  const Text(
-                '이 코스로 여행 일정 만들기',
-                style:
-                    TextStyle(
-                  fontSize:
-                      15,
-                  fontWeight:
-                      FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(
-            height: 10,
-          ),
-
-          Center(
-            child:
-                Text(
-              '관광지를 선택하면 원하는 Day에 추가할 수 있어요.',
-              textAlign:
-                  TextAlign.center,
-              style:
-                  TextStyle(
-                fontSize:
-                    12,
-                color:
-                    Colors.grey.shade500,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -3177,11 +3068,6 @@ class _CourseResultScreenState
       spotName,
     );
 
-    final int? addedDay =
-        _getAddedDay(
-      spotName,
-    );
-
     return Column(
       children: [
         Row(
@@ -3249,7 +3135,17 @@ class _CourseResultScreenState
 
             Expanded(
               child:
-                  Container(
+                  GestureDetector(
+                onTap:
+                    isSaving
+                        ? null
+                        : () {
+                            _showDaySelector(
+                              result,
+                            );
+                          },
+                child:
+                    Container(
                 margin:
                     const EdgeInsets.only(
                   bottom:
@@ -3405,103 +3301,45 @@ class _CourseResultScreenState
                             ),
                           ),
 
-                          const SizedBox(
-                            width:
-                                10,
-                          ),
-
-                          SizedBox(
-                            height:
-                                40,
-                            child:
-                                isAdded
-                                    ? Container(
-                                        padding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal:
-                                              13,
-                                        ),
-                                        decoration:
-                                            BoxDecoration(
-                                          color:
-                                              const Color(
-                                            0xFFEFF7EF,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(
-                                            12,
-                                          ),
-                                        ),
-                                        child:
-                                            Row(
-                                          mainAxisSize:
-                                              MainAxisSize.min,
-                                          children: [
-                                            const Icon(
-                                              Icons.check,
-                                              size:
-                                                  16,
-                                              color:
-                                                  Colors.green,
-                                            ),
-                                            const SizedBox(
-                                              width:
-                                                  5,
-                                            ),
-                                            Text(
-                                              'Day $addedDay',
-                                              style:
-                                                  const TextStyle(
-                                                fontSize:
-                                                    12,
-                                                fontWeight:
-                                                    FontWeight.w700,
-                                                color:
-                                                    Colors.green,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : OutlinedButton(
-                                        onPressed:
-                                            isSaving
-                                                ? null
-                                                : () {
-                                                    _showDaySelector(
-                                                      result,
-                                                    );
-                                                  },
-                                        style:
-                                            OutlinedButton.styleFrom(
-                                          foregroundColor:
-                                              Colors.black,
-                                          side:
-                                              BorderSide(
-                                            color:
-                                                Colors.grey.shade300,
-                                          ),
-                                          shape:
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(
-                                              12,
-                                            ),
-                                          ),
-                                        ),
-                                        child:
-                                            const Text(
-                                          '일정에 추가',
-                                          style:
-                                              TextStyle(
-                                            fontSize:
-                                                12,
-                                            fontWeight:
-                                                FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                          ),
+                          if (isAdded) ...[
+                            const SizedBox(
+                              width:
+                                  10,
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(
+                                horizontal:
+                                    10,
+                                vertical:
+                                    8,
+                              ),
+                              decoration:
+                                  BoxDecoration(
+                                color:
+                                    const Color(
+                                  0xFFEFF7EF,
+                                ),
+                                borderRadius:
+                                    BorderRadius.circular(
+                                  10,
+                                ),
+                              ),
+                              child:
+                                  const Text(
+                                '일정에 추가됨',
+                                style:
+                                    TextStyle(
+                                  fontSize:
+                                      11,
+                                  fontWeight:
+                                      FontWeight.w700,
+                                  color:
+                                      Colors.green,
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],
@@ -3509,6 +3347,7 @@ class _CourseResultScreenState
                 ),
               ),
             ),
+          ),
           ],
         ),
       ],
@@ -3546,7 +3385,8 @@ class _CourseResultScreenState
           Row(
         children: [
           const Icon(
-            Icons.travel_explore,
+            Icons
+                .travel_explore,
             size:
                 18,
           ),
@@ -3556,42 +3396,40 @@ class _CourseResultScreenState
                 8,
           ),
 
-          Expanded(
-            child:
-                Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'SNOB',
-                  style:
-                      TextStyle(
-                    fontSize:
-                        9,
-                    color:
-                        Colors.grey.shade600,
-                    fontWeight:
-                        FontWeight.w600,
-                  ),
+          Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Text(
+                'SNOB',
+                style:
+                    TextStyle(
+                  fontSize:
+                      9,
+                  color:
+                      Colors.grey.shade600,
+                  fontWeight:
+                      FontWeight.w600,
                 ),
-                Text(
-                  result.snobScore.toStringAsFixed(1),
-                  style:
-                      const TextStyle(
-                    fontSize:
-                        17,
-                    fontWeight:
-                        FontWeight.w800,
-                  ),
+              ),
+
+              Text(
+                result.snobScore
+                    .toStringAsFixed(
+                  1,
                 ),
-              ],
-            ),
+                style:
+                    const TextStyle(
+                  fontSize:
+                      17,
+                  fontWeight:
+                      FontWeight.w800,
+                ),
+              ),
+            ],
           ),
 
-          const SizedBox(
-            width:
-                8,
-          ),
+          const Spacer(),
 
           Text(
             '집중률 '

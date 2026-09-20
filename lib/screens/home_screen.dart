@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'trip/personality_test/personality_test_screen.dart';
+import 'itinerary_screen.dart';
 import 'trip/course/result_screen.dart';
 
 import '../models/travel_plan.dart';
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // 일정 화면 열기
   // ============================================================
 
-    Future<void> _openItinerary() async {
+  Future<void> _openItinerary() async {
     if (savedPlan == null) return;
 
     await Navigator.push(
@@ -217,8 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
-    await TravelPlanStorage
-        .deleteTravelPlan();
+    await TravelPlanStorage.deleteTravelPlan();
 
     if (!mounted) return;
 
@@ -226,8 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
       savedPlan = null;
     });
 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
           '여행 일정이 삭제됐어요.',
@@ -609,66 +608,96 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final bool isNarrow = constraints.maxWidth < 600;
+        final bool isNarrow =
+            constraints.maxWidth < 600;
 
         if (isNarrow) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w900,
-                  color: primaryText,
-                  letterSpacing: -0.8,
-                ),
-              ),
-              const SizedBox(height: 7),
-              Text(
-                description,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: secondaryText,
-                ),
-              ),
-              if (action != null) ...[
-                const SizedBox(height: 4),
-                action,
-              ],
-            ],
-          );
-        }
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+          return SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
                     title,
+                    softWrap: true,
                     style: const TextStyle(
                       fontSize: 25,
-                      fontWeight: FontWeight.w900,
+                      fontWeight:
+                          FontWeight.w900,
                       color: primaryText,
                       letterSpacing: -0.8,
                     ),
                   ),
-                  const SizedBox(height: 7),
-                  Text(
+                ),
+                const SizedBox(height: 7),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
                     description,
+                    softWrap: true,
                     style: const TextStyle(
                       fontSize: 13,
                       color: secondaryText,
                     ),
                   ),
+                ),
+                if (action != null) ...[
+                  const SizedBox(height: 4),
+                  action,
                 ],
-              ),
+              ],
             ),
-            if (action != null) action,
-          ],
+          );
+        }
+
+        return SizedBox(
+          width: double.infinity,
+          child: Row(
+            crossAxisAlignment:
+                CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        title,
+                        softWrap: true,
+                        style:
+                            const TextStyle(
+                          fontSize: 25,
+                          fontWeight:
+                              FontWeight.w900,
+                          color: primaryText,
+                          letterSpacing: -0.8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 7),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        description,
+                        softWrap: true,
+                        style:
+                            const TextStyle(
+                          fontSize: 13,
+                          color: secondaryText,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (action != null) action,
+            ],
+          ),
         );
       },
     );
@@ -685,154 +714,62 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 48 : 22,
+        horizontal:
+            isDesktop ? 48 : 22,
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1280),
+          constraints:
+              const BoxConstraints(
+            maxWidth: 1280,
+          ),
           child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               _buildSectionTitle(
                 title: 'SNOB 추천 여행지',
-                description: '나의 여행 성향에 맞는 여행지를 발견해보세요.',
+                description:
+                    '나의 여행 성향에 맞는 여행지를 발견해보세요.',
               ),
+
               const SizedBox(height: 22),
+
               LayoutBuilder(
-                builder: (context, constraints) {
-                  final bool useVerticalCard = constraints.maxWidth < 1000;
+                builder:
+                    (
+                  context,
+                  constraints,
+                ) {
+                  final bool useVerticalCard =
+                      constraints.maxWidth < 1000;
 
                   return Container(
                     width: double.infinity,
-                    padding: EdgeInsets.all(useVerticalCard ? 24 : 28),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: cardBorder),
+                    padding: EdgeInsets.all(
+                      useVerticalCard
+                          ? 24
+                          : 28,
                     ),
-                    child: useVerticalCard
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 54,
-                                height: 54,
-                                decoration: BoxDecoration(
-                                  color: snobLightGreen,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: const Icon(
-                                  Icons.explore_outlined,
-                                  color: snobGreen,
-                                  size: 27,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              const Text(
-                                '나에게 맞는 여행지를 추천받아보세요',
-                                softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: primaryText,
-                                  height: 1.35,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              const Text(
-                                '간단한 여행 성향 테스트를 완료하면 SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
-                                softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: secondaryText,
-                                  height: 1.6,
-                                ),
-                              ),
-                              const SizedBox(height: 18),
-                              SizedBox(
-                                width: double.infinity,
-                                height: 46,
-                                child: FilledButton(
-                                  onPressed: _startPersonalityTest,
-                                  style: FilledButton.styleFrom(
-                                    backgroundColor: snobGreen,
-                                    foregroundColor: Colors.white,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(999),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    '추천받기',
-                                    style: TextStyle(fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Container(
-                                width: 62,
-                                height: 62,
-                                decoration: BoxDecoration(
-                                  color: snobLightGreen,
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: const Icon(
-                                  Icons.explore_outlined,
-                                  color: snobGreen,
-                                  size: 30,
-                                ),
-                              ),
-                              const SizedBox(width: 18),
-                              const Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '나에게 맞는 여행지를 추천받아보세요',
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w800,
-                                        color: primaryText,
-                                      ),
-                                    ),
-                                    SizedBox(height: 7),
-                                    Text(
-                                      '간단한 여행 성향 테스트를 완료하면 SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: secondaryText,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              FilledButton(
-                                onPressed: _startPersonalityTest,
-                                style: FilledButton.styleFrom(
-                                  backgroundColor: snobGreen,
-                                  foregroundColor: Colors.white,
-                                  elevation: 0,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 13,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(999),
-                                  ),
-                                ),
-                                child: const Text(
-                                  '추천받기',
-                                  style: TextStyle(fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ],
-                          ),
+                    decoration:
+                        BoxDecoration(
+                      color:
+                          Colors.white,
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        24,
+                      ),
+                      border:
+                          Border.all(
+                        color:
+                            cardBorder,
+                      ),
+                    ),
+                    child:
+                        useVerticalCard
+                            ? _buildVerticalRecommendationCard()
+                            : _buildHorizontalRecommendationCard(),
                   );
                 },
               ),
@@ -840,6 +777,227 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  // ============================================================
+  // 추천 여행지 - 세로형 카드
+  // ============================================================
+
+  Widget _buildVerticalRecommendationCard() {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 54,
+            height: 54,
+            decoration:
+                BoxDecoration(
+              color:
+                  snobLightGreen,
+              borderRadius:
+                  BorderRadius.circular(
+                16,
+              ),
+            ),
+            child: const Icon(
+              Icons.explore_outlined,
+              color: snobGreen,
+              size: 27,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // 핵심 수정:
+          // Text가 부모의 전체 가로 폭을 확실하게 받도록
+          // SizedBox(width: double.infinity)로 감싼다.
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              '나에게 맞는 여행지를 추천받아보세요',
+              softWrap: true,
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight:
+                    FontWeight.w800,
+                color: primaryText,
+                height: 1.35,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              '간단한 여행 성향 테스트를 완료하면 SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
+              softWrap: true,
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                fontSize: 13,
+                color: secondaryText,
+                height: 1.6,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 18),
+
+          SizedBox(
+            width: double.infinity,
+            height: 46,
+            child: FilledButton(
+              onPressed:
+                  _startPersonalityTest,
+              style:
+                  FilledButton.styleFrom(
+                backgroundColor:
+                    snobGreen,
+                foregroundColor:
+                    Colors.white,
+                elevation: 0,
+                shape:
+                    RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius
+                          .circular(
+                    999,
+                  ),
+                ),
+              ),
+              child: const Text(
+                '추천받기',
+                style:
+                    TextStyle(
+                  fontWeight:
+                      FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // 추천 여행지 - 가로형 카드
+  // ============================================================
+
+  Widget _buildHorizontalRecommendationCard() {
+    return Row(
+      crossAxisAlignment:
+          CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 62,
+          height: 62,
+          decoration:
+              BoxDecoration(
+            color:
+                snobLightGreen,
+            borderRadius:
+                BorderRadius.circular(
+              18,
+            ),
+          ),
+          child: const Icon(
+            Icons.explore_outlined,
+            color: snobGreen,
+            size: 30,
+          ),
+        ),
+
+        const SizedBox(width: 18),
+
+        Expanded(
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                // 핵심 수정:
+                // Row 안의 Expanded 내부에서도
+                // 텍스트가 확실한 가로 제약을 받게 한다.
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '나에게 맞는 여행지를 추천받아보세요',
+                    softWrap: true,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight:
+                          FontWeight.w800,
+                      color: primaryText,
+                      height: 1.35,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 7),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '간단한 여행 성향 테스트를 완료하면 SNOB의 추천 시스템을 통해 나에게 맞는 여행지를 찾아볼 수 있어요.',
+                    softWrap: true,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: secondaryText,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        const SizedBox(width: 20),
+
+        FilledButton(
+          onPressed:
+              _startPersonalityTest,
+          style:
+              FilledButton.styleFrom(
+            backgroundColor:
+                snobGreen,
+            foregroundColor:
+                Colors.white,
+            elevation: 0,
+            padding:
+                const EdgeInsets
+                    .symmetric(
+              horizontal: 20,
+              vertical: 13,
+            ),
+            shape:
+                RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(
+                999,
+              ),
+            ),
+          ),
+          child: const Text(
+            '추천받기',
+            style:
+                TextStyle(
+              fontWeight:
+                  FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1292,37 +1450,57 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1280),
+          constraints:
+              const BoxConstraints(
+            maxWidth: 1280,
+          ),
           child: LayoutBuilder(
-            builder: (context, constraints) {
+            builder:
+                (
+              context,
+              constraints,
+            ) {
               final bool useTwoColumns =
-                  constraints.maxWidth >= 1000;
+                  constraints.maxWidth >=
+                      1000;
 
               if (useTwoColumns) {
                 return Row(
                   children: [
                     Expanded(
-                      child: _buildActionCard(
-                        icon: Icons.travel_explore_outlined,
-                        title: '새로운 여행을 시작해보세요',
+                      child:
+                          _buildActionCard(
+                        icon: Icons
+                            .travel_explore_outlined,
+                        title:
+                            '새로운 여행을 시작해보세요',
                         description:
                             '나의 여행 성향을 분석하고\n'
                             '나에게 맞는 여행지를 찾아보세요.',
-                        buttonText: '맞춤 여행 시작하기',
-                        onPressed: _startPersonalityTest,
+                        buttonText:
+                            '맞춤 여행 시작하기',
+                        onPressed:
+                            _startPersonalityTest,
                         filled: true,
                       ),
                     ),
-                    const SizedBox(width: 18),
+                    const SizedBox(
+                      width: 18,
+                    ),
                     Expanded(
-                      child: _buildActionCard(
-                        icon: Icons.auto_stories_outlined,
-                        title: '나의 여행 기록',
+                      child:
+                          _buildActionCard(
+                        icon: Icons
+                            .auto_stories_outlined,
+                        title:
+                            '나의 여행 기록',
                         description:
                             '다녀온 여행을 다시 확인하고\n'
                             '나만의 여행을 쌓아보세요.',
-                        buttonText: '여행 기록 보기',
-                        onPressed: _openRecordScreen,
+                        buttonText:
+                            '여행 기록 보기',
+                        onPressed:
+                            _openRecordScreen,
                         filled: false,
                       ),
                     ),
@@ -1333,24 +1511,34 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(
                 children: [
                   _buildActionCard(
-                    icon: Icons.travel_explore_outlined,
-                    title: '새로운 여행을 시작해보세요',
+                    icon: Icons
+                        .travel_explore_outlined,
+                    title:
+                        '새로운 여행을 시작해보세요',
                     description:
                         '나의 여행 성향을 분석하고\n'
                         '나에게 맞는 여행지를 찾아보세요.',
-                    buttonText: '맞춤 여행 시작하기',
-                    onPressed: _startPersonalityTest,
+                    buttonText:
+                        '맞춤 여행 시작하기',
+                    onPressed:
+                        _startPersonalityTest,
                     filled: true,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(
+                    height: 16,
+                  ),
                   _buildActionCard(
-                    icon: Icons.auto_stories_outlined,
-                    title: '나의 여행 기록',
+                    icon: Icons
+                        .auto_stories_outlined,
+                    title:
+                        '나의 여행 기록',
                     description:
                         '다녀온 여행을 다시 확인하고\n'
                         '나만의 여행을 쌓아보세요.',
-                    buttonText: '여행 기록 보기',
-                    onPressed: _openRecordScreen,
+                    buttonText:
+                        '여행 기록 보기',
+                    onPressed:
+                        _openRecordScreen,
                     filled: false,
                   ),
                 ],
@@ -1375,101 +1563,182 @@ class _HomeScreenState extends State<HomeScreen> {
     required bool filled,
   }) {
     return Container(
-      padding: const EdgeInsets.all(26),
-      decoration: BoxDecoration(
-        color: filled ? snobGreen : Colors.white,
-        borderRadius: BorderRadius.circular(26),
-        border: filled ? null : Border.all(color: cardBorder),
+      padding:
+          const EdgeInsets.all(26),
+      decoration:
+          BoxDecoration(
+        color:
+            filled
+                ? snobGreen
+                : Colors.white,
+        borderRadius:
+            BorderRadius.circular(
+          26,
+        ),
+        border: filled
+            ? null
+            : Border.all(
+                color:
+                    cardBorder,
+              ),
       ),
       child: LayoutBuilder(
-        builder: (context, constraints) {
-          final bool stackContent = constraints.maxWidth < 520;
+        builder:
+            (
+          context,
+          constraints,
+        ) {
+          final bool stackContent =
+              constraints.maxWidth <
+                  520;
 
-          final textContent = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          final textContent =
+              Column(
+            crossAxisAlignment:
+                CrossAxisAlignment
+                    .start,
             children: [
-              Text(
-                title,
-                softWrap: true,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: filled ? Colors.white : primaryText,
+              SizedBox(
+                width:
+                    double.infinity,
+                child: Text(
+                  title,
+                  softWrap: true,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight:
+                        FontWeight.w800,
+                    color: filled
+                        ? Colors.white
+                        : primaryText,
+                  ),
                 ),
               ),
-              const SizedBox(height: 7),
-              Text(
-                description,
-                softWrap: true,
-                style: TextStyle(
-                  fontSize: 12,
-                  height: 1.5,
-                  color: filled
-                      ? Colors.white.withValues(alpha: 0.78)
-                      : secondaryText,
+
+              const SizedBox(
+                height: 7,
+              ),
+
+              SizedBox(
+                width:
+                    double.infinity,
+                child: Text(
+                  description,
+                  softWrap: true,
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.5,
+                    color: filled
+                        ? Colors.white
+                            .withValues(
+                            alpha: 0.78,
+                          )
+                        : secondaryText,
+                  ),
                 ),
               ),
-              const SizedBox(height: 15),
+
+              const SizedBox(
+                height: 15,
+              ),
+
               TextButton(
-                onPressed: onPressed,
-                style: TextButton.styleFrom(
-                  foregroundColor: filled ? Colors.white : snobGreen,
-                  padding: const EdgeInsets.symmetric(
+                onPressed:
+                    onPressed,
+                style:
+                    TextButton.styleFrom(
+                  foregroundColor:
+                      filled
+                          ? Colors.white
+                          : snobGreen,
+                  padding:
+                      const EdgeInsets
+                          .symmetric(
                     horizontal: 0,
                     vertical: 4,
                   ),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize:
+                      MainAxisSize.min,
                   children: [
                     Text(
                       buttonText,
-                      style: const TextStyle(
+                      style:
+                          const TextStyle(
                         fontSize: 13,
-                        fontWeight: FontWeight.w800,
+                        fontWeight:
+                            FontWeight
+                                .w800,
                       ),
                     ),
-                    const SizedBox(width: 5),
-                    const Icon(Icons.arrow_forward, size: 16),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 16,
+                    ),
                   ],
                 ),
               ),
             ],
           );
 
-          final iconBox = Container(
+          final iconBox =
+              Container(
             width: 58,
             height: 58,
-            decoration: BoxDecoration(
+            decoration:
+                BoxDecoration(
               color: filled
-                  ? Colors.white.withValues(alpha: 0.14)
+                  ? Colors.white
+                      .withValues(
+                      alpha: 0.14,
+                    )
                   : snobLightGreen,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius:
+                  BorderRadius.circular(
+                18,
+              ),
             ),
             child: Icon(
               icon,
-              color: filled ? Colors.white : snobGreen,
+              color: filled
+                  ? Colors.white
+                  : snobGreen,
               size: 29,
             ),
           );
 
           if (stackContent) {
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment
+                      .start,
               children: [
                 iconBox,
-                const SizedBox(height: 16),
+                const SizedBox(
+                  height: 16,
+                ),
                 textContent,
               ],
             );
           }
 
           return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment
+                    .start,
             children: [
               iconBox,
-              const SizedBox(width: 18),
-              Expanded(child: textContent),
+              const SizedBox(
+                width: 18,
+              ),
+              Expanded(
+                child:
+                    textContent,
+              ),
             ],
           );
         },
@@ -1496,7 +1765,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           : LayoutBuilder(
-              builder: (
+              builder:
+                  (
                 context,
                 constraints,
               ) {
@@ -1511,7 +1781,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             900;
 
                 return RefreshIndicator(
-                  color: snobGreen,
+                  color:
+                      snobGreen,
                   onRefresh:
                       _loadTravelPlan,
                   child:
