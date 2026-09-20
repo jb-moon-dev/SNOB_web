@@ -29,6 +29,10 @@ class PersonalityTestScreen extends StatefulWidget {
 
 class _PersonalityTestScreenState
     extends State<PersonalityTestScreen> {
+  // ============================================================
+  // 기존 테스트 상태
+  // ============================================================
+
   int currentQuestion = 0;
 
   final ScoreManager scoreManager = ScoreManager();
@@ -37,18 +41,32 @@ class _PersonalityTestScreenState
 
   late List<Answer> shuffledAnswers;
 
+  // ============================================================
+  // SNOB Web 디자인
+  // ============================================================
+
+  static const Color snobGreen =
+      Color(0xFF5B8C68);
+
+  static const Color backgroundColor =
+      Color(0xFFF6F7F3);
+
+  static const Color textColor =
+      Color(0xFF1F2A24);
+
   @override
   void initState() {
     super.initState();
 
     // ============================================================
-    // 질문 준비
+    // 기존 질문 준비
     // ============================================================
 
-    shuffledQuestions = List<Question>.from(questions);
+    shuffledQuestions =
+        List<Question>.from(questions);
 
     // ============================================================
-    // 첫 번째 질문의 답변 랜덤 섞기
+    // 기존 첫 번째 질문 답변 랜덤 섞기
     // ============================================================
 
     shuffledAnswers = List<Answer>.from(
@@ -74,13 +92,7 @@ class _PersonalityTestScreenState
   // 지역 데이터 불러오기
   // ============================================================
   //
-  // region_vectors_canonical.json에는
-  // snob_concentration.json의 canonical 210개 지역 중
-  // 실제 성향 벡터가 존재하는 207개 지역만 들어 있다.
-  //
-  // 따라서 추천 후보는 처음부터
-  // canonical 지역과 실제 성향 벡터가 모두 존재하는
-  // 지역으로 제한한다.
+  // 기존 로직 그대로 유지
   // ============================================================
 
   Future<List<RegionVector>> loadRegions() async {
@@ -142,17 +154,6 @@ class _PersonalityTestScreenState
 
       // ==========================================================
       // 4. 지역 데이터 불러오기
-      //
-      // region_vectors_canonical.json에는
-      // canonical 210개 지역 중 실제 성향 벡터가 존재하는
-      // 207개 지역만 들어 있다.
-      //
-      // 따라서 성향 벡터가 없는
-      // 인천광역시 동구
-      // 인천광역시 서구
-      // 인천광역시 중구
-      //
-      // 3개 지역은 추천 후보에서 제외된다.
       // ==========================================================
 
       final regions = await loadRegions();
@@ -175,13 +176,6 @@ class _PersonalityTestScreenState
 
       // ==========================================================
       // 5. 지역 추천
-      //
-      // recommendRandomRegion()은 Future를 반환하므로
-      // 반드시 await한다.
-      //
-      // RecommendationEngine에서
-      // snob_concentration.json의 canonical 210개 지역과
-      // 한 번 더 비교하여 최종 추천 지역을 검증한다.
       // ==========================================================
 
       final recommendedRegion =
@@ -193,11 +187,6 @@ class _PersonalityTestScreenState
 
       // ==========================================================
       // 6. 현재 여행 성향 저장
-      //
-      // recommendedRegion.regionName은
-      // canonical 210개 중 하나이며,
-      // 동시에 region_vectors_canonical.json에도
-      // 존재하는 지역이다.
       // ==========================================================
 
       await PersonalityStorage.savePersonality(
@@ -226,9 +215,7 @@ class _PersonalityTestScreenState
       );
     } catch (e, stackTrace) {
       // ==========================================================
-      // 추천 과정에서 오류가 발생한 경우
-      //
-      // 앱이 그대로 죽지 않고 사용자에게 메시지를 보여준다.
+      // 기존 오류 처리 그대로 유지
       // ==========================================================
 
       debugPrint('');
@@ -260,6 +247,421 @@ class _PersonalityTestScreenState
   }
 
   // ============================================================
+  // 답변 선택
+  //
+  // 점수 계산 및 기존 질문 진행 로직 그대로 유지
+  // ============================================================
+
+  void selectAnswer(Answer answer) {
+    // ------------------------------------------------------------
+    // 기존 점수 추가
+    // ------------------------------------------------------------
+
+    scoreManager.addScore(answer);
+
+    // ------------------------------------------------------------
+    // 기존 마지막 질문 확인
+    // ------------------------------------------------------------
+
+    if (currentQuestion ==
+        shuffledQuestions.length - 1) {
+      // 마지막 질문이면 기존 결과 계산
+      finishTest();
+    } else {
+      // 다음 질문
+      nextQuestion();
+    }
+  }
+
+  // ============================================================
+  // 웹 헤더
+  // ============================================================
+
+  Widget _buildHeader() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black.withValues(
+              alpha: 0.06,
+            ),
+          ),
+        ),
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 1200,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 28,
+              vertical: 18,
+            ),
+            child: Row(
+              children: [
+                // ------------------------------------------------
+                // SNOB 로고
+                // ------------------------------------------------
+
+                const Text(
+                  'SNOB',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 2,
+                    color: snobGreen,
+                  ),
+                ),
+
+                const Spacer(),
+
+                // ------------------------------------------------
+                // 테스트 표시
+                // ------------------------------------------------
+
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 9,
+                  ),
+                  decoration: BoxDecoration(
+                    color:
+                        backgroundColor,
+                    borderRadius:
+                        BorderRadius.circular(30),
+                  ),
+                  child: const Text(
+                    'TRAVEL TEST',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight:
+                          FontWeight.w700,
+                      letterSpacing: 1.2,
+                      color: textColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // 진행률 영역
+  // ============================================================
+
+  Widget _buildProgressSection() {
+    final total =
+        shuffledQuestions.length;
+
+    final progress =
+        (currentQuestion + 1) / total;
+
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              'TRAVEL PERSONALITY TEST',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight:
+                    FontWeight.w700,
+                letterSpacing: 1.2,
+                color: Colors.grey.shade600,
+              ),
+            ),
+
+            const Spacer(),
+
+            Text(
+              '${currentQuestion + 1} / $total',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight:
+                    FontWeight.w700,
+                color: textColor,
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 12),
+
+        ClipRRect(
+          borderRadius:
+              BorderRadius.circular(20),
+          child: LinearProgressIndicator(
+            value: progress,
+            minHeight: 7,
+            backgroundColor:
+                Colors.grey.shade200,
+            valueColor:
+                const AlwaysStoppedAnimation<
+                    Color>(
+              snobGreen,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ============================================================
+  // 질문 영역
+  // ============================================================
+
+  Widget _buildQuestion(
+    Question question,
+  ) {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Q${currentQuestion + 1}',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: snobGreen,
+          ),
+        ),
+
+        const SizedBox(height: 18),
+
+        Text(
+          question.question,
+          style: const TextStyle(
+            fontSize: 32,
+            height: 1.35,
+            fontWeight: FontWeight.w800,
+            color: textColor,
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        Text(
+          '나에게 더 가까운 여행 방식을 선택해주세요.',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey.shade600,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ============================================================
+  // 답변 카드
+  // ============================================================
+
+  Widget _buildAnswerCard(
+    Answer answer,
+    int index,
+  ) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius:
+            BorderRadius.circular(18),
+        onTap: () {
+          selectAnswer(answer);
+        },
+        child: Ink(
+          width: double.infinity,
+          padding:
+              const EdgeInsets.symmetric(
+            horizontal: 22,
+            vertical: 20,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius:
+                BorderRadius.circular(18),
+            border: Border.all(
+              color: Colors.grey.shade200,
+              width: 1.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black
+                    .withValues(alpha: 0.035),
+                blurRadius: 15,
+                offset:
+                    const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              // --------------------------------------------------
+              // 선택지 번호
+              // --------------------------------------------------
+
+              Container(
+                width: 38,
+                height: 38,
+                alignment:
+                    Alignment.center,
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '${index + 1}',
+                  style:
+                      const TextStyle(
+                    fontSize: 14,
+                    fontWeight:
+                        FontWeight.w700,
+                    color: textColor,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 16),
+
+              // --------------------------------------------------
+              // 답변 텍스트
+              // --------------------------------------------------
+
+              Expanded(
+                child: Text(
+                  answer.text,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    height: 1.4,
+                    fontWeight:
+                        FontWeight.w600,
+                    color: textColor,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 12),
+
+              // --------------------------------------------------
+              // 화살표
+              // --------------------------------------------------
+
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 16,
+                color: Colors.grey.shade400,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // 테스트 카드
+  // ============================================================
+
+  Widget _buildTestCard(
+    Question question,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(42),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.circular(28),
+        border: Border.all(
+          color: Colors.black
+              .withValues(alpha: 0.05),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black
+                .withValues(alpha: 0.045),
+            blurRadius: 35,
+            offset:
+                const Offset(0, 15),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          // ------------------------------------------------------
+          // 진행률
+          // ------------------------------------------------------
+
+          _buildProgressSection(),
+
+          const SizedBox(height: 46),
+
+          // ------------------------------------------------------
+          // 질문
+          // ------------------------------------------------------
+
+          _buildQuestion(question),
+
+          const SizedBox(height: 40),
+
+          // ------------------------------------------------------
+          // 답변
+          // ------------------------------------------------------
+
+          Column(
+            children:
+                shuffledAnswers
+                    .asMap()
+                    .entries
+                    .map(
+                      (entry) {
+                        return Padding(
+                          padding:
+                              const EdgeInsets.only(
+                            bottom: 14,
+                          ),
+                          child:
+                              _buildAnswerCard(
+                            entry.value,
+                            entry.key,
+                          ),
+                        );
+                      },
+                    )
+                    .toList(),
+          ),
+
+          const SizedBox(height: 8),
+
+          // ------------------------------------------------------
+          // 하단 안내
+          // ------------------------------------------------------
+
+          Center(
+            child: Text(
+              '선택하면 다음 질문으로 이동합니다.',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
   // 화면
   // ============================================================
 
@@ -269,99 +671,57 @@ class _PersonalityTestScreenState
         shuffledQuestions[currentQuestion];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '여행 성향 테스트',
-        ),
-      ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-
+      backgroundColor: backgroundColor,
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-
           children: [
             // ======================================================
-            // 진행도
+            // 웹 헤더
             // ======================================================
 
-            Text(
-              '${currentQuestion + 1} / '
-              '${shuffledQuestions.length}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 30),
+            _buildHeader(),
 
             // ======================================================
-            // 질문
+            // 본문
             // ======================================================
 
-            Text(
-              question.question,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Expanded(
+              child: LayoutBuilder(
+                builder: (
+                  context,
+                  constraints,
+                ) {
+                  final isMobile =
+                      constraints.maxWidth < 700;
 
-            const SizedBox(height: 40),
+                  final horizontalPadding =
+                      isMobile ? 18.0 : 32.0;
 
-            // ======================================================
-            // 답변
-            // ======================================================
+                  final verticalPadding =
+                      isMobile ? 24.0 : 48.0;
 
-            Column(
-              children:
-                  shuffledAnswers.map((answer) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.only(
-                    bottom: 15,
-                  ),
-
-                  child: SizedBox(
-                    width: double.infinity,
-
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // ------------------------------------------
-                        // 선택한 답변 점수 추가
-                        // ------------------------------------------
-
-                        scoreManager.addScore(
-                          answer,
-                        );
-
-                        // ------------------------------------------
-                        // 마지막 질문인지 확인
-                        // ------------------------------------------
-
-                        if (currentQuestion ==
-                            shuffledQuestions
-                                    .length -
-                                1) {
-                          // 마지막 질문이면
-                          // 결과 계산
-                          finishTest();
-                        } else {
-                          // 다음 질문
-                          nextQuestion();
-                        }
-                      },
-
-                      child: Text(
-                        answer.text,
+                  return SingleChildScrollView(
+                    padding:
+                        EdgeInsets.symmetric(
+                      horizontal:
+                          horizontalPadding,
+                      vertical:
+                          verticalPadding,
+                    ),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints:
+                            const BoxConstraints(
+                          maxWidth: 760,
+                        ),
+                        child: _buildTestCard(
+                          question,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                },
+              ),
             ),
           ],
         ),

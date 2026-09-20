@@ -13,6 +13,8 @@ import '../../../region_mapping/region_mapping_service.dart';
 import '../../../region_mapping/spot_mapping_service.dart';
 import '../../../region_mapping/snob_spot.dart';
 
+import '../../../widgets/tourism_image.dart';
+
 import 'snob_final.dart';
 
 
@@ -21,10 +23,6 @@ import 'snob_final.dart';
 // ================================================================
 
 class CourseResultScreen extends StatefulWidget {
-  // ============================================================
-  // 추천 지역명
-  // ============================================================
-
   final String regionName;
 
   const CourseResultScreen({
@@ -61,20 +59,12 @@ class CourseResultData {
 
 class _CourseResultScreenState
     extends State<CourseResultScreen> {
-  // ============================================================
-  // 상태
-  // ============================================================
-
   bool isLoading = true;
   bool isSaving = false;
 
   String? errorMessage;
 
   List<CourseResultData> results = [];
-
-  // ============================================================
-  // 여행 일정
-  // ============================================================
 
   late TravelPlan travelPlan;
 
@@ -142,34 +132,9 @@ class _CourseResultScreenState
   // ============================================================
   // 전체 SNOB 계산
   // ============================================================
-  //
-  // 추천 지역명
-  // ↓
-  // TourAPI 시도 코드 확인
-  // ↓
-  // TourAPI 시군구 코드 확인
-  // ↓
-  // 관광지 전체 조회
-  // ↓
-  // RegionMappingService
-  // ↓
-  // 집중률 API 조회
-  // ↓
-  // 관광지 ↔ 집중률 매칭
-  // ↓
-  // 집중률 API 전용 관광지 추가
-  // ↓
-  // SnobFinal
-  //
-  // 집중률 매칭 실패 관광지도 삭제하지 않는다.
-  // ==========================================================
 
   Future<void> _calculateSnob() async {
     try {
-      // ==========================================================
-      // START
-      // ==========================================================
-
       debugPrint('');
       debugPrint(
         '========================================',
@@ -190,6 +155,7 @@ class _CourseResultScreenState
       debugPrint(
         '추천 지역 정규화: $normalizedTarget',
       );
+
 
       // ==========================================================
       // 1. TourAPI 시도 조회
@@ -218,6 +184,7 @@ class _CourseResultScreenState
         );
       }
 
+
       // ==========================================================
       // 2. 추천 지역의 시도 / 시군구 찾기
       // ==========================================================
@@ -237,10 +204,6 @@ class _CourseResultScreenState
         final String normalizedRegion =
             _normalizeName(regionName);
 
-        // --------------------------------------------------------
-        // 시도 자체인 경우
-        // --------------------------------------------------------
-
         if (normalizedTarget ==
             normalizedRegion) {
           selectedRegion = region;
@@ -255,10 +218,6 @@ class _CourseResultScreenState
 
           break;
         }
-
-        // --------------------------------------------------------
-        // 추천 지역이 이 시도에 속하는지 확인
-        // --------------------------------------------------------
 
         if (!normalizedTarget
             .startsWith(normalizedRegion)) {
@@ -283,10 +242,6 @@ class _CourseResultScreenState
           '   찾는 시군구: $sigunguName',
         );
 
-        // --------------------------------------------------------
-        // 시군구 조회
-        // --------------------------------------------------------
-
         final List<Map<String, String>>
             sigungus =
             await TourismApiService.getSigungus(
@@ -296,10 +251,6 @@ class _CourseResultScreenState
         debugPrint(
           '   시군구 수: ${sigungus.length}',
         );
-
-        // --------------------------------------------------------
-        // 시군구 매칭
-        // --------------------------------------------------------
 
         for (final Map<String, String> sigungu
             in sigungus) {
@@ -343,6 +294,7 @@ class _CourseResultScreenState
         }
       }
 
+
       // ==========================================================
       // 3. 지역 매칭 실패
       // ==========================================================
@@ -360,6 +312,7 @@ class _CourseResultScreenState
 
       final String selectedRegionName =
           selectedRegion['name']?.trim() ?? '';
+
 
       // ==========================================================
       // 4. 시군구 코드 예외
@@ -389,6 +342,7 @@ class _CourseResultScreenState
           '지역: ${widget.regionName}',
         );
       }
+
 
       // ==========================================================
       // 5. 최종 TourAPI 지역 확인
@@ -423,6 +377,7 @@ class _CourseResultScreenState
       debugPrint(
         '========================================',
       );
+
 
       // ==========================================================
       // 6. 관광지 전체 조회
@@ -461,10 +416,6 @@ class _CourseResultScreenState
         '${tourismSpots.length}',
       );
 
-      // ----------------------------------------------------------
-      // 관광지 샘플 확인
-      // ----------------------------------------------------------
-
       if (tourismSpots.isNotEmpty) {
         debugPrint('');
         debugPrint(
@@ -491,6 +442,7 @@ class _CourseResultScreenState
           );
         }
       }
+
 
       // ==========================================================
       // 7. 집중률 API 지역 매핑
@@ -551,10 +503,6 @@ class _CourseResultScreenState
         );
       }
 
-      // ==========================================================
-      // Substitutability에서 사용할 지역 코드
-      // ==========================================================
-
       final String substitutabilityRegionCode =
           regionQueries.first.signguCd;
 
@@ -574,6 +522,7 @@ class _CourseResultScreenState
       debugPrint(
         '========================================',
       );
+
 
       // ==========================================================
       // 8. 집중률 API 조회
@@ -605,10 +554,6 @@ class _CourseResultScreenState
         final String key =
             '${query.areaCd}|'
             '${query.signguCd}';
-
-        // --------------------------------------------------------
-        // 중복 조회 방지
-        // --------------------------------------------------------
 
         if (queriedRegions
             .contains(key)) {
@@ -664,6 +609,7 @@ class _CourseResultScreenState
       debugPrint(
         '========================================',
       );
+
 
       // ==========================================================
       // 9. 관광지 ↔ 집중률 매핑
@@ -721,6 +667,7 @@ class _CourseResultScreenState
         '========================================',
       );
 
+
       // ==========================================================
       // 10. SnobSpot → Map
       // ==========================================================
@@ -729,10 +676,6 @@ class _CourseResultScreenState
           spotMaps =
           mappedSpots.map(
         (SnobSpot spot) {
-          // ------------------------------------------------------
-          // Substitutability용 지역 코드
-          // ------------------------------------------------------
-
           final String? substitutabilitySignguCd =
               spot.concentrationSignguCd ??
                   substitutabilityRegionCode;
@@ -744,95 +687,54 @@ class _CourseResultScreenState
           );
 
           return {
-            // ----------------------------------------------------
-            // 기본 관광지 데이터
-            // ----------------------------------------------------
-
             'contentId':
                 spot.contentId,
-
             'title':
                 spot.title,
-
             'address':
                 spot.address,
-
             'contentTypeId':
                 spot.contentTypeId,
-
             'lDongRegnCd':
                 spot.lDongRegnCd,
-
             'lDongSignguCd':
                 spot.lDongSignguCd,
-
             'regionName':
                 spot.regionName,
-
             'lclsSystm1':
                 spot.lclsSystm1,
-
             'lclsSystm2':
                 spot.lclsSystm2,
-
             'lclsSystm3':
                 spot.lclsSystm3,
-
             'modifiedTime':
                 spot.modifiedTime,
-
             'latitude':
                 spot.latitude,
-
             'longitude':
                 spot.longitude,
-
-            // ----------------------------------------------------
-            // 집중률 정보
-            // ----------------------------------------------------
-
             'concentrationRate':
                 spot.concentrationRate,
-
             'concentrationBaseYmd':
                 spot.concentrationBaseYmd,
-
             'concentrationAreaCd':
                 spot.concentrationAreaCd,
-
             'concentrationAreaNm':
                 spot.concentrationAreaNm,
-
             'concentrationSignguCd':
                 spot.concentrationSignguCd,
-
             'concentrationSignguNm':
                 spot.concentrationSignguNm,
-
-            // ----------------------------------------------------
-            // SNOB
-            // ----------------------------------------------------
-
             'snobScore':
                 spot.snobScore,
-
-            // ----------------------------------------------------
-            // 기존 Sensitivity /
-            // Substitutability 호환
-            // ----------------------------------------------------
-
             'hubTatsNm':
                 spot.title,
-
             'hubCtgryMclsNm':
                 spot.lclsSystm2,
-
             'signguCd':
                 substitutabilitySignguCd,
-
             'sigunguCd':
                 substitutabilitySignguCd,
-
             'signguNm':
                 spot.concentrationSignguNm ??
                     selectedSigunguName,
@@ -840,20 +742,9 @@ class _CourseResultScreenState
         },
       ).toList();
 
+
       // ==========================================================
-      // ★ 10-1. 집중률 API에만 존재하는 관광지 추가
-      // ==========================================================
-      //
-      // TourAPI O + 집중률 API O
-      // → 기존 mappedSpots 사용
-      //
-      // TourAPI O + 집중률 API X
-      // → 기존 mappedSpots 사용 + 중립 집중률
-      //
-      // TourAPI X + 집중률 API O
-      // → 여기에서 새로 추가
-      //
-      // 실제 TourAPI contentId는 만들지 않는다.
+      // 10-1. 집중률 API 전용 관광지 추가
       // ==========================================================
 
       debugPrint('');
@@ -883,16 +774,6 @@ class _CourseResultScreenState
           );
         }
       }
-
-      // ----------------------------------------------------------
-      // 집중률 API 관광지별 대표 데이터 생성
-      // ----------------------------------------------------------
-      //
-      // 같은 관광지가 날짜별로 여러 번 들어오기 때문에
-      // 관광지 + 지역 코드별로 하나만 추가한다.
-      //
-      // 가장 최근 baseYmd를 우선한다.
-      // ----------------------------------------------------------
 
       final Map<String, Map<String, dynamic>>
           congestionOnlySpots = {};
@@ -930,18 +811,10 @@ class _CourseResultScreenState
                     .trim() ??
                 '';
 
-        // --------------------------------------------------------
-        // TourAPI에 같은 관광지가 존재하는 경우
-        // --------------------------------------------------------
-
         if (tourismSpotNames
             .contains(normalizedName)) {
           continue;
         }
-
-        // --------------------------------------------------------
-        // 같은 이름이어도 지역이 다르면 별도 관광지로 처리
-        // --------------------------------------------------------
 
         final String congestionKey =
             '$areaCd|'
@@ -984,9 +857,6 @@ class _CourseResultScreenState
         '${congestionOnlySpots.length}개',
       );
 
-      // ----------------------------------------------------------
-      // 집중률 API 전용 관광지 → Map
-      // ----------------------------------------------------------
 
       for (final Map<String, dynamic> data
           in congestionOnlySpots.values) {
@@ -1025,11 +895,6 @@ class _CourseResultScreenState
           continue;
         }
 
-        // --------------------------------------------------------
-        // 집중률 API의 관광지 정보에서
-        // Substitutability JSON의 카테고리를 찾는다.
-        // --------------------------------------------------------
-
         String category = '';
 
         try {
@@ -1046,13 +911,6 @@ class _CourseResultScreenState
             '$name → $e',
           );
         }
-
-        // --------------------------------------------------------
-        // 실제 hubTatsCd가 API에 존재하는 경우에만 사용
-        //
-        // 없으면 null로 둔다.
-        // 가짜 contentId / 가짜 hubTatsCd는 만들지 않는다.
-        // --------------------------------------------------------
 
         final String? hubTatsCd =
             data['hubTatsCd']
@@ -1072,95 +930,62 @@ class _CourseResultScreenState
         );
 
         spotMaps.add({
-          // ------------------------------------------------------
-          // 실제 TourAPI contentId가 없으므로 null
-          // ------------------------------------------------------
-
           'contentId':
               null,
-
-          // ------------------------------------------------------
-          // 실제 API에 존재하는 경우에만 사용
-          // ------------------------------------------------------
-
           'hubTatsCd':
               hubTatsCd,
-
           'title':
               name,
-
           'hubTatsNm':
               name,
-
           'address':
               signguNm.isEmpty
                   ? widget.regionName
                   : signguNm,
-
           'contentTypeId':
               '12',
-
           'lDongRegnCd':
               areaCd,
-
           'lDongSignguCd':
               signguCd.length >= 5
                   ? signguCd.substring(
                       signguCd.length - 3,
                     )
                   : signguCd,
-
           'regionName':
               widget.regionName,
-
           'lclsSystm1':
               '',
-
           'lclsSystm2':
               category,
-
           'lclsSystm3':
               '',
-
           'modifiedTime':
               '',
-
           'latitude':
               null,
-
           'longitude':
               null,
-
           'concentrationRate':
               concentrationRate,
-
           'concentrationBaseYmd':
               data['baseYmd'],
-
           'concentrationAreaCd':
               data['areaCd'],
-
           'concentrationAreaNm':
               data['areaNm'],
-
           'concentrationSignguCd':
               signguCd,
-
           'concentrationSignguNm':
               signguNm,
-
           'snobScore':
               snobScore,
-
           'hubCtgryMclsNm':
               category,
-
           'signguCd':
               signguCd,
-
           'sigunguCd':
               signguCd,
-
           'signguNm':
               signguNm,
         });
@@ -1177,28 +1002,6 @@ class _CourseResultScreenState
         );
       }
 
-      debugPrint('');
-      debugPrint(
-        '========================================',
-      );
-      debugPrint(
-        '10-1. 집중률 API 전용 관광지 추가 완료',
-      );
-      debugPrint(
-        '기존 관광지: '
-        '${mappedSpots.length}개',
-      );
-      debugPrint(
-        '집중률 전용 추가: '
-        '${spotMaps.length - mappedSpots.length}개',
-      );
-      debugPrint(
-        'SNOB 대상 관광지: '
-        '${spotMaps.length}개',
-      );
-      debugPrint(
-        '========================================',
-      );
 
       // ==========================================================
       // 11. SnobFinal
@@ -1234,6 +1037,7 @@ class _CourseResultScreenState
         '${calculatedResults.length}개',
       );
 
+
       // ==========================================================
       // 12. 화면용 결과 변환
       // ==========================================================
@@ -1252,6 +1056,7 @@ class _CourseResultScreenState
         },
       ).toList();
 
+
       // ==========================================================
       // 13. 화면 업데이트
       // ==========================================================
@@ -1265,6 +1070,7 @@ class _CourseResultScreenState
         isLoading = false;
         errorMessage = null;
       });
+
 
       // ==========================================================
       // 14. 최종 결과 로그
@@ -1299,10 +1105,6 @@ class _CourseResultScreenState
         );
       }
     } catch (e) {
-      // ==========================================================
-      // 오류
-      // ==========================================================
-
       debugPrint('');
       debugPrint(
         '========================================',
@@ -1338,7 +1140,7 @@ class _CourseResultScreenState
 
 
   // ============================================================
-  // ★ Substitutability JSON에서 관광지 카테고리 찾기
+  // Substitutability JSON에서 관광지 카테고리 찾기
   // ============================================================
 
   Future<String> _findSubstitutabilityCategory({
@@ -1386,10 +1188,6 @@ class _CourseResultScreenState
       spotName,
     );
 
-    // ------------------------------------------------------------
-    // 1. 정확한 정규화 이름 매칭
-    // ------------------------------------------------------------
-
     for (final dynamic item
         in spots) {
       if (item is! Map) {
@@ -1420,10 +1218,6 @@ class _CourseResultScreenState
         return category;
       }
     }
-
-    // ------------------------------------------------------------
-    // 2. 완전 일치
-    // ------------------------------------------------------------
 
     for (final dynamic item
         in spots) {
@@ -1712,10 +1506,6 @@ class _CourseResultScreenState
     final TravelSpot spot =
         _createTravelSpot(result);
 
-    // ----------------------------------------------------------
-    // 중복 체크
-    // ----------------------------------------------------------
-
     final bool alreadyExists =
         day.spots.any(
       (TravelSpot existingSpot) =>
@@ -1739,10 +1529,6 @@ class _CourseResultScreenState
 
       return;
     }
-
-    // ----------------------------------------------------------
-    // 일정 추가
-    // ----------------------------------------------------------
 
     setState(() {
       isSaving = true;
@@ -2000,11 +1786,9 @@ class _CourseResultScreenState
                           ),
                         ],
                       ),
-
                       const SizedBox(
                         height: 15,
                       ),
-
                       Expanded(
                         child:
                             ListView(
@@ -2021,11 +1805,9 @@ class _CourseResultScreenState
                                 );
                               },
                             ),
-
                             const SizedBox(
                               height: 10,
                             ),
-
                             OutlinedButton.icon(
                               onPressed:
                                   () async {
@@ -2046,7 +1828,6 @@ class _CourseResultScreenState
                                 '여행 일정 추가',
                               ),
                             ),
-
                             const SizedBox(
                               height: 10,
                             ),
@@ -2125,11 +1906,9 @@ class _CourseResultScreenState
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   width: 10,
                 ),
-
                 Text(
                   '${day.spots.length}곳',
                   style:
@@ -2141,11 +1920,9 @@ class _CourseResultScreenState
                 ),
               ],
             ),
-
             const SizedBox(
               height: 12,
             ),
-
             if (day.spots.isEmpty)
               const Padding(
                 padding:
@@ -2178,7 +1955,6 @@ class _CourseResultScreenState
                   return ListTile(
                     contentPadding:
                         EdgeInsets.zero,
-
                     leading:
                         CircleAvatar(
                       radius: 17,
@@ -2190,7 +1966,6 @@ class _CourseResultScreenState
                         ),
                       ),
                     ),
-
                     title: Text(
                       spot.name,
                       style:
@@ -2199,7 +1974,6 @@ class _CourseResultScreenState
                             FontWeight.w600,
                       ),
                     ),
-
                     subtitle:
                         spot.category !=
                                 null
@@ -2207,7 +1981,6 @@ class _CourseResultScreenState
                                 spot.category!,
                               )
                             : null,
-
                     trailing:
                         IconButton(
                       icon:
@@ -2297,26 +2070,21 @@ class _CourseResultScreenState
                         FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(
                   height: 8,
                 ),
-
                 Text(
                   _getSpotName(
                     result.spot,
                   ),
                   style:
                       const TextStyle(
-                    color:
-                        Colors.grey,
+                    color: Colors.grey,
                   ),
                 ),
-
                 const SizedBox(
                   height: 20,
                 ),
-
                 ...travelPlan.days.map(
                   (
                     TravelDay day,
@@ -2329,22 +2097,18 @@ class _CourseResultScreenState
                           '${day.day}',
                         ),
                       ),
-
                       title:
                           Text(
                         'Day ${day.day}',
                       ),
-
                       subtitle:
                           Text(
                         '${day.spots.length}곳',
                       ),
-
                       trailing:
                           const Icon(
                         Icons.chevron_right,
                       ),
-
                       onTap:
                           isSaving
                               ? null
@@ -2357,11 +2121,9 @@ class _CourseResultScreenState
                     );
                   },
                 ),
-
                 const SizedBox(
                   height: 8,
                 ),
-
                 OutlinedButton.icon(
                   onPressed:
                       isSaving
@@ -2408,7 +2170,40 @@ class _CourseResultScreenState
 
 
   // ============================================================
-  // build
+  // 대표 관광지
+  // ============================================================
+
+  CourseResultData? get _representativeResult {
+    if (results.isEmpty) {
+      return null;
+    }
+
+    return results.first;
+  }
+
+
+  // ============================================================
+  // 코스 전체 일정 만들기 진입
+  // ============================================================
+  //
+  // 현재 기존 로직은 관광지별 일정 추가 방식이므로
+  // 첫 번째 추천 관광지의 기존 Day 선택 화면으로 연결한다.
+  // ============================================================
+
+  void _startCoursePlanning() {
+    final CourseResultData? first =
+        _representativeResult;
+
+    if (first == null) {
+      return;
+    }
+
+    _showDaySelector(first);
+  }
+
+
+  // ============================================================
+  // Build
   // ============================================================
 
   @override
@@ -2416,27 +2211,8 @@ class _CourseResultScreenState
     BuildContext context,
   ) {
     return Scaffold(
-      appBar:
-          AppBar(
-        title:
-            const Text(
-          '코스 추천',
-        ),
-        actions: [
-          if (travelPlan
-                  .totalSpotCount >
-              0)
-            IconButton(
-              icon:
-                  const Icon(
-                Icons
-                    .calendar_today_outlined,
-              ),
-              onPressed:
-                  _showPlan,
-            ),
-        ],
-      ),
+      backgroundColor:
+          const Color(0xFFF7F8F5),
       body:
           _buildBody(),
     );
@@ -2448,23 +2224,16 @@ class _CourseResultScreenState
   // ============================================================
 
   Widget _buildBody() {
-    // ----------------------------------------------------------
-    // 로딩
-    // ----------------------------------------------------------
-
     if (isLoading) {
       return const Center(
-        child:
-            Column(
+        child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(),
-
             SizedBox(
               height: 20,
             ),
-
             Text(
               '관광지와 SNOB 점수를 분석하고 있어요.',
               style:
@@ -2472,11 +2241,9 @@ class _CourseResultScreenState
                 fontSize: 15,
               ),
             ),
-
             SizedBox(
               height: 8,
             ),
-
             Text(
               '잠시만 기다려주세요.',
               style:
@@ -2490,66 +2257,11 @@ class _CourseResultScreenState
       );
     }
 
-    // ----------------------------------------------------------
-    // 오류
-    // ----------------------------------------------------------
 
     if (errorMessage != null) {
-      return Center(
-        child: Padding(
-          padding:
-              const EdgeInsets.all(
-            20,
-          ),
-          child:
-              Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.error_outline,
-                size: 50,
-                color: Colors.grey,
-              ),
-
-              const SizedBox(
-                height: 15,
-              ),
-
-              const Text(
-                '코스 추천 중 오류가 발생했습니다.',
-                textAlign:
-                    TextAlign.center,
-                style:
-                    TextStyle(
-                  fontWeight:
-                      FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(
-                height: 10,
-              ),
-
-              Text(
-                errorMessage!,
-                textAlign:
-                    TextAlign.center,
-                style:
-                    const TextStyle(
-                  color:
-                      Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      return _buildErrorState();
     }
 
-    // ----------------------------------------------------------
-    // 결과 없음
-    // ----------------------------------------------------------
 
     if (results.isEmpty) {
       return const Center(
@@ -2561,235 +2273,1055 @@ class _CourseResultScreenState
       );
     }
 
-    // ----------------------------------------------------------
-    // 결과
-    // ----------------------------------------------------------
 
+    return LayoutBuilder(
+      builder: (
+        BuildContext context,
+        BoxConstraints constraints,
+      ) {
+        final bool isDesktop =
+            constraints.maxWidth >= 900;
+
+        return Column(
+          children: [
+            _buildWebHeader(
+              isDesktop,
+            ),
+
+            Expanded(
+              child:
+                  SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 32,
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints:
+                        const BoxConstraints(
+                      maxWidth: 1240,
+                    ),
+                    child:
+                        isDesktop
+                            ? _buildDesktopCourse()
+                            : _buildMobileCourse(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  // ============================================================
+  // Web Header
+  // ============================================================
+
+  Widget _buildWebHeader(
+    bool isDesktop,
+  ) {
+    return Container(
+      width: double.infinity,
+      decoration:
+          BoxDecoration(
+        color:
+            Colors.white,
+        border:
+            Border(
+          bottom:
+              BorderSide(
+            color:
+                Colors.grey.shade200,
+          ),
+        ),
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints:
+              const BoxConstraints(
+            maxWidth: 1240,
+          ),
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(
+              horizontal:
+                  isDesktop ? 20 : 16,
+              vertical: 16,
+            ),
+            child: Row(
+              children: [
+                const Text(
+                  'SNOB',
+                  style:
+                      TextStyle(
+                    fontSize: 24,
+                    fontWeight:
+                        FontWeight.w900,
+                    letterSpacing:
+                        -1,
+                  ),
+                ),
+
+                const Spacer(),
+
+                if (isDesktop)
+                  Row(
+                    children: [
+                      TextButton.icon(
+                        onPressed:
+                            _showPlan,
+                        icon:
+                            const Icon(
+                          Icons
+                              .calendar_today_outlined,
+                          size: 18,
+                        ),
+                        label:
+                            const Text(
+                          '여행 일정',
+                        ),
+                      ),
+
+                      const SizedBox(
+                        width: 8,
+                      ),
+
+                      TextButton(
+                        onPressed:
+                            () {
+                          Navigator.pop(
+                            context,
+                          );
+                        },
+                        child:
+                            const Text(
+                          '이전 화면',
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  IconButton(
+                    onPressed:
+                        _showPlan,
+                    icon:
+                        const Icon(
+                      Icons
+                          .calendar_today_outlined,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // Desktop
+  // ============================================================
+
+  Widget _buildDesktopCourse() {
     return Column(
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children: [
-        // ========================================================
-        // 추천 지역
-        // ========================================================
+        _buildPageTitle(),
 
-        Padding(
-          padding:
-              const EdgeInsets.fromLTRB(
-            20,
-            20,
-            20,
-            14,
-          ),
-          child:
-              Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '추천 지역',
-                style:
-                    TextStyle(
-                  fontSize: 14,
-                  color:
-                      Colors.grey,
+        const SizedBox(
+          height: 28,
+        ),
+
+        Container(
+          decoration:
+              BoxDecoration(
+            color:
+                Colors.white,
+            borderRadius:
+                BorderRadius.circular(
+              28,
+            ),
+            border:
+                Border.all(
+              color:
+                  Colors.grey.shade200,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color:
+                    Colors.black.withValues(
+                  alpha: 0.04,
                 ),
-              ),
-
-              const SizedBox(
-                height: 5,
-              ),
-
-              Text(
-                widget.regionName,
-                style:
-                    const TextStyle(
-                  fontSize: 27,
-                  fontWeight:
-                      FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(
-                height: 8,
-              ),
-
-              const Text(
-                'SNOB 점수가 높은 관광지부터 추천해드려요.',
-                style:
-                    TextStyle(
-                  fontSize: 14,
-                  color:
-                      Colors.grey,
+                blurRadius:
+                    30,
+                offset:
+                    const Offset(
+                  0,
+                  12,
                 ),
               ),
             ],
           ),
+          child: Row(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 4,
+                child:
+                    _buildCourseSummary(),
+              ),
+
+              Container(
+                width:
+                    1,
+                height:
+                    650,
+                color:
+                    Colors.grey.shade200,
+              ),
+
+              Expanded(
+                flex: 6,
+                child:
+                    _buildCourseTimeline(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  // ============================================================
+  // Mobile
+  // ============================================================
+
+  Widget _buildMobileCourse() {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        _buildPageTitle(),
+
+        const SizedBox(
+          height: 24,
         ),
 
-        const Divider(
-          height: 1,
+        _buildCourseSummary(),
+
+        const SizedBox(
+          height: 28,
         ),
 
-        // ========================================================
-        // 관광지 목록
-        // ========================================================
+        _buildCourseTimeline(),
+      ],
+    );
+  }
 
-        Expanded(
-          child:
-              ListView.builder(
+
+  // ============================================================
+  // 페이지 제목
+  // ============================================================
+
+  Widget _buildPageTitle() {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        Text(
+          '추천 코스',
+          style:
+              TextStyle(
+            fontSize:
+                MediaQuery.of(context)
+                    .size
+                    .width >=
+                    900
+                ? 16
+                : 14,
+            color:
+                Colors.grey.shade600,
+            fontWeight:
+                FontWeight.w600,
+          ),
+        ),
+
+        const SizedBox(
+          height: 8,
+        ),
+
+        Text(
+          widget.regionName,
+          style:
+              TextStyle(
+            fontSize:
+                MediaQuery.of(context)
+                    .size
+                    .width >=
+                    900
+                ? 42
+                : 32,
+            fontWeight:
+                FontWeight.w800,
+            letterSpacing:
+                -1.2,
+          ),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+
+        Text(
+          'SNOB 점수를 기준으로 나에게 맞는 여행지를 연결한 추천 코스예요.',
+          style:
+              TextStyle(
+            fontSize:
+                MediaQuery.of(context)
+                    .size
+                    .width >=
+                    900
+                ? 16
+                : 14,
+            color:
+                Colors.grey.shade600,
+            height:
+                1.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  // ============================================================
+  // 코스 대표 정보
+  // ============================================================
+
+  Widget _buildCourseSummary() {
+    final CourseResultData? representative =
+        _representativeResult;
+
+    return Padding(
+      padding:
+          const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          _buildRepresentativeImage(
+            representative,
+          ),
+
+          const SizedBox(
+            height: 24,
+          ),
+
+          Container(
             padding:
-                const EdgeInsets.all(
-              16,
+                const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 7,
             ),
-            itemCount:
-                results.length,
-            itemBuilder:
-                (
-              BuildContext context,
-              int index,
-            ) {
-              final CourseResultData
-                  result =
-                  results[index];
+            decoration:
+                BoxDecoration(
+              color:
+                  Colors.black,
+              borderRadius:
+                  BorderRadius.circular(
+                30,
+              ),
+            ),
+            child:
+                const Text(
+              'SNOB RECOMMENDED COURSE',
+              style:
+                  TextStyle(
+                color:
+                    Colors.white,
+                fontSize:
+                    10,
+                fontWeight:
+                    FontWeight.bold,
+                letterSpacing:
+                    0.7,
+              ),
+            ),
+          ),
 
-              final Map<String, dynamic>
-                  spot =
-                  result.spot;
+          const SizedBox(
+            height: 14,
+          ),
 
-              final String spotName =
-                  _getSpotName(
-                spot,
-              );
+          Text(
+            widget.regionName,
+            style:
+                const TextStyle(
+              fontSize:
+                  30,
+              fontWeight:
+                  FontWeight.w800,
+              letterSpacing:
+                  -0.8,
+            ),
+          ),
 
-              final String category =
-                  _getCategory(
-                spot,
-              );
+          const SizedBox(
+            height: 8,
+          ),
 
-              final String address =
-                  _getAddress(
-                spot,
-              );
+          Text(
+            '${results.length}곳의 추천 관광지',
+            style:
+                TextStyle(
+              color:
+                  Colors.grey.shade600,
+              fontSize:
+                  14,
+            ),
+          ),
 
-              final bool isAdded =
-                  _isAdded(
-                spotName,
-              );
+          const SizedBox(
+            height: 22,
+          ),
 
-              final int? addedDay =
-                  _getAddedDay(
-                spotName,
-              );
+          _buildSummaryStats(),
 
-              return Card(
-                elevation: 0,
+          const SizedBox(
+            height: 24,
+          ),
 
-                margin:
-                    const EdgeInsets.only(
-                  bottom: 12,
+          SizedBox(
+            width:
+                double.infinity,
+            child:
+                FilledButton(
+              onPressed:
+                  _startCoursePlanning,
+              style:
+                  FilledButton.styleFrom(
+                backgroundColor:
+                    Colors.black,
+                foregroundColor:
+                    Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(
+                  vertical:
+                      17,
                 ),
-
                 shape:
                     RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(
-                    16,
+                    14,
                   ),
-                  side: BorderSide(
+                ),
+              ),
+              child:
+                  const Text(
+                '이 코스로 여행 일정 만들기',
+                style:
+                    TextStyle(
+                  fontSize:
+                      15,
+                  fontWeight:
+                      FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(
+            height: 10,
+          ),
+
+          Center(
+            child:
+                Text(
+              '관광지를 선택하면 원하는 Day에 추가할 수 있어요.',
+              textAlign:
+                  TextAlign.center,
+              style:
+                  TextStyle(
+                fontSize:
+                    12,
+                color:
+                    Colors.grey.shade500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // 대표 이미지
+  // ============================================================
+
+  Widget _buildRepresentativeImage(
+    CourseResultData? result,
+  ) {
+    final String? contentId =
+        result?.spot['contentId']
+            ?.toString();
+
+    final bool hasImage =
+        contentId != null &&
+            contentId.trim().isNotEmpty &&
+            contentId != 'null';
+
+    return ClipRRect(
+      borderRadius:
+          BorderRadius.circular(
+        20,
+      ),
+      child:
+          SizedBox(
+        width:
+            double.infinity,
+        height:
+            280,
+        child:
+            hasImage
+                ? TourismImage(
+                    contentId:
+                        contentId,
+                    width:
+                        double.infinity,
+                    height:
+                        280,
+                    fit:
+                        BoxFit.cover,
+                  )
+                : _buildNoImageBox(
+                    height:
+                        280,
+                  ),
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // 요약 통계
+  // ============================================================
+
+  Widget _buildSummaryStats() {
+    final double averageSnob =
+        results.isEmpty
+            ? 0
+            : results
+                    .map(
+                      (
+                        CourseResultData result,
+                      ) =>
+                          result.snobScore,
+                    )
+                    .reduce(
+                      (
+                        double a,
+                        double b,
+                      ) =>
+                          a + b,
+                    ) /
+                results.length;
+
+    final double averageCongestion =
+        results.isEmpty
+            ? 0
+            : results
+                    .map(
+                      (
+                        CourseResultData result,
+                      ) =>
+                          result.averageConcentration,
+                    )
+                    .reduce(
+                      (
+                        double a,
+                        double b,
+                      ) =>
+                          a + b,
+                    ) /
+                results.length;
+
+    return Row(
+      children: [
+        Expanded(
+          child:
+              _buildStatItem(
+            icon:
+                Icons
+                    .location_on_outlined,
+            label:
+                '추천 관광지',
+            value:
+                '${results.length}곳',
+          ),
+        ),
+
+        const SizedBox(
+          width: 10,
+        ),
+
+        Expanded(
+          child:
+              _buildStatItem(
+            icon:
+                Icons
+                    .travel_explore,
+            label:
+                '평균 SNOB',
+            value:
+                averageSnob
+                    .toStringAsFixed(
+                  1,
+                ),
+          ),
+        ),
+
+        const SizedBox(
+          width: 10,
+        ),
+
+        Expanded(
+          child:
+              _buildStatItem(
+            icon:
+                Icons
+                    .groups_outlined,
+            label:
+                '평균 집중률',
+            value:
+                averageCongestion
+                    .toStringAsFixed(
+                  1,
+                ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  // ============================================================
+  // 통계 아이템
+  // ============================================================
+
+  Widget _buildStatItem({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return Container(
+      padding:
+          const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 13,
+      ),
+      decoration:
+          BoxDecoration(
+        color:
+            const Color(
+          0xFFF6F7F4,
+        ),
+        borderRadius:
+            BorderRadius.circular(
+          14,
+        ),
+      ),
+      child:
+          Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size:
+                18,
+            color:
+                Colors.grey.shade700,
+          ),
+
+          const SizedBox(
+            height: 8,
+          ),
+
+          Text(
+            label,
+            style:
+                TextStyle(
+              fontSize:
+                  10,
+              color:
+                  Colors.grey.shade600,
+            ),
+          ),
+
+          const SizedBox(
+            height: 3,
+          ),
+
+          Text(
+            value,
+            style:
+                const TextStyle(
+              fontSize:
+                  16,
+              fontWeight:
+                  FontWeight.w800,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // 관광지 Timeline
+  // ============================================================
+
+  Widget _buildCourseTimeline() {
+    return Padding(
+      padding:
+          const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Expanded(
+                child:
+                    Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '여행 코스',
+                      style:
+                          TextStyle(
+                        fontSize:
+                            22,
+                        fontWeight:
+                            FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      '추천 순서대로 여행지를 확인해보세요.',
+                      style:
+                          TextStyle(
+                        fontSize:
+                            13,
+                        color:
+                            Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              IconButton(
+                tooltip:
+                    '현재 일정 보기',
+                onPressed:
+                    _showPlan,
+                icon:
+                    const Icon(
+                  Icons
+                      .calendar_today_outlined,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(
+            height: 22,
+          ),
+
+          ...results
+              .asMap()
+              .entries
+              .map(
+            (
+              MapEntry<int, CourseResultData>
+                  entry,
+            ) {
+              return _buildCourseStop(
+                index:
+                    entry.key,
+                result:
+                    entry.value,
+                isLast:
+                    entry.key ==
+                        results.length -
+                            1,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // 관광지 하나
+  // ============================================================
+
+  Widget _buildCourseStop({
+    required int index,
+    required CourseResultData result,
+    required bool isLast,
+  }) {
+    final Map<String, dynamic> spot =
+        result.spot;
+
+    final String spotName =
+        _getSpotName(spot);
+
+    final String category =
+        _getCategory(spot);
+
+    final String address =
+        _getAddress(spot);
+
+    final String? contentId =
+        spot['contentId']
+            ?.toString();
+
+    final bool hasImage =
+        contentId != null &&
+            contentId.trim().isNotEmpty &&
+            contentId != 'null';
+
+    final bool isAdded =
+        _isAdded(
+      spotName,
+    );
+
+    final int? addedDay =
+        _getAddedDay(
+      spotName,
+    );
+
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width:
+                  34,
+              child:
+                  Column(
+                children: [
+                  Container(
+                    width:
+                        34,
+                    height:
+                        34,
+                    alignment:
+                        Alignment.center,
+                    decoration:
+                        const BoxDecoration(
+                      color:
+                          Colors.black,
+                      shape:
+                          BoxShape.circle,
+                    ),
+                    child:
+                        Text(
+                      '${index + 1}',
+                      style:
+                          const TextStyle(
+                        color:
+                            Colors.white,
+                        fontSize:
+                            12,
+                        fontWeight:
+                            FontWeight.w800,
+                      ),
+                    ),
+                  ),
+
+                  if (!isLast)
+                    Container(
+                      width:
+                          1,
+                      height:
+                          130,
+                      margin:
+                          const EdgeInsets
+                              .symmetric(
+                        vertical:
+                            8,
+                      ),
+                      color:
+                          Colors.grey.shade300,
+                    ),
+                ],
+              ),
+            ),
+
+            const SizedBox(
+              width:
+                  14,
+            ),
+
+            Expanded(
+              child:
+                  Container(
+                margin:
+                    const EdgeInsets.only(
+                  bottom:
+                      16,
+                ),
+                decoration:
+                    BoxDecoration(
+                  color:
+                      Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(
+                    18,
+                  ),
+                  border:
+                      Border.all(
                     color:
                         Colors.grey.shade200,
                   ),
                 ),
-
                 child:
                     Padding(
                   padding:
                       const EdgeInsets.all(
-                    16,
+                    12,
                   ),
-
                   child:
                       Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
                     children: [
                       Row(
                         crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                            CrossAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            radius: 20,
+                          ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(
+                              12,
+                            ),
                             child:
-                                Text(
-                              '${index + 1}',
-                              style:
-                                  const TextStyle(
-                                fontWeight:
-                                    FontWeight
-                                        .bold,
-                              ),
+                                SizedBox(
+                              width:
+                                  130,
+                              height:
+                                  110,
+                              child:
+                                  hasImage
+                                      ? TourismImage(
+                                          contentId:
+                                              contentId,
+                                          width:
+                                              130,
+                                          height:
+                                              110,
+                                          fit:
+                                              BoxFit.cover,
+                                        )
+                                      : _buildNoImageBox(
+                                          height:
+                                              110,
+                                          width:
+                                              130,
+                                        ),
                             ),
                           ),
 
                           const SizedBox(
-                            width: 14,
+                            width:
+                                14,
                           ),
 
                           Expanded(
                             child:
                                 Column(
                               crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
+                                  CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   spotName,
+                                  maxLines:
+                                      2,
+                                  overflow:
+                                      TextOverflow.ellipsis,
                                   style:
                                       const TextStyle(
                                     fontSize:
                                         17,
                                     fontWeight:
-                                        FontWeight
-                                            .bold,
+                                        FontWeight.w800,
+                                    height:
+                                        1.2,
                                   ),
-                                ),
-
-                                const SizedBox(
-                                  height: 5,
                                 ),
 
                                 if (category
-                                    .isNotEmpty)
+                                    .isNotEmpty) ...[
+                                  const SizedBox(
+                                    height:
+                                        7,
+                                  ),
                                   Text(
                                     category,
                                     style:
-                                        const TextStyle(
-                                      color:
-                                          Colors
-                                              .grey,
+                                        TextStyle(
                                       fontSize:
-                                          13,
+                                          12,
+                                      color:
+                                          Colors.grey.shade600,
                                     ),
                                   ),
+                                ],
 
                                 if (address
-                                    .isNotEmpty)
+                                    .isNotEmpty) ...[
+                                  const SizedBox(
+                                    height:
+                                        5,
+                                  ),
                                   Text(
                                     address,
                                     maxLines:
                                         2,
                                     overflow:
-                                        TextOverflow
-                                            .ellipsis,
+                                        TextOverflow.ellipsis,
                                     style:
-                                        const TextStyle(
-                                      color:
-                                          Colors
-                                              .grey,
+                                        TextStyle(
                                       fontSize:
-                                          13,
+                                          11,
+                                      color:
+                                          Colors.grey.shade500,
+                                      height:
+                                          1.3,
                                     ),
                                   ),
+                                ],
                               ],
                             ),
                           ),
@@ -2797,157 +3329,385 @@ class _CourseResultScreenState
                       ),
 
                       const SizedBox(
-                        height: 15,
+                        height:
+                            12,
                       ),
 
-                      _ScoreBox(
-                        title:
-                            'SNOB',
-                        value:
-                            result.snobScore
-                                .toStringAsFixed(
-                          1,
-                        ),
-                        icon:
-                            Icons
-                                .travel_explore,
-                      ),
-
-                      const SizedBox(
-                        height: 12,
-                      ),
-
-                      SizedBox(
-                        width:
-                            double.infinity,
-                        child:
-                            FilledButton
-                                .icon(
-                          onPressed:
-                              isAdded ||
-                                      isSaving
-                                  ? null
-                                  : () {
-                                      _showDaySelector(
-                                        result,
-                                      );
-                                    },
-
-                          icon:
-                              Icon(
-                            isAdded
-                                ? Icons.check
-                                : Icons.add,
+                      Row(
+                        children: [
+                          Expanded(
+                            child:
+                                _buildCourseScore(
+                              result,
+                            ),
                           ),
 
-                          label:
-                              Text(
-                            isAdded
-                                ? 'Day $addedDay 일정에 추가됨'
-                                : '일정에 추가',
+                          const SizedBox(
+                            width:
+                                10,
                           ),
-                        ),
+
+                          SizedBox(
+                            height:
+                                40,
+                            child:
+                                isAdded
+                                    ? Container(
+                                        padding:
+                                            const EdgeInsets.symmetric(
+                                          horizontal:
+                                              13,
+                                        ),
+                                        decoration:
+                                            BoxDecoration(
+                                          color:
+                                              const Color(
+                                            0xFFEFF7EF,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                        child:
+                                            Row(
+                                          mainAxisSize:
+                                              MainAxisSize.min,
+                                          children: [
+                                            const Icon(
+                                              Icons.check,
+                                              size:
+                                                  16,
+                                              color:
+                                                  Colors.green,
+                                            ),
+                                            const SizedBox(
+                                              width:
+                                                  5,
+                                            ),
+                                            Text(
+                                              'Day $addedDay',
+                                              style:
+                                                  const TextStyle(
+                                                fontSize:
+                                                    12,
+                                                fontWeight:
+                                                    FontWeight.w700,
+                                                color:
+                                                    Colors.green,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : OutlinedButton(
+                                        onPressed:
+                                            isSaving
+                                                ? null
+                                                : () {
+                                                    _showDaySelector(
+                                                      result,
+                                                    );
+                                                  },
+                                        style:
+                                            OutlinedButton.styleFrom(
+                                          foregroundColor:
+                                              Colors.black,
+                                          side:
+                                              BorderSide(
+                                            color:
+                                                Colors.grey.shade300,
+                                          ),
+                                          shape:
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                        ),
+                                        child:
+                                            const Text(
+                                          '일정에 추가',
+                                          style:
+                                              TextStyle(
+                                            fontSize:
+                                                12,
+                                            fontWeight:
+                                                FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
-}
 
 
-// ================================================================
-// 점수 박스
-// ================================================================
+  // ============================================================
+  // 코스 점수
+  // ============================================================
 
-class _ScoreBox
-    extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-
-  const _ScoreBox({
-    required this.title,
-    required this.value,
-    required this.icon,
-  });
-
-  @override
-  Widget build(
-    BuildContext context,
+  Widget _buildCourseScore(
+    CourseResultData result,
   ) {
     return Container(
-      width:
-          double.infinity,
-
       padding:
           const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 12,
+        horizontal:
+            12,
+        vertical:
+            9,
       ),
-
       decoration:
           BoxDecoration(
         color:
-            Colors.grey.shade50,
+            const Color(
+          0xFFF6F7F4,
+        ),
         borderRadius:
             BorderRadius.circular(
           12,
         ),
       ),
-
       child:
           Row(
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color:
-                Colors.grey.shade700,
+          const Icon(
+            Icons
+                .travel_explore,
+            size:
+                18,
           ),
 
           const SizedBox(
-            width: 8,
+            width:
+                8,
           ),
 
-          Expanded(
+          Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Text(
+                'SNOB',
+                style:
+                    TextStyle(
+                  fontSize:
+                      9,
+                  color:
+                      Colors.grey.shade600,
+                  fontWeight:
+                      FontWeight.w600,
+                ),
+              ),
+
+              Text(
+                result.snobScore
+                    .toStringAsFixed(
+                  1,
+                ),
+                style:
+                    const TextStyle(
+                  fontSize:
+                      17,
+                  fontWeight:
+                      FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+
+          const Spacer(),
+
+          Text(
+            '집중률 '
+            '${result.averageConcentration.toStringAsFixed(1)}',
+            style:
+                TextStyle(
+              fontSize:
+                  10,
+              color:
+                  Colors.grey.shade600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // 이미지 없음
+  // ============================================================
+
+  Widget _buildNoImageBox({
+    required double height,
+    double? width,
+  }) {
+    return Container(
+      width:
+          width,
+      height:
+          height,
+      color:
+          const Color(
+        0xFFE9ECE5,
+      ),
+      child:
+          Center(
+        child:
+            Icon(
+          Icons
+              .landscape_outlined,
+          size:
+              42,
+          color:
+              Colors.grey.shade500,
+        ),
+      ),
+    );
+  }
+
+
+  // ============================================================
+  // 오류 화면
+  // ============================================================
+
+  Widget _buildErrorState() {
+    return Center(
+      child:
+          SingleChildScrollView(
+        padding:
+            const EdgeInsets.all(
+          24,
+        ),
+        child:
+            ConstrainedBox(
+          constraints:
+              const BoxConstraints(
+            maxWidth:
+                560,
+          ),
+          child:
+              Container(
+            padding:
+                const EdgeInsets.all(
+              32,
+            ),
+            decoration:
+                BoxDecoration(
+              color:
+                  Colors.white,
+              borderRadius:
+                  BorderRadius.circular(
+                24,
+              ),
+              border:
+                  Border.all(
+                color:
+                    Colors.grey.shade200,
+              ),
+            ),
             child:
                 Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style:
-                      TextStyle(
-                    fontSize: 11,
+                Container(
+                  width:
+                      64,
+                  height:
+                      64,
+                  decoration:
+                      BoxDecoration(
+                    color:
+                        Colors.grey.shade100,
+                    shape:
+                        BoxShape.circle,
+                  ),
+                  child:
+                      Icon(
+                    Icons
+                        .error_outline,
+                    size:
+                        32,
                     color:
                         Colors.grey.shade600,
                   ),
                 ),
 
                 const SizedBox(
-                  height: 3,
+                  height:
+                      18,
+                ),
+
+                const Text(
+                  '코스 추천 중 오류가 발생했습니다.',
+                  textAlign:
+                      TextAlign.center,
+                  style:
+                      TextStyle(
+                    fontSize:
+                        18,
+                    fontWeight:
+                        FontWeight.w800,
+                  ),
+                ),
+
+                const SizedBox(
+                  height:
+                      12,
                 ),
 
                 Text(
-                  value,
+                  errorMessage!,
+                  textAlign:
+                      TextAlign.center,
                   style:
-                      const TextStyle(
-                    fontSize: 19,
-                    fontWeight:
-                        FontWeight.bold,
+                      TextStyle(
+                    fontSize:
+                        13,
+                    color:
+                        Colors.grey.shade600,
+                    height:
+                        1.5,
+                  ),
+                ),
+
+                const SizedBox(
+                  height:
+                      24,
+                ),
+
+                OutlinedButton(
+                  onPressed:
+                      () {
+                    setState(() {
+                      isLoading =
+                          true;
+                      errorMessage =
+                          null;
+                    });
+
+                    _calculateSnob();
+                  },
+                  child:
+                      const Text(
+                    '다시 시도',
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
