@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'trip/personality_test/personality_test_screen.dart';
-import 'itinerary_screen.dart';
 import 'trip/course/result_screen.dart';
 
 import '../models/travel_plan.dart';
@@ -261,84 +260,6 @@ class _HomeScreenState extends State<HomeScreen> {
       MaterialPageRoute(
         builder: (context) =>
             const RecordScreen(),
-      ),
-    );
-  }
-
-  // ============================================================
-  // 상단 웹 헤더
-  // ============================================================
-
-  Widget _buildHeader(
-    bool isDesktop,
-  ) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal:
-            isDesktop ? 48 : 22,
-        vertical: 20,
-      ),
-      decoration:
-          const BoxDecoration(
-        color: Colors.white,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(
-            maxWidth: 1280,
-          ),
-          child: Row(
-            children: [
-              const Text(
-                'SNOB',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight:
-                      FontWeight.w900,
-                  color: snobGreen,
-                  letterSpacing: -1.5,
-                ),
-              ),
-
-              const Spacer(),
-
-              FilledButton(
-                onPressed:
-                    _startPersonalityTest,
-                style:
-                    FilledButton.styleFrom(
-                  backgroundColor:
-                      snobGreen,
-                  foregroundColor:
-                      Colors.white,
-                  elevation: 0,
-                  padding:
-                      const EdgeInsets
-                          .symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
-                  shape:
-                      RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(
-                      999,
-                    ),
-                  ),
-                ),
-                child: const Text(
-                  '새 여행 시작',
-                  style: TextStyle(
-                    fontWeight:
-                        FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -1135,122 +1056,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ============================================================
-  // 새 여행 + 여행 기록 영역
-  // ============================================================
+	// ============================================================
+	// 여행 기록 영역
+	// ============================================================
 
-  Widget _buildActionSection(
-    bool isDesktop,
-  ) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isDesktop ? 48 : 22,
-        60,
-        isDesktop ? 48 : 22,
-        70,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(
-            maxWidth: 1280,
-          ),
-          child: LayoutBuilder(
-            builder:
-                (
-              context,
-              constraints,
-            ) {
-              final bool useTwoColumns =
-                  constraints.maxWidth >=
-                      1000;
-
-              if (useTwoColumns) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child:
-                          _buildActionCard(
-                        icon: Icons
-                            .travel_explore_outlined,
-                        title:
-                            '새로운 여행을 시작해보세요',
-                        description:
-                            '나의 여행 성향을 분석하고\n'
-                            '나에게 맞는 여행지를 찾아보세요.',
-                        buttonText:
-                            '맞춤 여행 시작하기',
-                        onPressed:
-                            _startPersonalityTest,
-                        filled: true,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
-                      child:
-                          _buildActionCard(
-                        icon: Icons
-                            .auto_stories_outlined,
-                        title:
-                            '나의 여행 기록',
-                        description:
-                            '다녀온 여행을 다시 확인하고\n'
-                            '나만의 여행을 쌓아보세요.',
-                        buttonText:
-                            '여행 기록 보기',
-                        onPressed:
-                            _openRecordScreen,
-                        filled: false,
-                      ),
-                    ),
-                  ],
-                );
-              }
-
-              return Column(
-                children: [
-                  _buildActionCard(
-                    icon: Icons
-                        .travel_explore_outlined,
-                    title:
-                        '새로운 여행을 시작해보세요',
-                    description:
-                        '나의 여행 성향을 분석하고\n'
-                        '나에게 맞는 여행지를 찾아보세요.',
-                    buttonText:
-                        '맞춤 여행 시작하기',
-                    onPressed:
-                        _startPersonalityTest,
-                    filled: true,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _buildActionCard(
-                    icon: Icons
-                        .auto_stories_outlined,
-                    title:
-                        '나의 여행 기록',
-                    description:
-                        '다녀온 여행을 다시 확인하고\n'
-                        '나만의 여행을 쌓아보세요.',
-                    buttonText:
-                        '여행 기록 보기',
-                    onPressed:
-                        _openRecordScreen,
-                    filled: false,
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
+	Widget _buildActionSection(
+		bool isDesktop,
+	) {
+		return Container(
+			width: double.infinity,
+			padding: EdgeInsets.fromLTRB(
+				isDesktop ? 48 : 22,
+				60,
+				isDesktop ? 48 : 22,
+				70,
+			),
+			child: Center(
+				child: ConstrainedBox(
+					constraints:
+						const BoxConstraints(
+							maxWidth: 1280,
+						),
+					child: _buildActionCard(
+						icon: Icons.auto_stories_outlined,
+						title: '나의 여행 기록',
+						description:
+							'다녀온 여행을 다시 확인하고\n'
+							'나만의 여행을 쌓아보세요.',
+						buttonText: '여행 기록 보기',
+						onPressed: _openRecordScreen,
+						filled: false,
+					),
+				),
+			),
+		);
+	}
 
   // ============================================================
   // Action Card
