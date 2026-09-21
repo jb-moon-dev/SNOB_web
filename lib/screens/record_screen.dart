@@ -680,132 +680,131 @@ class RecordScreenState extends State<RecordScreen> {
                         vertical:
                             isMobile ? 24 : 34,
                       ),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints:
-                              const BoxConstraints(
-                            maxWidth: 1280,
-                          ),
-                          child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                            children: [
-                                                            // ==================================================
-                              // 상단 헤더
-                              // ==================================================
-                              LayoutBuilder(
-                                builder: (
-                                  context,
-                                  headerConstraints,
-                                ) {
-                                  final bool compactHeader =
-                                      headerConstraints.maxWidth < 900;
+										child: Center(
+											child: ConstrainedBox(
+												constraints: const BoxConstraints(
+													maxWidth: 1280,
+												),
+												child: Column(
+													crossAxisAlignment: CrossAxisAlignment.start,
+													children: [
+														// ==================================================
+														// 상단 헤더
+														// ==================================================
+														LayoutBuilder(
+															builder: (
+																context,
+																headerConstraints,
+															) {
+																final double contentWidth =
+																	headerConstraints.maxWidth;
 
-                                  final headerText = Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'TRAVEL RECORD',
-                                        style: TextStyle(
-                                          fontSize:
-                                              isMobile ? 11 : 12,
-                                          fontWeight:
-                                              FontWeight.bold,
-                                          letterSpacing: 2.2,
-                                          color:
-                                              Colors.grey.shade600,
-                                        ),
-                                      ),
+																final bool compactHeader =
+																	contentWidth < 900;
 
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
+																final headerText = Column(
+																	crossAxisAlignment:
+																		CrossAxisAlignment.start,
+																	mainAxisSize:
+																		MainAxisSize.min,
+																	children: [
+																		Text(
+																			'TRAVEL RECORD',
+																			style: TextStyle(
+																				fontSize:
+																					isMobile ? 11 : 12,
+																				fontWeight:
+																					FontWeight.bold,
+																				letterSpacing: 2.2,
+																				color:
+																					Colors.grey.shade600,
+																			),
+																		),
 
-                                      Text(
-                                        '나의 여행 기록',
-                                        softWrap: false,
-                                        style: TextStyle(
-                                          fontSize:
-                                              isMobile ? 28 : 36,
-                                          fontWeight:
-                                              FontWeight.w800,
-                                          letterSpacing: -1.2,
-                                        ),
-                                      ),
+																		const SizedBox(height: 8),
 
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
+																		Text(
+																			'나의 여행 기록',
+																			softWrap: false,
+																			overflow:
+																				TextOverflow.visible,
+																			style: TextStyle(
+																				fontSize:
+																					isMobile ? 28 : 36,
+																				fontWeight:
+																					FontWeight.w800,
+																				letterSpacing: -1.2,
+																			),
+																		),
 
-                                      Text(
-                                        '다녀온 여행을 사진과 함께 다시 만나보세요.',
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          fontSize:
-                                              isMobile ? 13 : 15,
-                                          color:
-                                              Colors.grey.shade600,
-                                        ),
-                                      ),
-                                    ],
-                                  );
+																		const SizedBox(height: 8),
 
-                                  if (compactHeader) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        headerText,
+																		Text(
+																			'다녀온 여행을 사진과 함께 다시 만나보세요.',
+																			softWrap: true,
+																			overflow:
+																				TextOverflow.visible,
+																			style: TextStyle(
+																				fontSize:
+																					isMobile ? 13 : 15,
+																				color:
+																					Colors.grey.shade600,
+																			),
+																		),
+																	],
+																);
 
-                                        const SizedBox(
-                                          height: 16,
-                                        ),
+																if (compactHeader) {
+																	return Column(
+																		crossAxisAlignment:
+																			CrossAxisAlignment.start,
+																		mainAxisSize:
+																			MainAxisSize.min,
+																		children: [
+																			headerText,
 
-                                        OutlinedButton.icon(
-                                          onPressed: loadRecords,
-                                          icon: const Icon(
-                                            Icons.refresh_outlined,
-                                            size: 18,
-                                          ),
-                                          label: const Text(
-                                            '새로고침',
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
+																			const SizedBox(height: 16),
 
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: headerText,
-                                      ),
+																			OutlinedButton.icon(
+																				onPressed: loadRecords,
+																				icon: const Icon(
+																					Icons.refresh_outlined,
+																					size: 18,
+																				),
+																				label: const Text(
+																					'새로고침',
+																				),
+																			),
+																		],
+																	);
+																}
 
-                                      const SizedBox(
-                                        width: 24,
-                                      ),
+																return Row(
+																	crossAxisAlignment:
+																		CrossAxisAlignment.start,
+																	children: [
+																		Expanded(
+																			child: headerText,
+																		),
 
-                                      OutlinedButton.icon(
-                                        onPressed: loadRecords,
-                                        icon: const Icon(
-                                          Icons.refresh_outlined,
-                                          size: 18,
-                                        ),
-                                        label: const Text(
-                                          '새로고침',
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
+																		const SizedBox(width: 24),
 
-                              const SizedBox(
-                                height: 28,
-                              ),
+																		OutlinedButton.icon(
+																			onPressed: loadRecords,
+																			icon: const Icon(
+																				Icons.refresh_outlined,
+																				size: 18,
+																			),
+																			label: const Text(
+																				'새로고침',
+																			),
+																		),
+																	],
+																);
+															},
+														),
+
+														const SizedBox(height: 28),
                               // ==================================================
                               // 여행 요약
                               // ==================================================
