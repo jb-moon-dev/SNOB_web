@@ -702,57 +702,68 @@ class RecordScreenState extends State<RecordScreen> {
 																final bool compactHeader =
 																	contentWidth < 900;
 
-																final headerText = Column(
-																	crossAxisAlignment:
-																		CrossAxisAlignment.start,
-																	mainAxisSize:
-																		MainAxisSize.min,
-																	children: [
-																		Text(
-																			'TRAVEL RECORD',
-																			style: TextStyle(
-																				fontSize:
-																					isMobile ? 11 : 12,
-																				fontWeight:
-																					FontWeight.bold,
-																				letterSpacing: 2.2,
-																				color:
-																					Colors.grey.shade600,
-																			),
-																		),
+                                final headerText = SizedBox(
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'TRAVEL RECORD',
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.visible,
+                                        style: TextStyle(
+                                          fontSize:
+                                              isMobile ? 11 : 12,
+                                          fontWeight:
+                                              FontWeight.bold,
+                                          letterSpacing: 2.2,
+                                          color:
+                                              Colors.grey.shade600,
+                                        ),
+                                      ),
 
-																		const SizedBox(height: 8),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
 
-																		Text(
-																			'나의 여행 기록',
-																			softWrap: false,
-																			overflow:
-																				TextOverflow.visible,
-																			style: TextStyle(
-																				fontSize:
-																					isMobile ? 28 : 36,
-																				fontWeight:
-																					FontWeight.w800,
-																				letterSpacing: -1.2,
-																			),
-																		),
+                                      Text(
+                                        '나의 여행 기록',
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow:
+                                            TextOverflow.visible,
+                                        style: TextStyle(
+                                          fontSize:
+                                              isMobile ? 28 : 36,
+                                          fontWeight:
+                                              FontWeight.w800,
+                                          letterSpacing: -1.2,
+                                        ),
+                                      ),
 
-																		const SizedBox(height: 8),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
 
-																		Text(
-																			'다녀온 여행을 사진과 함께 다시 만나보세요.',
-																			softWrap: true,
-																			overflow:
-																				TextOverflow.visible,
-																			style: TextStyle(
-																				fontSize:
-																					isMobile ? 13 : 15,
-																				color:
-																					Colors.grey.shade600,
-																			),
-																		),
-																	],
-																);
+                                      Text(
+                                        '다녀온 여행을 사진과 함께 다시 만나보세요.',
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow:
+                                            TextOverflow.visible,
+                                        style: TextStyle(
+                                          fontSize:
+                                              isMobile ? 13 : 15,
+                                          color:
+                                              Colors.grey.shade600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
 
 																if (compactHeader) {
 																	return Column(
