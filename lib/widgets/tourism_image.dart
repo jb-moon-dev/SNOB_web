@@ -105,6 +105,8 @@ class _TourismImageState
       width: widget.width,
       height: widget.height,
       fit: widget.fit,
+      webHtmlElementStrategy:
+        WebHtmlElementStrategy.prefer,
       errorBuilder:
           (
         BuildContext context,
