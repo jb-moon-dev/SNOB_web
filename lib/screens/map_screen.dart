@@ -936,6 +936,11 @@ class _MapScreenState
             continue;
           }
 
+          debugPrint(
+            'Polygon 생성 시작: '
+            '${region.nm} (${region.cd})',
+          );
+
 
           newChunkPolygons.add(
             Polygon(
