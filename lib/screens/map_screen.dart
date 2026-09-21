@@ -937,7 +937,7 @@ class _MapScreenState
           }
 
           debugPrint(
-            'Polygon 생성 시작: '
+            'Polygon 생성 시-작: '
             '${region.nm} (${region.cd})',
           );
 
