@@ -7,6 +7,7 @@ import '../../../services/tourism_api_service.dart';
 import '../../../widgets/tourism_image.dart';
 
 import '../../../snob/tourism_spot.dart';
+import '../../../widgets/snob_logo.dart';
 
 class ResultScreen extends StatelessWidget {
   // ============================================================
@@ -154,7 +155,6 @@ class ResultScreen extends StatelessWidget {
               .getTourismSpotsByLegalDong(
         regionCode,
         sigunguCode,
-        '$sidoName $sigunguName',
       );
 
       // ----------------------------------------------------------
@@ -329,20 +329,10 @@ class ResultScreen extends StatelessWidget {
                 // SNOB 로고
                 // ------------------------------------------------
 
-                GestureDetector(
+                SnobLogo(
                   onTap: () {
                     _goHome(context);
                   },
-                  child: const Text(
-                    'SNOB',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight:
-                          FontWeight.w800,
-                      letterSpacing: 2,
-                      color: snobGreen,
-                    ),
-                  ),
                 ),
 
                 const Spacer(),
