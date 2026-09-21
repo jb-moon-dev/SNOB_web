@@ -9,6 +9,7 @@ import '../../../widgets/tourism_image.dart';
 import '../../../snob/tourism_spot.dart';
 import '../../../widgets/snob_logo.dart';
 
+
 class ResultScreen extends StatelessWidget {
   // ============================================================
   // 심리테스트 결과 유형
@@ -155,6 +156,7 @@ class ResultScreen extends StatelessWidget {
               .getTourismSpotsByLegalDong(
         regionCode,
         sigunguCode,
+        region,
       );
 
       // ----------------------------------------------------------
