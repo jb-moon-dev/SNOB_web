@@ -115182,8 +115182,8 @@ if(r<=-10)return"\uc18c\ud3ed \uac10\uc18c"
 if(r<=10)return"\ud3c9\ub144 \uc218\uc900"
 if(r<=40)return"\uc18c\ud3ed \uc99d\uac00"
 return"\ub300\ud3ed \uc99d\uac00"},
-xZ(){var s=0,r=A.x(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3
-var $async$xZ=A.y(function(a4,a5){if(a4===1)return A.u(a5,r)
+xZ(){var s=0,r=A.x(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4
+var $async$xZ=A.y(function(a5,a6){if(a5===1)return A.u(a6,r)
 for(;;)switch(s){case 0:if(p.c==null){s=1
 break}p.M(new A.aJS(p))
 o=t.z,n=t.fO,m=0
@@ -115198,9 +115198,10 @@ d=f.a
 c=p.XE(e,d)
 if(c!=null)b=p.Y2(c)
 else{A.af().$1("\ud63c\uc7a1\ub3c4 \ub370\uc774\ud130 \uc5c6\uc74c: "+e+" ("+d+")")
-b=B.c7}for(a=f.c,a0=a.length,e=d+"_"+e+"_",a1=0,a2=0;a2<a.length;a.length===a0||(0,A.K)(a),++a2){a3=a[a2]
-if(a3.length<3)continue
-h.push(new A.vR(e+a1,a3,2,B.rn,null,null,b,0.1,0));++a1}}if(p.c==null){s=1
+b=B.c7}for(a=f.c,a0=a.length,a1="Polygon \uc0dd\uc131 \uc2dc-\uc791: "+e+" ("+d+")",e=d+"_"+e+"_",a2=0,a3=0;a3<a.length;a.length===a0||(0,A.K)(a),++a3){a4=a[a3]
+if(a4.length<3)continue
+A.af().$1(a1)
+h.push(new A.vR(e+a2,a4,2,B.rn,null,null,b,0.1,0));++a2}}if(p.c==null){s=1
 break}new A.aJT(p,h).$0()
 p.c.cY()
 s=6
