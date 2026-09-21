@@ -421,7 +421,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Widget _buildNextButton() {
     return ElevatedButton(
-      onPressed: nextPage,
+      onPressed: currentPage == totalPages - 2
+          ? () { 
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    const BottomNavigation(),
+              ),
+            );
+          }
+          : nextPage,
       style: ElevatedButton.styleFrom(
         backgroundColor: snobGreen,
         foregroundColor: Colors.white,
