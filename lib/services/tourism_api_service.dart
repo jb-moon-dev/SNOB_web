@@ -40,7 +40,7 @@ class TourismApiService {
   // 지역 목록 조회
   // ============================================================
 
-  static Future<List<dynamic>> getRegions() async {
+  static Future<List<Map<String, String>>> getRegions() async {
     final Uri url = Uri.parse(
       "$baseUrl/areaCode2"
       "?serviceKey=$serviceKey"
@@ -66,7 +66,33 @@ class TourismApiService {
       final dynamic data =
           json.decode(response.body);
 
-      return _extractItems(data);
+      final List<dynamic> items =
+          _extractItems(data);
+
+      final List<Map<String, String>> regions = [];
+
+      for (final item in items) {
+        if (item is! Map) {
+          continue;
+        }
+
+        final String code =
+            item["code"]?.toString().trim() ?? "";
+
+        final String name =
+            item["name"]?.toString().trim() ?? "";
+
+        if (code.isEmpty || name.isEmpty) {
+          continue;
+        }
+
+        regions.add({
+          "code": code,
+          "name": name,
+        });
+      }
+
+      return regions;
     } catch (e) {
       print(
         "지역 조회 실패 : $e",
@@ -80,7 +106,7 @@ class TourismApiService {
   // 시군구 목록 조회
   // ============================================================
 
-  static Future<List<dynamic>> getSigungus(
+  static Future<List<Map<String, String>>> getSigungus(
     String areaCode,
   ) async {
     if (areaCode.trim().isEmpty) {
@@ -113,7 +139,33 @@ class TourismApiService {
       final dynamic data =
           json.decode(response.body);
 
-      return _extractItems(data);
+      final List<dynamic> items =
+          _extractItems(data);
+
+      final List<Map<String, String>> sigungus = [];
+
+      for (final item in items) {
+        if (item is! Map) {
+          continue;
+        }
+
+        final String code =
+            item["code"]?.toString().trim() ?? "";
+
+        final String name =
+            item["name"]?.toString().trim() ?? "";
+
+        if (code.isEmpty || name.isEmpty) {
+          continue;
+        }
+
+        sigungus.add({
+          "code": code,
+          "name": name,
+        });
+      }
+
+      return sigungus;
     } catch (e) {
       print(
         "시군구 조회 실패 : $e",
@@ -130,8 +182,9 @@ class TourismApiService {
   static Future<List<TourismSpot>>
       getTourismSpotsByLegalDong(
     String areaCode,
-    String sigunguCode,
-  ) async {
+    String sigunguCode, [
+    String? regionName,
+  ]) async {
     if (areaCode.trim().isEmpty ||
         sigunguCode.trim().isEmpty) {
       return [];
@@ -218,6 +271,7 @@ class TourismApiService {
                 item["addr1"]
                         ?.toString()
                         .trim() ??
+                    regionName ??
                     "",
             lclsSystm1:
                 item["lclsSystm1"]
@@ -351,10 +405,6 @@ class TourismApiService {
                     ?.toString()
                     .trim() ??
                 "";
-
-        // ======================================================
-        // 이미지 URL 확인용 로그
-        // ======================================================
 
         print(
           "      원본 이미지 : $originUrl",
